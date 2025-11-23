@@ -38,4 +38,10 @@ app.post('/login', (req, res)=> {
     });
 })
 
+app.get("/tmdbApi", async(req, res)=>{
+  
+})
+
+
+
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

@@ -13,8 +13,10 @@ import About from "./form/About";
 import { RouterProvider } from "react-router";
 import RootLayout from "./Layout/RootLayout";
 import PasswordGen from "./compo/PasswordGen";
-import NotesApp from "./compo/NotesApp.jsx/NotesApp";
+import NotesApp from "./compo/NotesApp/NotesApp";
 import { useState } from "react";
+import ColorApp from "./compo/color/ColorApp";
+import MoviePage from "./compo/TMDB/MoviePage";
 
 function App() {
 
@@ -29,6 +31,8 @@ function App() {
     <Route path="navigation" element={<Navig />} />
     <Route path="/navigation/passgenapp" element={<PasswordGen />} />
     <Route path="/navigation/notepadapp" element={<NotesApp />} />
+    <Route path="/navigation/colorapp" element={<ColorApp />} />
+    <Route path="/navigation/tmdbapp" element={<MoviePage />} />
    </Route>
   )
  );

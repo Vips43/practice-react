@@ -32,6 +32,12 @@ function Navig() {
     <Link to={"/navigation/notepadapp"}>
      <button>Notepad App</button>
     </Link>
+    <Link to={"/navigation/colorapp"}>
+     <button>Color App</button>
+    </Link>
+    <Link to={"/navigation/tmdbapp"}>
+     <button>TMDB App</button>
+    </Link>
    </div>
    <div>
     {output.map((item, i) => (
