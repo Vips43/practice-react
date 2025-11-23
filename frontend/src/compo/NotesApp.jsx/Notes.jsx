@@ -28,7 +28,7 @@ function Notes({ notes, openEdit, delNote }) {
        </div>
        <div
         className={`absolute -top-2 right-7 text-xs bg-gray-300 w-fit justify-center gap-0 rounded-md overflow-hidden lg:flex-col ${
-         menu ? "hidden" : "flex"
+         menu ? "flex" : "hidden"
         }`}
        >
         <div
@@ -50,7 +50,6 @@ function Notes({ notes, openEdit, delNote }) {
      </div>
     </div>
    ))}
-   ;
   </>
  );
 }

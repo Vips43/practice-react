@@ -68,7 +68,7 @@ function AddNote({ closeModal, note, notes, setNotes }) {
         <label>
          Description
          <textarea
-          className="bg-gray-300 w-full"
+          className="bg-gray-300 w-full p-2"
           value={desc}
           onChange={(e) => setDesc(e.target.value)}
          />
