@@ -7,12 +7,12 @@ function Empty({ openAdd }) {
  return (
   <>
    <div className="">
-    <div className="flex justify-center items-center border border-gray-400 rounded-md bg-white h-72">
+    <div className="flex justify-center items-center border border-gray-200 rounded-md bg-white h-72">
      <div
-      className="w-20 h-20 rounded-full border-2 border-dashed border-gray-400 flex justify-center items-center hover:border-gray-700 cursor-pointer transition-all"
+      className="w-20 h-20 rounded-full border-2 border-dashed border-gray-400 flex justify-center items-center hover:border-gray-700 text-gray-400 hover:text-gray-700 cursor-pointer text-xl transition-all"
       onClick={openAdd}
      >
-      <FaPlus className="text-gray-500 text-xl" />
+      <FaPlus />
      </div>
     </div>
    </div>

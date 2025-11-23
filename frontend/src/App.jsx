@@ -14,8 +14,10 @@ import { RouterProvider } from "react-router";
 import RootLayout from "./Layout/RootLayout";
 import PasswordGen from "./compo/PasswordGen";
 import NotesApp from "./compo/NotesApp.jsx/NotesApp";
+import { useState } from "react";
 
 function App() {
+
  const router = createBrowserRouter(
   createRoutesFromElements(
    <Route path="/" element={<RootLayout />}>

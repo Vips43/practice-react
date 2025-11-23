@@ -2,49 +2,55 @@ import React, { useState } from "react";
 import { MdDelete, MdEditSquare } from "react-icons/md";
 import { HiDotsVertical } from "react-icons/hi";
 
-function Notes({ notes, openEdit }) {
+function Notes({ notes, openEdit, delNote }) {
  const [menu, setMenu] = useState(false);
 
  const toggleMenu = () => setMenu(!menu);
 
+
  return (
-  <>  
-  {notes.map((note,i)=> 
-   <div className="bg-white h-72 shadow-md rounded-md select-none">
-    <div className="flex flex-col justify-between h-full gap-4 p-2">
-     <div key={i}>
-      <h2 className="font-semibold select-none">{note.title}</h2>
-     </div>
-     <div className="text-gray-600 text-sm ring-1 h-full ring-gray-300 rounded-md p-2 select-none">
-        <p>{note.desc}</p>
-     </div>
-     <div className="relative flex items-end justify-end">
-      <div
-       className={`border border-gray-300 hover:bg-gray-300 p-1 rounded-full transition-all`}
-       onClick={toggleMenu}
-      >
-       <HiDotsVertical />
+  <>
+   {notes.map((note, i) => (
+    <div className="bg-white h-72 shadow-md rounded-md select-none" key={i}>
+     <div className="flex flex-col justify-between h-full gap-4 p-2">
+      <div>
+       <h2 className="font-semibold select-none">{note.title}</h2>
       </div>
-      <div
-       className={`absolute -top-2 left-12 text-xs bg-gray-300 w-fit justify-center gap-0 rounded-md overflow-hidden ${
-        menu ? "hidden" : "flex"
-       }`}
-      >
+      <div className="text-gray-600 text-sm ring-1 h-full ring-gray-300 rounded-md p-2 select-none">
+       <p>{note.desc}</p>
+      </div>
+      <div className="relative flex items-end justify-end">
        <div
-        className="flex gap-2 p-2 w-fit hover:bg-gray-400"
-        onClick={() => openEdit(note)}
+        className={`border border-gray-300 hover:bg-gray-300 p-1 rounded-full transition-all`}
+        onClick={toggleMenu}
        >
-        <MdEditSquare />
-        <span>Edit</span>
+        <HiDotsVertical />
        </div>
-       <div className="flex gap-2 p-2 w-fit hover:bg-gray-400">
-        <MdDelete />
-        <span>Delete</span>
+       <div
+        className={`absolute -top-2 right-7 text-xs bg-gray-300 w-fit justify-center gap-0 rounded-md overflow-hidden lg:flex-col ${
+         menu ? "hidden" : "flex"
+        }`}
+       >
+        <div
+         className="flex items-center gap-2 p-1 w-fit hover:bg-gray-400"
+         onClick={() => openEdit(note)}
+        >
+         <MdEditSquare />
+         <span>Edit</span>
+        </div>
+        <div
+         className="flex items-center gap-2 p-1 w-fit hover:bg-gray-400"
+         onClick={() => delNote(i)}
+        >
+         <MdDelete />
+         <span>Delete</span>
+        </div>
        </div>
       </div>
      </div>
     </div>
-   </div>)}
+   ))}
+   ;
   </>
  );
 }

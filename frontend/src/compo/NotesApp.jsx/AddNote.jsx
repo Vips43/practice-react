@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
 import { FaX } from "react-icons/fa6";
 
-function AddNote({ closeModal, note, setNotes }) {
+function AddNote({ closeModal, note, notes, setNotes }) {
  const mode = note ? "edit" : "add";
  const [title, setTitle] = useState(note?.title ?? "");
  const [desc, setDesc] = useState(note?.desc ?? "");
@@ -15,12 +15,17 @@ function AddNote({ closeModal, note, setNotes }) {
   }
  }, [note]);
 
- const addNote=()=>{
-    setNotes(prev=> [
-        ...prev, {title, desc}
-    ])
- }
+ const addNote = () => {
+  if (!title && !desc) return alert("note should not be empty");
+  else {
+   setNotes((prev) => [...prev, { title, desc }]);
+   closeModal();
+  }
+ };
 
+ useEffect(() => {
+    localStorage.getItem("notes")    
+ }, []);
  return (
   <>
    <AnimatePresence>
@@ -56,7 +61,7 @@ function AddNote({ closeModal, note, setNotes }) {
           type="text"
           className="w-full"
           value={title}
-          onChange={e => setTitle(e.target.value)}
+          onChange={(e) => setTitle(e.target.value)}
          />
         </label>
 
@@ -65,11 +70,14 @@ function AddNote({ closeModal, note, setNotes }) {
          <textarea
           className="bg-gray-300 w-full"
           value={desc}
-          onChange={e => setDesc(e.target.value)}
+          onChange={(e) => setDesc(e.target.value)}
          />
         </label>
 
-        <button className="text-sm! whitespace-nowrap px-2! py-1! m-0! w-fit!" onClick={addNote} >
+        <button
+         className="text-sm! whitespace-nowrap px-2! py-1! m-0! w-fit!"
+         onClick={addNote}
+        >
          {mode === "add" ? "Add" : "Edit"}
         </button>
        </div>
