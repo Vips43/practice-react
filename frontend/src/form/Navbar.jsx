@@ -2,15 +2,16 @@ import React, { useContext, useState } from "react";
 import { NavLink } from "react-router";
 import { motion } from "framer-motion";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { AuthContext } from "./AuthContext";
+import { useAuthStore, useUIStore } from "./AuthStore";
 
 function Navbar() {
- const [toggle, setToggle] = useState(false);
- const { user } = useContext(AuthContext);
+ const user = useAuthStore((state) => state.user);
+ const logout = useAuthStore((state) => state.logout);
+ const toggle = useUIStore((state) => state.toggle);
+ const toggleMenu = useUIStore((state) => state.toggleMenu);
+ const showUserMenu = useUIStore((state) => state.showUserMenu);
+ const toggleUserMenu = useUIStore((state) => state.toggleUserMenu);
 
- const toggleMenu = () => {
-  setToggle(!toggle);
- };
  return (
   <>
    <div className="w-full bg-gray-700 flex justify-center p-3">
@@ -58,15 +59,25 @@ function Navbar() {
      {/* Auth Links */}
      <motion.div whileTap={{ scale: 0.95 }} whileHover={{ scale: 1.05 }}>
       {user ? (
-       <div>
-        <span>Welcome, <span className="font-semibold capitalize">{user}</span></span>
+       <div className="relative select-none">
+        <span onClick={toggleUserMenu}>
+         Welcome, <span className="font-semibold capitalize"> {user} </span> 👋
+        </span>
+        <button
+         onClick={logout}
+         className={`absolute left-5 top-8 bg-white px-3 py-1 border rounded-md shadow transition-all duration-200
+        ${showUserMenu ? "opacity-100 visible" : "opacity-0 invisible"}
+      `}
+        >
+         Logout
+        </button>
        </div>
       ) : (
-       <div className="items-center gap-2 p-2 w-fit hidden sm:flex">
+       <div className="items-center gap-0 p-2 w-fit hidden sm:flex">
         <NavLink
          to="/register"
          className={({ isActive }) =>
-          `font-bold rounded-2xl px-3 py-1 transition-all duration-200 ${
+          `font-bold rounded-2xl px-2 py-1 transition-all duration-200 text-sm ${
            isActive
             ? "text-blue-600 bg-blue-200 shadow-sm"
             : "text-gray-800 hover:text-blue-500"
@@ -81,7 +92,7 @@ function Navbar() {
         <NavLink
          to="/login"
          className={({ isActive }) =>
-          `font-bold rounded-2xl px-3 py-1 transition-all duration-200 ${
+          `font-bold rounded-2xl px-3 py-1 transition-all duration-200 text-sm ${
            isActive
             ? "text-blue-600 bg-blue-200 shadow-sm"
             : "text-gray-800 hover:text-blue-500"

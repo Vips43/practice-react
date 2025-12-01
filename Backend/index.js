@@ -32,6 +32,13 @@ app.post('/login', (req, res) => {
     .then(user => {
       if (!user) return res.json({ status: "error", msg: "No records" });
 
+      if(user.pass !== pass || user.email !== email){
+        return res.json({
+          status:'error',
+          msg:'incorrect credentials'
+        })
+      }
+
       if (user.pass === pass) return res.json({
         status: "Success",
         user: {

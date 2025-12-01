@@ -21,11 +21,8 @@ function Navig() {
  }
  return (
   <>
-   <div>
-    <input type="text" value={text} onChange={onChangeFun} />
-    <button onClick={onBtnClick}>add</button>
-    <button onClick={onBtnUpp}>Uppercase</button>
-    <button onClick={onBtnClear}>cleear</button>
+   <div className="border m-3 grid grid-cols-2 justify-stretch">
+    
     <Link to={"/navigation/passgenapp"}>
      <button>Password Generator App</button>
     </Link>
