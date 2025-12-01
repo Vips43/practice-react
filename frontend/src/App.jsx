@@ -17,6 +17,7 @@ import NotesApp from "./compo/NotesApp/NotesApp";
 import { useState } from "react";
 import ColorApp from "./compo/color/ColorApp";
 import MoviePage from "./compo/TMDB/MoviePage";
+import RateReview from "./compo/Rate and review/RateReview";
 
 function App() {
 
@@ -33,6 +34,7 @@ function App() {
     <Route path="/navigation/notepadapp" element={<NotesApp />} />
     <Route path="/navigation/colorapp" element={<ColorApp />} />
     <Route path="/navigation/tmdbapp" element={<MoviePage />} />
+    <Route path="/navigation/review" element={<RateReview />} />
    </Route>
   )
  );

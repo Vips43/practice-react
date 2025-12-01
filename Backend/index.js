@@ -26,20 +26,25 @@ app.post('/register', (req, res) => {
 });
 
 
-app.post('/login', (req, res)=> {
-  const {email, pass} = req.body;
+app.post('/login', (req, res) => {
+  const { email, pass } = req.body;
   Emp.findOne({ email })
     .then(user => {
-      if (!user) return res.json("No records");
-      console.log("Stored pass: ", user.pass, "| Entered pass:", pass);
-      
-      if (user.pass === pass) return res.json("Success");
+      if (!user) return res.json({ status: "error", msg: "No records" });
+
+      if (user.pass === pass) return res.json({
+        status: "Success",
+        user: {
+          name: user.name,
+          email: user.email
+        }
+      });
       res.json("password is incorrect.");
     });
 })
 
-app.get("/tmdbApi", async(req, res)=>{
-  
+app.get("/tmdbApi", async (req, res) => {
+
 })
 
 

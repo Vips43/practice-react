@@ -1,27 +1,29 @@
-import React from "react";
+import React, { useContext } from "react";
 import axios from "axios";
 import "./login.css";
 import { useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { AuthContext } from "./AuthContext";
 
 function LogIn() {
- const [user, setUser] = useState("");
+  const {setUser} = useContext(AuthContext);
  const [pass, setPass] = useState("");
+ const [email, setEmail] = useState("");
  const [success, setSuccess] = useState(false);
  const navigate = useNavigate();
 
  const handleSubmit = (e) => {
   e.preventDefault();
 
-  console.log("Logging in:", { email: user, pass }); // debug
+  console.log("Logging in:", { email, pass }); // debug
   axios
-   .post("http://localhost:3000/login", { email: user, pass })
+   .post("http://localhost:3000/login", { email, pass })
    .then((result) => {
-    console.log(result);
-    if (result.data === "Success") {
+    if (result.data.status === "Success") {
      setSuccess(true);
+     setUser(result.data.user.name)
      setTimeout(() => {
-      navigate("/cuisine");
+      navigate("/home");
      }, 2000);
     } else {
      alert(result.data);
@@ -40,11 +42,11 @@ function LogIn() {
      <div className={`alert ${success ? 'opacity-100' : 'opacity-0'}`}>
       <p>login successfull</p>
      </div>
-     <div className="input">
+     <div className="email">
       <input
        type="text"
        placeholder="Username"
-       onChange={(e) => setUser(e.target.value)}
+       onChange={(e) => setEmail(e.target.value)}
       />
      </div>
      <div className="pass">

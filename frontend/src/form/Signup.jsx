@@ -28,7 +28,7 @@ function Signup() {
     <form action="" onSubmit={handleSubmit}>
         <div className='main'>
             <div className='header'><h3>SignUp</h3></div>
-            <div className='input'>
+            <div className='user'>
                 <label htmlFor="username">username</label>
                 <input type="text" name='user' placeholder='User name' onChange={(e) => setName(e.target.value)}
                 />

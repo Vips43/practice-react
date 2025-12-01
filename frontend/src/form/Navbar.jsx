@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { NavLink } from "react-router";
 import { motion } from "framer-motion";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { AuthContext } from "./AuthContext";
 
 function Navbar() {
  const [toggle, setToggle] = useState(false);
+ const { user } = useContext(AuthContext);
 
  const toggleMenu = () => {
   setToggle(!toggle);
@@ -55,35 +57,41 @@ function Navbar() {
 
      {/* Auth Links */}
      <motion.div whileTap={{ scale: 0.95 }} whileHover={{ scale: 1.05 }}>
-      <div className="items-center gap-2 p-2 w-fit hidden sm:flex">
-       <NavLink
-        to="/register"
-        className={({ isActive }) =>
-         `font-bold rounded-2xl px-3 py-1 transition-all duration-200 ${
-          isActive
-           ? "text-blue-600 bg-blue-200 shadow-sm"
-           : "text-gray-800 hover:text-blue-500"
-         }`
-        }
-       >
-        Signup
-       </NavLink>
+      {user ? (
+       <div>
+        <span>Welcome, <span className="font-semibold capitalize">{user}</span></span>
+       </div>
+      ) : (
+       <div className="items-center gap-2 p-2 w-fit hidden sm:flex">
+        <NavLink
+         to="/register"
+         className={({ isActive }) =>
+          `font-bold rounded-2xl px-3 py-1 transition-all duration-200 ${
+           isActive
+            ? "text-blue-600 bg-blue-200 shadow-sm"
+            : "text-gray-800 hover:text-blue-500"
+          }`
+         }
+        >
+         Signup
+        </NavLink>
 
-       <span className="text-gray-400">/</span>
+        <span className="text-gray-400">/</span>
 
-       <NavLink
-        to="/login"
-        className={({ isActive }) =>
-         `font-bold rounded-2xl px-3 py-1 transition-all duration-200 ${
-          isActive
-           ? "text-blue-600 bg-blue-200 shadow-sm"
-           : "text-gray-800 hover:text-blue-500"
-         }`
-        }
-       >
-        Login
-       </NavLink>
-      </div>
+        <NavLink
+         to="/login"
+         className={({ isActive }) =>
+          `font-bold rounded-2xl px-3 py-1 transition-all duration-200 ${
+           isActive
+            ? "text-blue-600 bg-blue-200 shadow-sm"
+            : "text-gray-800 hover:text-blue-500"
+          }`
+         }
+        >
+         Login
+        </NavLink>
+       </div>
+      )}
      </motion.div>
      <div className="relative lg:hidden sm:hidden text-xl">
       <div
