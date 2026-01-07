@@ -5,6 +5,7 @@ function Home() {
 
  return (
   <>
+  <title>Home | My App</title>
    <motion.div
       className="p-6"
       

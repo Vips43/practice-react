@@ -24,6 +24,7 @@ function Signup() {
 
   return (
     <>
+    <title>Sign up</title>
     <form action="" onSubmit={handleSubmit}>
         <div className='main'>
             <div className='header'><h3>SignUp</h3></div>
@@ -44,7 +45,7 @@ function Signup() {
                 <button className='btn'>SignUp</button>
             </div>
             <div className='foot'>
-                <p>Already have an account? <Link to='/login'><span className='p-2 !text-blue-500'>LogIn</span></Link></p>
+                <p>Already have an account? <Link to='/login'><span className='p-2 text-blue-5001'>LogIn</span></Link></p>
             </div>
         </div>
     </form>

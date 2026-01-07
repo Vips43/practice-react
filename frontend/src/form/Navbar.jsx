@@ -1,4 +1,3 @@
-import React, { useContext, useState } from "react";
 import { NavLink } from "react-router";
 import { motion } from "framer-motion";
 import { GiHamburgerMenu } from "react-icons/gi";
@@ -65,7 +64,7 @@ function Navbar() {
         </span>
         <button
          onClick={logout}
-         className={`absolute left-5 top-8 bg-white px-3 py-1 border rounded-md shadow transition-all duration-200
+         className={`absolute left-0 top-8 bg-white px-3 py-1 border rounded-md shadow transition-all duration-200
         ${showUserMenu ? "opacity-100 visible" : "opacity-0 invisible"}
       `}
         >

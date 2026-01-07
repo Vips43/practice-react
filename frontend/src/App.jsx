@@ -14,10 +14,12 @@ import { RouterProvider } from "react-router";
 import RootLayout from "./Layout/RootLayout";
 import PasswordGen from "./compo/PasswordGen";
 import NotesApp from "./compo/NotesApp/NotesApp";
-import { useState } from "react";
 import ColorApp from "./compo/color/ColorApp";
 import MoviePage from "./compo/TMDB/MoviePage";
 import RateReview from "./compo/Rate and review/RateReview";
+import ToDoList from "./compo/todolist/ToDoList";
+import FakeStore from "./compo/fakestore/FakeStore";
+import Login from "./compo/user management/Login";
 
 function App() {
 
@@ -35,6 +37,9 @@ function App() {
     <Route path="/navigation/colorapp" element={<ColorApp />} />
     <Route path="/navigation/tmdbapp" element={<MoviePage />} />
     <Route path="/navigation/review" element={<RateReview />} />
+    <Route path="/navigation/ToDoList" element={<ToDoList />} />
+    <Route path="/navigation/fakestore" element={<FakeStore />} />
+    <Route path="/navigation/usermgmt" element={<Login />} />
    </Route>
   )
  );
