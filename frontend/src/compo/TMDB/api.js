@@ -8,17 +8,25 @@ const movieAPI = async () => {
 
 export default movieAPI
 
-const searchMovie= async(q)=>{
-    const res= await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${TMDB_Key}&query=${q}`);
+
+const searchMovie = async (q) => {
+    const res = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${TMDB_Key}&query=${q}`);
     const data = await res.json();
     console.log(data);
 }
-// searchMovie("Cinderella")
-const pages=[2,4]
-const dummy= async(q)=>{
-    const req= pages.map(page=>fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${TMDB_Key}&page=${page}`))
-    const res = await Promise.all(req);
-    const data = await Promise.all(res.map(r=> r.json()))
+// searchMovie("1252037")
+const fetchGenre = async (id) => {
+    const options = {
+        method: 'GET',
+        headers: {
+            accept: 'application/json',
+            Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxNWRmMDdjYWJiOGU5ZDg0NDk4MDllZjQ4ZDNhY2MzMyIsIm5iZiI6MTc2MzAzOTE5Ny43NjcsInN1YiI6IjY5MTVkN2RkNTc5YjMyNWFiNjNhNDRhZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.CHspmbtF7ndXliVl5HxPrba8Dl8dZcLjRTKFM7UqLh8'
+        }
+    };
+
+    const res = await fetch(`https://api.themoviedb.org/3/movie/${id}?language=en-US`, options);
+    const data = await res.json();
     console.log(data);
+
 }
-dummy()
+// fetchGenre(1242898)

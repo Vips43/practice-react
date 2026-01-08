@@ -16,6 +16,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Card from "../Card";
 import Searchbtn from "./Searchbtn";
+import MovieDetails from "../MOvieDetails";
 
 const drawerWidth = 240;
 const navItems = ["Home", "About", "Contact"];
@@ -34,7 +35,7 @@ function NavBar(props) {
     MUI
    </Typography>
    <Divider />
-   
+
    <List>
     {navItems.map((item) => (
      <ListItem key={item} disablePadding>
@@ -125,9 +126,7 @@ function NavBar(props) {
 
    {/* Main Content */}
    <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-    <div>
-        <Searchbtn />
-    </div>
+
     <div className="w-full px-3 border border-neutral-300 rounded-lg">
      <h3 className="text-2xl font-bold my-2"> What's Popular</h3>
      <div className="w-full flex gap-4 overflow-x-auto no-scrollbar">
