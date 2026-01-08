@@ -126,7 +126,7 @@ function MovieDetails() {
 
      <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mb: 3 }}>
       <span className="border border-white/40 px-2 py-0.5 rounded">
-       {movieDetail.adult ? "A 21+" : "U/A 16+"}
+       {movieDetail.adult ? "Adult" : "U/A 16+"}
       </span>
       <span>• {movieDetail.release_date}</span>
       <span>

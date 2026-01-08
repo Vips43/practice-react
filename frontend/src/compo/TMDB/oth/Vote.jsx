@@ -9,7 +9,7 @@ function Vote({ vote, w="w-10", h="h-10"}) {
  const trackColor = "#686868";
  return (
   <>
-   <div className={`border ${w} ${h} rounded-full text-xs p-[1px] bg-neutral-800`}>
+   <div className={`border ${w} ${h} rounded-full text-xs p-px bg-neutral-800`}>
     <div
      className={`w-full h-full rounded-full flex items-center justify-center text-white`}
      style={{
