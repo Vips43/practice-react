@@ -5,13 +5,20 @@ import { useParams } from "react-router";
 import useApiStore from "./oth/store";
 import Vote from "./oth/Vote";
 
-const duration = (runtime)=>{
-  const hours = Math.floor(runtime / 60);
-  const mins = runtime % 60;
-  return `${hours}h ${mins}m`
-}
+const duration = (runtime) => {
+ if (!runtime || runtime === 0) return <span>Runtime: N/A</span>;
+
+ const hours = Math.floor(runtime / 60);
+ const minutes = runtime % 60;
+
+ return (
+  <span>
+   {hours > 0 ? `${hours}h ` : ""}
+   {minutes}m
+  </span>
+ );
+};
 function MovieDetails() {
-  
  const { id } = useParams();
  const imgUrl = "https://image.tmdb.org/t/p/w500";
  const movieDetail = useApiStore((state) => state.movieDetail);
@@ -26,7 +33,7 @@ function MovieDetails() {
  return (
   <Box
    sx={{
-    py:{xs:1, sm:3},
+    py: { xs: 1, sm: 3 },
     px: { xs: 3, md: 6 },
     backgroundSize: "cover",
     backgroundPosition: "center",
@@ -129,7 +136,11 @@ function MovieDetails() {
      </Box>
 
      <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-      <Vote vote={Math.floor(movieDetail.vote_average * 10)} w={`w-16`} h={`h-16`} />
+      <Vote
+       vote={Math.floor(movieDetail.vote_average * 10)}
+       w={`w-16`}
+       h={`h-16`}
+      />
       <Typography>
        User Score:{" "}
        <span className="text-neutral-300">{movieDetail.vote_count}</span>
@@ -141,8 +152,10 @@ function MovieDetails() {
        <br />
        <strong>Total Revenue:</strong>{" "}
        {movieDetail.revenue ? movieDetail.revenue.toLocaleString() : "N/A"}
-        <br />
-       <span><strong>Duration: </strong> <span>{duration(movieDetail.runtime)}</span></span>
+       <br />
+       <span>
+        <strong>Duration: </strong> <span>{duration(movieDetail.runtime)}</span>
+       </span>
       </Typography>
      </Box>
 
