@@ -5,7 +5,13 @@ import { useParams } from "react-router";
 import useApiStore from "./oth/store";
 import Vote from "./oth/Vote";
 
+const duration = (runtime)=>{
+  const hours = Math.floor(runtime / 60);
+  const mins = runtime % 60;
+  return `${hours}h ${mins}m`
+}
 function MovieDetails() {
+  
  const { id } = useParams();
  const imgUrl = "https://image.tmdb.org/t/p/w500";
  const movieDetail = useApiStore((state) => state.movieDetail);
@@ -20,7 +26,8 @@ function MovieDetails() {
  return (
   <Box
    sx={{
-    p: { xs: 3, md: 6 },
+    py:{xs:1, sm:3},
+    px: { xs: 3, md: 6 },
     backgroundSize: "cover",
     backgroundPosition: "center",
     backgroundImage: movieDetail.backdrop_path
@@ -122,7 +129,7 @@ function MovieDetails() {
      </Box>
 
      <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-      <Vote vote={Math.floor(movieDetail.vote_average * 10)} />
+      <Vote vote={Math.floor(movieDetail.vote_average * 10)} w={`w-16`} h={`h-16`} />
       <Typography>
        User Score:{" "}
        <span className="text-neutral-300">{movieDetail.vote_count}</span>
@@ -134,16 +141,41 @@ function MovieDetails() {
        <br />
        <strong>Total Revenue:</strong>{" "}
        {movieDetail.revenue ? movieDetail.revenue.toLocaleString() : "N/A"}
+        <br />
+       <span><strong>Duration: </strong> <span>{duration(movieDetail.runtime)}</span></span>
       </Typography>
      </Box>
 
-     <Typography variant="h4" fontWeight="bold" sx={{ mt: 4 }}>
-      Overview
+     <Typography sx={{ mt: 4, fontWeight: 600 }}>
+      {movieDetail.tagline || ""}
      </Typography>
 
+     <Typography variant="h4" fontWeight="bold" sx={{ mt: 2 }}>
+      Overview
+     </Typography>
      <Typography sx={{ mt: 1, opacity: 0.85 }}>
       {movieDetail.overview}
      </Typography>
+     <Box>
+      {movieDetail.belongs_to_collection && (
+       <Box sx={{ background: "#2c2b2b79" }}>
+        <Box
+         sx={{ display: "flex", gap: 1, padding: ".4rem", height: "100px" }}
+        >
+         <Box
+          component="img"
+          sx={{ flexShrink: 0 }}
+          src={`${imgUrl}${movieDetail.belongs_to_collection.backdrop_path}`}
+         />
+         <Box
+          component="img"
+          src={`${imgUrl}${movieDetail.belongs_to_collection.poster_path}`}
+         />
+        </Box>
+        <Typography>{movieDetail.belongs_to_collection.name}</Typography>
+       </Box>
+      )}
+     </Box>
     </Box>
    </Box>
   </Box>

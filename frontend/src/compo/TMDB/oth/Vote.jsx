@@ -1,4 +1,4 @@
-function Vote({ vote }) {
+function Vote({ vote, w="w-10", h="h-10"}) {
  const colorFunc = () => {
   if (vote >= 70) return "#20c574";
   if (vote >= 40) return "#f1cd00";
@@ -9,7 +9,7 @@ function Vote({ vote }) {
  const trackColor = "#686868";
  return (
   <>
-   <div className="border w-10 h-10 rounded-full text-xs p-[1px] bg-neutral-800">
+   <div className={`border ${w} ${h} rounded-full text-xs p-[1px] bg-neutral-800`}>
     <div
      className={`w-full h-full rounded-full flex items-center justify-center text-white`}
      style={{
