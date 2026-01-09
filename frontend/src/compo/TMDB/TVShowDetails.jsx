@@ -14,7 +14,7 @@ function TVShowDetails() {
  const setMovieDetail = useApiStore((state) => state.setMovieDetail);
 
  useEffect(() => {
-  if (id) setMovieDetail(id);
+  if (id) setMovieDetail(id, "tv");
  }, [id, setMovieDetail]);
 
  /* 🔑 PREVENT CRASH ON REFRESH */
@@ -34,8 +34,8 @@ function TVShowDetails() {
      px: { xs: 2, md: 6 },
      backgroundSize: "cover",
      backgroundPosition: "center",
-     backgroundImage: movieDetail.backdrop_path
-      ? `linear-gradient(rgba(26,0,0,0.7), rgba(26,0,0,0.7)), url(${imgUrl}${movieDetail.backdrop_path})`
+     backgroundImage: movieDetail?.backdrop_path
+      ? `linear-gradient(rgba(26,0,0,0.7), rgba(26,0,0,0.7)), url(${imgUrl}${movieDetail?.backdrop_path})`
       : "none",
     }}
    >
@@ -60,7 +60,7 @@ function TVShowDetails() {
        component="img"
        src={
         movieDetail.poster_path
-         ? `${imgUrl}${movieDetail.poster_path}`
+         ? `${imgUrl}${movieDetail?.poster_path}`
          : "/no-poster.png"
        }
        alt={movieDetail.name}
@@ -79,14 +79,14 @@ function TVShowDetails() {
         borderRadius: 1,
 
         /* 🔑 GRID ON MOBILE, COLUMNS ON DESKTOP */
-        display: { xs: "grid", sm: "block" },
-        gridTemplateColumns: { xs: "1fr", sm: "unset" },
+        display: { xs: "block" },
+        gridTemplateColumns: {  xs: "unset" },
 
-        columnCount: { sm: 2, md: 3 },
-        columnGap: "12px",
+        columnCount: { xs: 2, sm: 3, },
+        columnGap: "10px",
        }}
       >
-       {movieDetail.production_companies?.map((p) => (
+       {movieDetail?.production_companies?.map((p) => (
         <Box
          key={p.id}
          sx={{
@@ -126,7 +126,7 @@ function TVShowDetails() {
      {/* RIGHT COLUMN */}
      <Box sx={{ color: "white", maxWidth: 800 }}>
       <Typography variant="h4" fontWeight="bold">
-       {movieDetail.name} ({movieDetail.first_air_date?.split("-")[0]})
+       {movieDetail.name} ({movieDetail?.first_air_date?.split("-")[0]})
       </Typography>
 
       <Typography sx={{ opacity: 0.8, mb: 2 }}>
@@ -137,18 +137,18 @@ function TVShowDetails() {
        <span className="border border-white/40 px-2 py-0.5 rounded">
         {movieDetail.adult ? "Adult" : "U/A 16+"}
        </span>
-       <span> • {movieDetail.first_air_date}</span>
+       <span> • {movieDetail?.first_air_date}</span>
        <span>
         {" "}
         • {movieDetail.spoken_languages?.map((s) => s.name).join(", ")}
        </span>
-       <span> • {movieDetail.genres?.map((g) => g.name).join(", ")}</span>
+       <span> • {movieDetail?.genres?.map((g) => g.name).join(", ")}</span>
        <span> • {movieDetail.type}</span>
       </Box>
 
       <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
        <Vote
-        vote={Math.floor(movieDetail.vote_average * 10)}
+        vote={Math.floor(movieDetail?.vote_average * 10)}
         w="w-20"
         h="h-20"
        />
@@ -204,7 +204,7 @@ function TVShowDetails() {
         </Typography>
 
         <Box sx={{ mt: 1, display: "flex", gap: 2, flexWrap: "wrap" }}>
-         {movieDetail.created_by.map((c) => (
+         {movieDetail?.created_by?.map((c) => (
           <Box key={c.id} sx={{ display: "flex", gap: 1.5 }}>
            {c.profile_path && (
             <Box

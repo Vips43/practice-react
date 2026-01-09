@@ -64,20 +64,17 @@ const useApiStore = create((set) => ({
       set({ loadingTrending: false, err });
     }
   },
-  setMovieDetail: async (id) => {
+  setMovieDetail: async (id, type = "movie") => {
     if (!id) return;
     set({ isLoading: true })
     try {
-      const options = {
-        method: 'GET',
-        headers: {
-          accept: 'application/json', Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxNWRmMDdjYWJiOGU5ZDg0NDk4MDllZjQ4ZDNhY2MzMyIsIm5iZiI6MTc2MzAzOTE5Ny43NjcsInN1YiI6IjY5MTVkN2RkNTc5YjMyNWFiNjNhNDRhZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.CHspmbtF7ndXliVl5HxPrba8Dl8dZcLjRTKFM7UqLh8'
-        }
-      };
-      const { media_type } = useApiStore.getState();
-      const endpoint = media_type === "tv" ? `https://api.themoviedb.org/3/tv/${id}` : `https://api.themoviedb.org/3/movie/${id}?language=en-US`;
+      
+      const endpoint =
+        type === "tv"
+          ? `https://api.themoviedb.org/3/tv/${id}?api_key=${API_KEY}`
+          : `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=en-US`;
 
-      const res = await fetch(endpoint, options);
+      const res = await fetch(endpoint);
       const data = await res.json();
       console.log(data);
       set({ movieDetail: data, isLoading: false, err: null });
@@ -86,6 +83,7 @@ const useApiStore = create((set) => ({
       set({ movieDetail: null, err: err });
     }
   },
+  
   setCasts: async (id) => {
     set({ isLoading: true })
     const url = `https://api.themoviedb.org/3/tv/${id}/credits?api_key=${API_KEY}&language=en-US`

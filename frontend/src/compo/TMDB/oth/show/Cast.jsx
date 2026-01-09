@@ -5,6 +5,7 @@ import Typography from "@mui/material/Typography";
 import CardActionArea from "@mui/material/CardActionArea";
 import Box from "@mui/material/Box";
 import useApiStore from "../store";
+import img from "/No-image.png"
 
 function Cast({
  data = [],
@@ -31,9 +32,9 @@ function Cast({
    }}
    className={layout === "row" ? "no-scrollbar" : ""}
   >
-   {data.map((c) => (
+   {data?.map((c,i) => (
     <Card
-     key={c.id}
+     key={i}
      sx={{
       width: cardWidth,
       flexShrink: 0,
@@ -49,7 +50,7 @@ function Cast({
       <CardMedia
        component="img"
        height="140"
-       image={c.profile_path ? `${url}${c.profile_path}` : "/no-avatar.png"}
+       image={c.profile_path ? `${url}${c.profile_path}` : img}
        alt={c.name}
        sx={{ p: 0.5 }}
       />

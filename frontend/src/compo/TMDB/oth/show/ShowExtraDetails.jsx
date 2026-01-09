@@ -56,7 +56,7 @@ function ShowExtraDetails({ url }) {
      alignItems: "start",
      gridTemplateColumns: {
       xs: "1fr",
-      sm: "1.4fr 1fr",
+      sm: "1fr 1fr",
       md: "1fr 1fr",
      },
     }}

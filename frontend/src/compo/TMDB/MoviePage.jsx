@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import movieAPI from "./api";
-import NavBar from "./oth/Navbar";
+import NavBar from "./oth/NavBar";
 
 function MoviePage() {
  const [movie, setMovie] = useState([]);

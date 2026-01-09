@@ -20,7 +20,7 @@ import RateReview from "./compo/Rate and review/RateReview";
 import ToDoList from "./compo/todolist/ToDoList";
 import FakeStore from "./compo/fakestore/FakeStore";
 import Login from "./compo/user management/Login";
-import MovieDetails from "./compo/TMDB/MOvieDetails";
+import MovieDetails from "./compo/TMDB/MovieDetails";
 import SearchPage from "./compo/TMDB/oth/SearchPage";
 import TVShowDetails from "./compo/TMDB/TVShowDetails";
 

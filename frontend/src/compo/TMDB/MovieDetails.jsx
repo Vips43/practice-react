@@ -26,7 +26,7 @@ function MovieDetails() {
  const isLoading = useApiStore((state) => state.isLoading);
 
  useEffect(() => {
-  if (id) setMovieDetail(id);
+  if (id) setMovieDetail(id, "movie");
  }, [id, setMovieDetail]);
 
  if (isLoading) return <div className="text-center text-2xl font-bold my-20">Loading...</div>;
@@ -82,7 +82,7 @@ function MovieDetails() {
        borderRadius: 1,
       }}
      >
-      {movieDetail.production_companies.map((p) => (
+      {movieDetail?.production_companies?.map((p) => (
        <Box
         key={p.id}
         sx={{
@@ -133,7 +133,7 @@ function MovieDetails() {
       <span className="border border-white/40 px-2 py-0.5 rounded">
        {movieDetail.adult ? "Adult" : "U/A 16+"}
       </span>
-      <span>• {movieDetail.release_date}</span>
+      <span>• {movieDetail?.release_date}</span>
       <span>
        • {movieDetail.spoken_languages?.map((s) => s.name).join(", ")}
       </span>

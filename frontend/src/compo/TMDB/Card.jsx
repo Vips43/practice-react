@@ -7,8 +7,6 @@ import Typography from "@mui/material/Typography";
 function Card({ movie, children }) {
  const imgUrl = "https://image.tmdb.org/t/p/w500";
  const navigate = useNavigate();
- const setMovieDetail = useApiStore((state) => state.setMovieDetail);
- const setMedia_Type = useApiStore((state) => state.setMedia_Type);
 
  if (!movie || movie.length === 0) return null;
 
@@ -51,8 +49,7 @@ function Card({ movie, children }) {
         },
        }}
        onClick={() => {
-        setMedia_Type(type);
-        setMovieDetail(d.id);
+        const type = d.media_type ?? (d.first_air_date ? "tv" : "movie");
         navigate(`/tmdbapp/${type}/${d.id}`);
        }}
       >
