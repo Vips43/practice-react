@@ -3,30 +3,30 @@ const TMDB_Key = `9d2ac0e411cefe72dbf19a4500943adb`;
 const movieAPI = async () => {
     const res = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${TMDB_Key}`)
     const data = await res.json();
-    return data;
+    const fdata = data?.results?.filter(
+        (m) => m.poster_path !== null && m.backdrop_path !== null
+    );
+    return fdata;
 }
 
 export default movieAPI
 
-
-const searchMovie = async (q) => {
-    const res = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${TMDB_Key}&query=${q}`);
+export const keywords = async (id) => {
+    const res = await fetch(`https://api.themoviedb.org/3/tv/${id}/keywords?api_key=${TMDB_Key}`)
     const data = await res.json();
-    console.log(data);
+    return data;
 }
-// searchMovie("1252037")
-const fetchGenre = async (id) => {
-    const options = {
-        method: 'GET',
-        headers: {
-            accept: 'application/json',
-            Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxNWRmMDdjYWJiOGU5ZDg0NDk4MDllZjQ4ZDNhY2MzMyIsIm5iZiI6MTc2MzAzOTE5Ny43NjcsInN1YiI6IjY5MTVkN2RkNTc5YjMyNWFiNjNhNDRhZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.CHspmbtF7ndXliVl5HxPrba8Dl8dZcLjRTKFM7UqLh8'
-        }
-    };
-
-    const res = await fetch(`https://api.themoviedb.org/3/movie/${id}?language=en-US`, options);
+// keywords(66732)
+export const videos = async (id) => {
+    const res = await fetch(`https://api.themoviedb.org/3/tv/${id}/videos?api_key=${TMDB_Key}`)
     const data = await res.json();
-    console.log(data);
-
+    return data;
 }
-// fetchGenre(1242898)
+// videos(66732)
+export const fetchReviews = async (id) => {
+    const res = await fetch(`https://api.themoviedb.org/3/tv/${id}/reviews?api_key=${TMDB_Key}`)
+    const data = await res.json();
+    console.log(data)
+    return data.results;
+}
+// reviews(66732)

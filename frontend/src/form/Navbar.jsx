@@ -17,7 +17,7 @@ function Navbar() {
     <nav className="w-full max-w-6xl flex flex-wrap items-center justify-between bg-white p-3 px-5 rounded-3xl shadow-sm transition-all">
      {/* Brand / Logo */}
      <div className="text-2xl font-semibold capitalize text-gray-800 select-none">
-      Rand
+      Rander
      </div>
 
      {/* Navigation Links */}

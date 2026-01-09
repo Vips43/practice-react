@@ -23,12 +23,13 @@ function MovieDetails() {
  const imgUrl = "https://image.tmdb.org/t/p/w500";
  const movieDetail = useApiStore((state) => state.movieDetail);
  const setMovieDetail = useApiStore((state) => state.setMovieDetail);
+ const isLoading = useApiStore((state) => state.isLoading);
 
  useEffect(() => {
   if (id) setMovieDetail(id);
  }, [id, setMovieDetail]);
 
- if (!movieDetail) return <div>Loading...</div>;
+ if (isLoading) return <div className="text-center text-2xl font-bold my-20">Loading...</div>;
 
  return (
   <Box
@@ -76,9 +77,8 @@ function MovieDetails() {
       sx={{
        background: "#2c2b2b79",
        p: 1,
-       display: "flex",
-       gap: 2,
-       flexWrap: "wrap",
+       columnCount: { xs: 1, sm: 2, md: 3 }, // responsive columns
+       columnGap: "12px",
        borderRadius: 1,
       }}
      >
@@ -88,9 +88,13 @@ function MovieDetails() {
         sx={{
          background: "#b1b1b1",
          p: "6px",
+         mb: "12px", // spacing between items
          boxShadow: "1px 1px 5px #1a191967",
          borderRadius: ".3rem",
          textAlign: "center",
+         display: "inline-block", // 🔑 REQUIRED for column layout
+         width: "100%",
+         breakInside: "avoid", // 🔑 prevents splitting
         }}
        >
         {p.logo_path && (
@@ -101,6 +105,7 @@ function MovieDetails() {
           alt={p.name}
          />
         )}
+
         <Typography
          sx={{
           fontSize: "0.8rem",
@@ -116,7 +121,7 @@ function MovieDetails() {
 
     {/* RIGHT COLUMN (CONTENT) */}
     <Box sx={{ color: "white", maxWidth: 800 }}>
-     <Typography variant="h3" fontWeight="bold">
+     <Typography variant="h4" fontWeight="bold">
       {movieDetail.title} ({movieDetail.release_date?.split("-")[0]})
      </Typography>
 
@@ -132,7 +137,7 @@ function MovieDetails() {
       <span>
        • {movieDetail.spoken_languages?.map((s) => s.name).join(", ")}
       </span>
-      <span>• {movieDetail.genres?.map((g) => g.name).join(", ")}</span>
+      <span> • {movieDetail.genres?.map((g) => g.name).join(", ")}</span>
      </Box>
 
      <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
@@ -142,7 +147,7 @@ function MovieDetails() {
        h={`h-16`}
       />
       <Typography>
-       User Score:{" "}
+       User Score:
        <span className="text-neutral-300">{movieDetail.vote_count}</span>
        <br />
        <strong>Budget:</strong>{" "}

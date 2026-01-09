@@ -14,138 +14,165 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+
 import Card from "../Card";
+import Searchbtn from "./Searchbtn";
+import useApiStore from "./store";
 
 const drawerWidth = 240;
 const navItems = ["Movies", "TV Shows", "People", "More"];
 
-function NavBar(props) {
-  const { window, movie, imgUrl } = props;
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+function NavBar({ window }) {
+ const [mobileOpen, setMobileOpen] = React.useState(false);
 
-  const handleDrawerToggle = () => {
-    setMobileOpen((prev) => !prev);
-  };
+ const {
+  popular,
+  topRated,
+  trendingAll,
+  fetchPopular,
+  fetchTopRated,
+  fetchTrendingAll,
+  loadingPopular,
+  loadingTopRated,
+  loadingTrending,
+ } = useApiStore();
 
-  const drawer = (
-    <Box sx={{ textAlign: "center", p: 2 }}>
-      <Typography
-        variant="h6"
-        sx={{ my: 2, fontWeight: 700, letterSpacing: 2 }}
-      >
-        TMDB
-      </Typography>
+ React.useEffect(() => {
+  fetchPopular();
+  fetchTopRated();
+  fetchTrendingAll();
+ }, [fetchPopular, fetchTopRated, fetchTrendingAll]);
 
-      <Divider />
+ const handleDrawerToggle = () => {
+  setMobileOpen((prev) => !prev);
+ };
 
-      <List>
-        {navItems.map((item) => (
-          <ListItem key={item} disablePadding>
-            <ListItemButton sx={{ justifyContent: "center" }}>
-              <ListItemText
-                primary={item}
-                sx={{ textAlign: "center", whiteSpace: "nowrap" }}
-              />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-    </Box>
-  );
+ const drawer = (
+  <Box sx={{ textAlign: "center", p: 2 }}>
+   <Typography variant="h6" sx={{ my: 2, fontWeight: 700, letterSpacing: 2 }}>
+    TMDB
+   </Typography>
 
-  const container =
-    window !== undefined ? () => window().document.body : undefined;
+   <Divider />
 
-  return (
-    <Box>
-      <CssBaseline />
+   <List>
+    {navItems.map((item) => (
+     <ListItem key={item} disablePadding>
+      <ListItemButton sx={{ justifyContent: "center" }}>
+       <ListItemText
+        primary={item}
+        sx={{ textAlign: "center", whiteSpace: "nowrap" }}
+       />
+      </ListItemButton>
+     </ListItem>
+    ))}
+   </List>
+  </Box>
+ );
 
-      {/* APP BAR */}
-      <AppBar position="sticky">
-        <Toolbar sx={{ minHeight: { xs: 56, sm: 64 } }}>
-          {/* MOBILE MENU ICON */}
-          <IconButton
-            color="inherit"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: "none" } }}
-          >
-            <MenuIcon />
-          </IconButton>
+ const container =
+  window !== undefined ? () => window().document.body : undefined;
 
-          {/* LOGO */}
-          <Typography
-            variant="h6"
-            sx={{
-              flexShrink: 0,
-              fontWeight: 800,
-              fontSize: "1.8rem",
-              letterSpacing: "3px",
-              display: { xs: "none", sm: "block" },
-            }}
-          >
-            TMDB
-          </Typography>
+ return (
+  <Box>
+   <CssBaseline />
 
-          {/* DESKTOP NAV ITEMS */}
-          <Box
-            sx={{
-              display: { xs: "none", sm: "flex" },
-              alignItems: "center",
-              gap: 2,
-              ml: 4,
-              whiteSpace: "nowrap",
-            }}
-          >
-            {navItems.map((item) => (
-              <Button
-                key={item}
-                sx={{
-                  color: "#fff",
-                  textTransform: "none",
-                  fontWeight: 500,
-                }}
-              >
-                {item}
-              </Button>
-            ))}
-          </Box>
-        </Toolbar>
-      </AppBar>
+   {/* APP BAR */}
+   <AppBar position="sticky">
+    <Toolbar sx={{ minHeight: { xs: 56, sm: 64 } }}>
+     {/* MOBILE MENU */}
+     <IconButton
+      color="inherit"
+      edge="start"
+      onClick={handleDrawerToggle}
+      sx={{ mr: 2, display: { sm: "none" } }}
+     >
+      <MenuIcon />
+     </IconButton>
 
-      {/* MOBILE DRAWER */}
-      <Drawer
-        container={container}
-        variant="temporary"
-        open={mobileOpen}
-        onClose={handleDrawerToggle}
-        ModalProps={{ keepMounted: true }}
+     {/* LOGO */}
+     <Typography
+      variant="h6"
+      sx={{
+       fontWeight: 800,
+       fontSize: "1.8rem",
+       letterSpacing: "3px",
+       display: { xs: "none", sm: "block" },
+      }}
+     >
+      TMDB
+     </Typography>
+
+     {/* DESKTOP NAV */}
+     <Box
+      sx={{
+       display: { xs: "none", sm: "flex" },
+       alignItems: "center",
+       gap: 2,
+       ml: 4,
+      }}
+     >
+      {navItems.map((item) => (
+       <Button
+        key={item}
         sx={{
-          display: { xs: "block", sm: "none" },
-          "& .MuiDrawer-paper": {
-            width: drawerWidth,
-          },
+         color: "#fff",
+         textTransform: "none",
+         fontWeight: 500,
         }}
-      >
-        {drawer}
-      </Drawer>
+       >
+        {item}
+       </Button>
+      ))}
+     </Box>
+    </Toolbar>
+   </AppBar>
 
-      {/* MAIN CONTENT */}
-      <Box component="main" sx={{ p: 3 }}>
-        <div className="w-full px-3 border border-neutral-300 rounded-lg">
-          <h3 className="text-2xl font-bold my-2">What&apos;s Popular</h3>
+   {/* MOBILE DRAWER */}
+   <Drawer
+    container={container}
+    variant="temporary"
+    open={mobileOpen}
+    onClose={handleDrawerToggle}
+    ModalProps={{ keepMounted: true }}
+    sx={{
+     display: { xs: "block", sm: "none" },
+     "& .MuiDrawer-paper": { width: drawerWidth },
+    }}
+   >
+    {drawer}
+   </Drawer>
 
-          <div className="w-full flex gap-4 overflow-x-auto no-scrollbar">
-            <Card movie={movie} imgUrl={imgUrl} />
-          </div>
-        </div>
-      </Box>
+   {/* MAIN CONTENT */}
+   <Box component="main" sx={{ p: 3 }}>
+    <Box sx={{ mb: 3 }}>
+     <Searchbtn />
     </Box>
-  );
+
+    <Card movie={popular} load={loadingPopular}>
+     <Typography sx={{ fontSize: "1.5rem", fontWeight: 600, px: 2 }}>
+      Popular
+     </Typography>
+    </Card>
+
+    <Card movie={topRated} load={loadingTopRated}>
+     <Typography sx={{ fontSize: "1.5rem", fontWeight: 600, px: 2 }}>
+      Top Rated
+     </Typography>
+    </Card>
+
+    <Card movie={trendingAll} load={loadingTrending}>
+     <Typography sx={{ fontSize: "1.5rem", fontWeight: 600, px: 2 }}>
+      Trending
+     </Typography>
+    </Card>
+   </Box>
+  </Box>
+ );
 }
 
 NavBar.propTypes = {
-  window: PropTypes.func,
+ window: PropTypes.func,
 };
 
 export default NavBar;

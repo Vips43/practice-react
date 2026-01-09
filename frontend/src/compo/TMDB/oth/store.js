@@ -1,33 +1,104 @@
 import { create } from "zustand";
 
+const API_KEY = `15df07cabb8e9d8449809ef48d3acc33`;
 const useApiStore = create((set) => ({
-  movieDetail: null,
+  popular: [],
+  topRated: [],
+  trendingAll: [],
+  movieDetail: [],
+  casts: [],
 
+  loadingPopular: false,
+  loadingTopRated: false,
+  loadingTrending: false,
 
+  media_type: null,
+  err: null,
+
+  setMedia_Type: (type) => set({ media_type: type }),
+
+  fetchPopular: async () => {
+    try {
+      set({ loadingPopular: true });
+      const res = await fetch(
+        `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}`
+      );
+      const data = await res.json();
+      const filtered = data?.results?.filter(
+        (m) => m.poster_path && m.backdrop_path
+      );
+      set({ popular: filtered || [], loadingPopular: false });
+    } catch (err) {
+      set({ loadingPopular: false, err });
+    }
+  },
+
+  fetchTopRated: async () => {
+    try {
+      set({ loadingTopRated: true });
+      const res = await fetch(
+        `https://api.themoviedb.org/3/movie/top_rated?api_key=${API_KEY}`
+      );
+      const data = await res.json();
+      const filtered = data?.results?.filter(
+        (m) => m.poster_path && m.backdrop_path
+      );
+      set({ topRated: filtered || [], loadingTopRated: false });
+    } catch (err) {
+      set({ loadingTopRated: false, err });
+    }
+  },
+
+  fetchTrendingAll: async () => {
+    try {
+      set({ loadingTrending: true });
+      const res = await fetch(
+        `https://api.themoviedb.org/3/trending/all/week?api_key=${API_KEY}`
+      );
+      const data = await res.json();
+      const filtered = data?.results?.filter(
+        (m) => m.poster_path && m.backdrop_path
+      );
+      set({ trendingAll: filtered || [], loadingTrending: false });
+    } catch (err) {
+      set({ loadingTrending: false, err });
+    }
+  },
   setMovieDetail: async (id) => {
+    if (!id) return;
+    set({ isLoading: true })
     try {
       const options = {
         method: 'GET',
         headers: {
-          accept: 'application/json',
-          Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxNWRmMDdjYWJiOGU5ZDg0NDk4MDllZjQ4ZDNhY2MzMyIsIm5iZiI6MTc2MzAzOTE5Ny43NjcsInN1YiI6IjY5MTVkN2RkNTc5YjMyNWFiNjNhNDRhZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.CHspmbtF7ndXliVl5HxPrba8Dl8dZcLjRTKFM7UqLh8'
+          accept: 'application/json', Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxNWRmMDdjYWJiOGU5ZDg0NDk4MDllZjQ4ZDNhY2MzMyIsIm5iZiI6MTc2MzAzOTE5Ny43NjcsInN1YiI6IjY5MTVkN2RkNTc5YjMyNWFiNjNhNDRhZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.CHspmbtF7ndXliVl5HxPrba8Dl8dZcLjRTKFM7UqLh8'
         }
       };
+      const { media_type } = useApiStore.getState();
+      const endpoint = media_type === "tv" ? `https://api.themoviedb.org/3/tv/${id}` : `https://api.themoviedb.org/3/movie/${id}?language=en-US`;
 
-      const res = await fetch(`https://api.themoviedb.org/3/movie/${id}?language=en-US`, options);
-      if (!res.ok) {
-        throw new Error("Failed to fetch movie details");
-      }
-
+      const res = await fetch(endpoint, options);
       const data = await res.json();
       console.log(data);
-      set({ movieDetail: data });
+      set({ movieDetail: data, isLoading: false, err: null });
     } catch (err) {
       console.error("Movie detail fetch error:", err);
-      set({ movieDetail: null });
+      set({ movieDetail: null, err: err });
+    }
+  },
+  setCasts: async (id) => {
+    set({ isLoading: true })
+    const url = `https://api.themoviedb.org/3/tv/${id}/credits?api_key=${API_KEY}&language=en-US`
+    try {
+      const res = await fetch(url);
+      const data = await res.json();
+      console.log(data)
+      set({ casts: data, isLoading: false })
+    } catch (error) {
+      set({ isLoading: false, err: error })
     }
   }
-}))
 
+}));
 
 export default useApiStore;

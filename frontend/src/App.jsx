@@ -21,6 +21,8 @@ import ToDoList from "./compo/todolist/ToDoList";
 import FakeStore from "./compo/fakestore/FakeStore";
 import Login from "./compo/user management/Login";
 import MovieDetails from "./compo/TMDB/MOvieDetails";
+import SearchPage from "./compo/TMDB/oth/SearchPage";
+import TVShowDetails from "./compo/TMDB/TVShowDetails";
 
 function App() {
 
@@ -37,7 +39,9 @@ function App() {
     <Route path="/navigation/notepadapp" element={<NotesApp />} />
     <Route path="/navigation/colorapp" element={<ColorApp />} />
     <Route path="/navigation/tmdbapp" element={<MoviePage />} />
+    <Route path="/search/:q" element={<SearchPage />} />
     <Route path="/tmdbapp/movie/:id" element={<MovieDetails />} />
+    <Route path="/tmdbapp/tv/:id" element={<TVShowDetails />} />
     <Route path="/navigation/review" element={<RateReview />} />
     <Route path="/navigation/ToDoList" element={<ToDoList />} />
     <Route path="/navigation/fakestore" element={<FakeStore />} />
