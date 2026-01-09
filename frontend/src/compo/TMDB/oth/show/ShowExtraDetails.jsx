@@ -3,31 +3,28 @@ import Cast from "./Cast";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import useApiStore from "../store";
-import { useParams } from "react-router";
+import { Link, useParams } from "react-router";
 import CurrSeason from "./CurrSeason";
 import Keywords from "./Keywords";
 import Videos from "./Videos";
 import Reviews from "./Reviews";
+import Button from "@mui/material/Button";
 
 function ShowExtraDetails({ url }) {
  const { id } = useParams();
  const setCasts = useApiStore((state) => state.setCasts);
  const casts = useApiStore((state) => state.casts);
-
+  const type= 'show'
  useEffect(() => {
   if (id) setCasts(id);
  }, [id, setCasts]);
-
  if (!casts) return null;
 
  return (
   <>
    <Box
     sx={{
-     m: { xs: 2, md: 3 },
-     display: "flex",
-     flexDirection: { xs: "column", md: "row" },
-     gap: { xs: 1, md: 2 },
+     mx: 2,
     }}
    >
     {/* SERIES CAST */}
@@ -36,16 +33,33 @@ function ShowExtraDetails({ url }) {
       Series Cast
      </Typography>
 
-     <Cast data={casts.cast} url={url} layout="row" />
-    </Box>
+     <Cast cast={casts} url={url} layout="row" />
+     <Button
+     component={Link}
+     to={`/tmdbapp/${type}/${id}/cast`}
+      variant="text"
+      disableRipple
+      sx={{
+       textTransform: "none",
+       width: "fit-content",
+       color: "text.primary",
+       transition:"all .3s ease-in-out",
+       fontWeight:"600",
+       fontSize:"1rem",
 
-    {/* CREW CAST */}
-    <Box sx={{ flex: 1, minWidth: 0 }}>
-     <Typography variant="h5" fontWeight={600} mb={1}>
-      Crew Cast
-     </Typography>
+       "&:hover": {
+        backgroundColor: "transparent",
+        textDecoration:"underline",
+        opacity:0.7,
+       },
 
-     <Cast data={casts.crew} url={url} layout="row" showRole={false} />
+       "&:active": {
+        backgroundColor: "transparent",
+       },
+      }}
+     >
+      Full Cast&Crew →
+     </Button>
     </Box>
    </Box>
    <Box
@@ -64,14 +78,18 @@ function ShowExtraDetails({ url }) {
     <CurrSeason />
     <Keywords url={url} />
    </Box>
-   <Box sx={{ display: "grid",
+   <Box
+    sx={{
+     display: "grid",
      gap: 0.1,
      m: 2,
      alignItems: "start",
      gridTemplateColumns: {
       xs: "1fr",
       md: "1.3fr 0.7fr",
-     }, }}>
+     },
+    }}
+   >
     <Reviews />
     <Videos />
    </Box>

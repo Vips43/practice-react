@@ -5,34 +5,23 @@ import Typography from "@mui/material/Typography";
 import CardActionArea from "@mui/material/CardActionArea";
 import Box from "@mui/material/Box";
 import useApiStore from "../store";
-import img from "/No-image.png"
+import img from "/No-image.png";
 
 function Cast({
- data = [],
- url,
- layout = "row", // "row" | "grid"
- cardWidth = 120,
- showRole = true,
-}) {
+ cast, url, layout = "row", cardWidth = 120, showRole = true,}) {
  const isLoading = useApiStore((state) => state.isLoading);
-
+ const slicedCast = cast?.cast?.slice(0,10)
+console.log(slicedCast);
  if (isLoading) {
   return <Typography sx={{ opacity: 0.6, p: 2 }}>Loading cast…</Typography>;
  }
 
  return (
   <Box
-   sx={{
-    display: layout === "grid" ? "grid" : "flex",
-    gridTemplateColumns:
-     layout === "grid" ? "repeat(auto-fill, minmax(120px, 1fr))" : "none",
-    gap: 0.5,
-    overflowX: layout === "row" ? "auto" : "visible",
-    pb: 1,
-   }}
+   sx={{ display: "flex", gap: 1, overflow:"auto",py:0.2 }}
    className={layout === "row" ? "no-scrollbar" : ""}
   >
-   {data?.map((c,i) => (
+   {slicedCast?.map((c, i) => (
     <Card
      key={i}
      sx={{
@@ -52,7 +41,6 @@ function Cast({
        height="140"
        image={c.profile_path ? `${url}${c.profile_path}` : img}
        alt={c.name}
-       sx={{ p: 0.5 }}
       />
 
       <CardContent sx={{ p: 0.5 }}>
@@ -61,26 +49,21 @@ function Cast({
         sx={{
          fontWeight: 600,
          lineHeight: 1.1,
-         whiteSpace: "nowrap",
-         overflow: "hidden",
-         textOverflow: "ellipsis",
         }}
        >
         {c.name}
        </Typography>
 
-       {showRole && (
-        <Typography
-         variant="caption"
-         sx={{
-          lineHeight: 1.1,
-          display: "block",
-          opacity: 0.85,
-         }}
-        >
-         {c.character || c.job}
-        </Typography>
-       )}
+         <Typography
+          variant="caption"
+          sx={{
+              lineHeight: 1.1,
+              display: "block",
+              opacity: 0.85,
+            }}
+            >
+            {c.roles?.map((r) => ( r?.character )).join(", ")}
+         </Typography>
 
        <Typography
         variant="caption"
@@ -89,7 +72,8 @@ function Cast({
          color: "text.secondary",
         }}
        >
-        {c.known_for_department}
+        {c.known_for_department} 
+        <span className="block">{c.total_episode_count} episodes</span>
        </Typography>
       </CardContent>
      </CardActionArea>

@@ -86,7 +86,7 @@ const useApiStore = create((set) => ({
   
   setCasts: async (id) => {
     set({ isLoading: true })
-    const url = `https://api.themoviedb.org/3/tv/${id}/credits?api_key=${API_KEY}&language=en-US`
+    const url = `https://api.themoviedb.org/3/tv/${id}/aggregate_credits?api_key=${API_KEY}&language=en-US`
     try {
       const res = await fetch(url);
       const data = await res.json();

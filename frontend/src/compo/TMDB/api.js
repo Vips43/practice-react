@@ -30,3 +30,11 @@ export const fetchReviews = async (id) => {
     return data.results;
 }
 // reviews(66732)
+
+export const fetchCast = async (id) => {
+    const res = await fetch(`https://api.themoviedb.org/3/tv/${id}/aggregate_credits?api_key=${TMDB_Key}`)
+    const data = await res.json();
+    console.log(data)
+    return data.results;
+}
+// fetchCast(95479)
