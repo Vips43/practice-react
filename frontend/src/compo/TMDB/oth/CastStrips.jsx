@@ -4,20 +4,26 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import img from "/No-image.png";
+import useApiStore from "./store";
 
 function CastStrips({ data = [], title }) {
  const imgUrl = "https://image.tmdb.org/t/p/w500";
-
+const isLoading = useApiStore(s=> s.isLoading)
+ if (isLoading) {
+  return (
+   <div className="mt-14 text-2xl font-bold grid place-items-center animate-ping ">Loading...</div>
+  );
+ }
  return (
   <Box sx={{  }} className="space-y-2">
    {title && <Typography variant="h5" sx={{ fontWeight: 600, mb: 1 }}>{title} <span className="opacity-35">{data.length}</span></Typography>}
 
-   {data.map((f) => {
+   {data.map((f,i) => {
     const isCast = Array.isArray(f.roles);
 
     return (
      <Card
-      key={f.id}
+      key={i}
       sx={{
        display: "flex",
        alignItems: "flex-start",

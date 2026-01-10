@@ -12,9 +12,9 @@ function SearchCard({ movie }) {
 
  if (isLoading) {
   return (
-   <Box sx={{ textAlign: "center", mt: 4, fontWeight: "bold" }}>Loading...</Box>
+   <Box sx={{ textAlign: "center", mt: 4, fontWeight: "bold" }} className="animate-pulse">Loading...</Box>
   );
- }
+ } 
 
  if (!movie || movie.length === 0) {
   return <Typography>No results found</Typography>;

@@ -8,19 +8,22 @@ import SearchPeople from "./SearchPeople";
 import SearchNetwork from "./SearchNetwork";
 import SearchKeyword from "./SearchKeyword";
 import SearchCompany from "./SearchCompany";
+import Searchbtn from "./Searchbtn";
+import { useNavigate } from "react-router";
 
 function SearchPage() {
+ const navigate = useNavigate();
  const searchMovie = useApiStore((state) => state.searchMovie);
  const movie = useApiStore((state) => state.searchResults);
  const query = useApiStore((state) => state.query);
  const searchtype = useApiStore((state) => state.searchtype);
 
- useEffect(() => {
+ useEffect(() => { 
   if (!query) return;
   searchMovie(query, searchtype);
  }, [query, searchtype, searchMovie]);
- 
- if (query && searchtype) console.log(query, searchtype);
+
+  if (!query ) return navigate("/navigation/tmdbapp")
 
  return (
   <Box sx={{ px: 2 }}>
@@ -37,7 +40,7 @@ function SearchPage() {
     }}
    >
     {/* LEFT SIDEBAR */}
-    <Box sx={{ width: 260, flexShrink: 0, position:"sticky", top:5 }}>
+    <Box sx={{ width: 260, flexShrink: 0, position: "sticky", top: 5 }}>
      <SearchList />
     </Box>
 

@@ -28,7 +28,9 @@ const useApiStore = create((set) => ({
       const res = await fetch(`https://api.themoviedb.org/3/search/${type}?query=${q}&api_key=${API_KEY}`)
       const data = await res.json();
       console.log(data)
-      set({ searchResults: data, isLoading: false, err: null })
+      setTimeout(() => {
+        set({ searchResults: data, isLoading: false, err: null })
+      }, 2000);
     } catch (error) {
       set({ isLoading: false, err: error })
     }
@@ -108,7 +110,9 @@ const useApiStore = create((set) => ({
       const res = await fetch(url);
       const data = await res.json();
       console.log(data)
-      set({ casts: data, isLoading: false })
+      setTimeout(() => {
+        set({ casts: data, isLoading: false })
+      }, 3000);
     } catch (error) {
       set({ isLoading: false, err: error })
     }
