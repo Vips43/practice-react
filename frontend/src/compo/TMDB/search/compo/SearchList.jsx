@@ -32,7 +32,7 @@ export default function SearchList() {
  return (
   <Box
    sx={{
-    width: 260, // ✅ FIXED WIDTH
+    width: {xs:180,sm:260}, // ✅ FIXED WIDTH
     borderRadius: 2,
     overflow: "hidden",
     boxShadow: 2,

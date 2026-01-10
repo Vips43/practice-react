@@ -18,21 +18,21 @@ function SearchPage() {
  const searchtype = useApiStore((state) => state.searchtype);
 
  useEffect(() => {
-  if (!query) return;
-  searchMovie(query, searchtype);
+  if (!query) return; 
+    searchMovie(query, searchtype);
  }, [query, searchtype, searchMovie]);
 
- if (!query) return navigate("/navigation/tmdbapp");
 
  return (
   <Box sx={{ px: 2 }}>
-   <Typography variant="body1" sx={{ fontWeight: 600,display:"grid", placeItems:"center", my: 2 }}>
+   <Typography
+    variant="body1"
+    sx={{ fontWeight: 600, display: "grid", placeItems: "center", my: 2 }}
+   >
     searched for: {query}
    </Typography>
 
-   <Box>
-    
-   </Box>
+   <Box></Box>
 
    {/* MAIN LAYOUT */}
    <Box
