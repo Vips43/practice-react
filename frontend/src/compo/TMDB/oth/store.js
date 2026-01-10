@@ -13,20 +13,22 @@ const useApiStore = create((set) => ({
   loadingTopRated: false,
   loadingTrending: false,
 
-  media_type: null,
+  searchtype: "movie",
+  
   err: null,
   query: null,
 
-  setMedia_Type: (type) => set({ media_type: type }),
+  setSearchType: (type) => set({ searchtype: type }),
   setQuery: (q) => set({ query: q }),
 
-  searchMovie: async (q) => {
+  searchMovie: async (q , type) => {
     set({ isLoading: true })
+
     try {
-      const res = await fetch(`https://api.themoviedb.org/3/search/movie?query=${q}&api_key=${API_KEY}`)
+      const res = await fetch(`https://api.themoviedb.org/3/search/${type}?query=${q}&api_key=${API_KEY}`)
       const data = await res.json();
       console.log(data)
-      set({ searchResults: data?.results, isLoading: false, err: null })
+      set({ searchResults: data, isLoading: false, err: null })
     } catch (error) {
       set({ isLoading: false, err: error })
     }

@@ -1,85 +1,95 @@
 import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
 import Typography from "@mui/material/Typography";
-import Vote from "../oth/Vote";
+import useApiStore from "../oth/store";
+import img from "/No-image.png"
 
 function SearchCard({ movie }) {
- const imgUrl = "https://image.tmdb.org/t/p/w500";
+ const imgUrl = "https://image.tmdb.org/t/p/w185"; // smaller = faster
  const navigate = useNavigate();
 
- if (!movie || movie.length === 0) return null;
+ const isLoading = useApiStore((state) => state.isLoading);
+
+ if (isLoading) {
+  return (
+   <Box sx={{ textAlign: "center", mt: 4, fontWeight: "bold" }}>Loading...</Box>
+  );
+ }
+
+ if (!movie || movie.length === 0) {
+  return <Typography>No results found</Typography>;
+ }
 
  return (
-  <Box
-   sx={{
-    border: "1px solid lightgrey",
-    borderRadius: "10px",
-    mt: 2,
-   }}
-  >
-   {/* {children} */}
+  <Box sx={{ }}>
+   {movie.map((d) => {
+    // NORMALIZE TYPE
+    const type = d.media_type ?? (d.first_air_date ? "tv" : "movie");
 
-   <Box
-    sx={{
-     display: "grid",
-     gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))",
-     placeItems: "center",
-     pt: 1,
-    }}
-    className="no-scrollbar"
-   >
-    {movie?.map((d) => {
-     // ✅ NORMALIZE MEDIA TYPE
-     const type = d.media_type ?? (d?.first_air_date ? "tv" : "movie");
-
-     // ✅ NORMALIZE TITLE & DATE
-     const title = type === "movie" ? d.title : d.name;
-     const date = type === "movie" ? d.release_date : d.first_air_date;
-
-     return (
+    // NORMALIZE FIELDS
+    const title = d.title || d.name;
+    const date = d.release_date || d.first_air_date;
+    return (
+     <Box
+      key={d.id}
+      sx={{
+       display: "flex",
+       gap: 2,
+       mb: 2,
+       border: "1px solid #e0e0e0",
+       borderRadius: 2,
+       cursor: "pointer",
+       transition: "background 0.2s",
+       "&:hover": {
+        backgroundColor: "#f9f9f9",
+       },
+      }}
+      onClick={() => navigate(`/tmdbapp/${type}/${d.id}`)}
+     >
+      {/* LEFT IMAGE */}
       <Box
-       key={d.id}
+       component="img"
+       src={d.poster_path ? `${imgUrl}${d.poster_path}` : img}
+       alt={title}
        sx={{
+        width: 90,
+        height: 135,
+        borderRadius: "5px 0 0 5px",
+        objectFit: "cover",
         flexShrink: 0,
-        px: 1,
-        cursor: "pointer",
-        transition: "transform 0.2s",
-        "&:hover": {
-         transform: "translate(1px, 1px)",
-        },
        }}
-       onClick={() => {
-        const type = d.media_type ?? (d.first_air_date ? "tv" : "movie");
-        navigate(`/tmdbapp/${type}/${d.id}`);
-       }}
-      >
-       {/* IMAGE */}
-       <Box sx={{ position: "relative" }}>
-        <Box
-         component="img"
-         src={`${imgUrl}${d.poster_path}`}
-         alt={title}
-         sx={{
-          height: 200,
-          borderRadius: 1,
-         }}
-        />
+      />
 
-       </Box>
+      {/* RIGHT CONTENT */}
+      <Box sx={{ flex: 1 }}>
+       <Typography fontWeight={700} fontSize="1rem" sx={{mt:1.5, letterSpacing:1, lineHeight:1.1}} >
+        {title}
+       </Typography>
 
-       {/* TEXT */}
-       <Box sx={{ mt: 3, width: 130 }}>
-        <Typography fontSize="0.9rem" fontWeight={600} noWrap>
-         {title}
-        </Typography>
-        <Typography fontSize="0.75rem" color="text.secondary">
-         {date}
-        </Typography>
-       </Box>
+       <Typography fontSize="0.8rem" color="text.secondary" sx={{ mb: 1 }}>
+        {date || ""}
+       </Typography>
+
+       <Typography fontSize="0.8rem" color="text.secondary" sx={{ mb: 1 }}>
+        {d.adult ? <span className="p-1 bg-gray-600 text-xs rounded-sm text-white">Adult</span> : <span className="p-1 bg-gray-600 text-xs rounded-sm text-white">U/A</span>  }
+       </Typography>
+
+       <Typography
+        fontSize="0.85rem"
+        color="text.secondary"
+        sx={{
+         display: "-webkit-box",
+         WebkitLineClamp: 3,
+         WebkitBoxOrient: "vertical",
+         overflow: "hidden",
+        }}
+       >
+        {d.overview || "No description available."}
+       </Typography>
       </Box>
-     );
-    })}
-   </Box>
+     </Box>
+    );
+   })}
   </Box>
  );
 }
