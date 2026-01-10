@@ -116,8 +116,8 @@ function NavBar({ window }) {
         key={item}
         sx={{
          color: "#fff",
-         textTransform: "none",
-         fontWeight: 500,
+         textTransform: "none",width:"fit-content",
+         fontWeight: 500, whiteSpace:"nowrap"
         }}
        >
         {item}

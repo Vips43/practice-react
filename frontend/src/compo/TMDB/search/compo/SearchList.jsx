@@ -5,8 +5,8 @@ import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import Typography from "@mui/material/Typography";
-import { useNavigate, useLocation } from "react-router-dom";
-import useApiStore from "../oth/store";
+import { useNavigate } from "react-router-dom";
+import useApiStore from "../../oth/store";
 
 const values = [
  { label: "TV Show", target: "tv" },

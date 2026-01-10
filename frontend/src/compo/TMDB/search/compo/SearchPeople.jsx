@@ -1,7 +1,6 @@
-import React from "react";
-import useApiStore from "../oth/store";
 import { Box, Card, CardContent, CardMedia, Typography } from "@mui/material";
 import img from "/No-image.png";
+import useApiStore from "../../oth/store";
 
 function SearchPeople({ movie }) {
  const imgUrl = "https://image.tmdb.org/t/p/w500";

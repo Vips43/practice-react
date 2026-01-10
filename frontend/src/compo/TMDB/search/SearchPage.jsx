@@ -1,14 +1,14 @@
 import Box from "@mui/material/Box";
 import { useEffect } from "react";
 import { Typography } from "@mui/material";
-import useApiStore from "../oth/store";
-import SearchCard from "./SearchCard";
-import SearchList from "./SearchList";
-import SearchPeople from "./SearchPeople";
-import SearchNetwork from "./SearchNetwork";
-import SearchKeyword from "./SearchKeyword";
-import SearchCompany from "./SearchCompany";
 import { useNavigate } from "react-router";
+import useApiStore from "../oth/store";
+import SearchCard from "./compo/SearchCard";
+import SearchCompany from "./compo/SearchCompany";
+import SearchKeyword from "./compo/SearchKeyword";
+import SearchNetwork from "./compo/SearchNetwork";
+import SearchPeople from "./compo/SearchPeople";
+import SearchList from "./compo/SearchList";
 
 function SearchPage() {
  const navigate = useNavigate();

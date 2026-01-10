@@ -1,5 +1,5 @@
-import React from "react";
-import useApiStore from "../oth/store";
+import useApiStore from "../../oth/store";
+
 
 function SearchCompany({ movie }) {
  const isLoading = useApiStore((s) => s.isLoading);
