@@ -6,10 +6,9 @@ import img from "/No-image.png";
 function SearchPeople({ movie }) {
  const imgUrl = "https://image.tmdb.org/t/p/w500";
  const isLoading = useApiStore((s) => s.isLoading);
- // const movie = useApiStore(s=> s.isLoading)
  if (isLoading) {
   return (
-   <div className="mx-auto grid place-items-center text-2xl font-bold my-14">
+   <div className="mx-auto grid place-items-center text-2xl font-bold my-14 animate-bounce">
     Loading...
    </div>
   );
@@ -17,14 +16,16 @@ function SearchPeople({ movie }) {
  return (
   <>
    <Box sx={{}} className="space-y-2">
-  
-     <Typography variant="h5" sx={{ fontWeight: 600, mb: 1 }}>
-      <span className="opacity-35">lll</span>
-     </Typography>
+    <Typography variant="h5" sx={{ fontWeight: 600, mb: 1 }}>
+     <span className="opacity-35"></span>
+    </Typography>
 
     {movie?.map((f) => {
-     const isCast = Array.isArray(f.roles);
-
+     const knownForTitles =
+      f.known_for
+       ?.map((item) => item.original_title || item.original_name)
+       .filter(Boolean)
+       .join(", ") || "";
      return (
       <Card
        key={f.id}
@@ -65,49 +66,17 @@ function SearchPeople({ movie }) {
         <Typography
          variant="caption"
          sx={{
-          lineHeight: 1.2,
-          opacity:0.9,
+          lineHeight: 1.1,
+          opacity: 0.9,
           "&:hover": { textDecoration: "underline" },
          }}
         >
-         <strong>{f.known_for_department}</strong> • {f.known_for?.map(f=> f.original_title).join(', ')}
+         <strong>{f.known_for_department}</strong> {"•"}
+         <span className="leading-1">
+          {" "}
+          {knownForTitles}
+         </span>
         </Typography>
-
-        {/* CAST */}
-        {isCast && (
-         <Typography
-          variant="body2"
-          sx={{
-           fontSize: "0.8rem",
-           color: "text.secondary",
-           whiteSpace: "wrap",
-          }}
-         >
-          {f.roles.map((r, i) => (
-           <span key={i}>
-            <strong>{r.character}</strong>{" "}
-            <span style={{ opacity: 0.6 }}>({r.episode_count} Ep)</span>
-            {i < f.roles.length - 1 && ", "}
-           </span>
-          ))}
-         </Typography>
-        )}
-
-        {/* CREW */}
-        {!isCast && (
-         <Typography
-          variant="body2"
-          sx={{ fontSize: "0.8rem", color: "text.secondary" }}
-         >
-          {f?.jobs?.map((r, i) => (
-           <span key={i}>
-            <strong>{r.job}</strong>{" "}
-            <span style={{ opacity: 0.6 }}>({r.episode_count} Ep)</span>
-            {i < f.jobs.length - 1 && ", "}
-           </span>
-          ))}
-         </Typography>
-        )}
        </CardContent>
       </Card>
      );

@@ -8,7 +8,6 @@ import SearchPeople from "./SearchPeople";
 import SearchNetwork from "./SearchNetwork";
 import SearchKeyword from "./SearchKeyword";
 import SearchCompany from "./SearchCompany";
-import Searchbtn from "./Searchbtn";
 import { useNavigate } from "react-router";
 
 function SearchPage() {
@@ -18,12 +17,12 @@ function SearchPage() {
  const query = useApiStore((state) => state.query);
  const searchtype = useApiStore((state) => state.searchtype);
 
- useEffect(() => { 
+ useEffect(() => {
   if (!query) return;
   searchMovie(query, searchtype);
  }, [query, searchtype, searchMovie]);
 
-  if (!query ) return navigate("/navigation/tmdbapp")
+ if (!query) return navigate("/navigation/tmdbapp");
 
  return (
   <Box sx={{ px: 2 }}>
@@ -53,6 +52,7 @@ function SearchPage() {
      {searchtype === "network" ? <SearchNetwork movie={movie} /> : ""}
      {searchtype === "keyword" ? <SearchKeyword movie={movie} /> : ""}
      {searchtype === "company" ? <SearchCompany movie={movie} /> : ""}
+     {searchtype === "award" ? <SearchAward movie={movie} /> : ""}
 
      {/* <Outlet /> */}
     </Box>
@@ -62,3 +62,22 @@ function SearchPage() {
 }
 
 export default SearchPage;
+
+function SearchAward() {
+ const isLoading = useApiStore((s) => s.isLoading);
+
+ if (isLoading)
+  <div className="mt-14 text-2xl font-bold animate-bounce grid place-items-center">
+   Loading...
+  </div>;
+ // if(!movie) return
+ return (
+  <>
+   <div>
+    <div className="mt-14 text-2xl font-bold grid place-items-center">
+     No Data for Awards...
+    </div>
+   </div>
+  </>
+ );
+}

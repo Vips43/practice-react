@@ -1,9 +1,22 @@
-import React from 'react'
+import React from "react";
+import useApiStore from "../oth/store";
 
 function SearchNetwork() {
-  return (
-    <div>SearchNetwork</div>
-  )
+ const isLoading = useApiStore((s) => s.isLoading);
+
+ if (isLoading)
+  <div className="mt-14 text-2xl font-bold animate-bounce grid place-items-center">
+   Loading...
+  </div>;
+ return (
+  <>
+   <div>
+    <div className="mt-14 text-2xl font-bold grid place-items-center">
+     No Data network...
+    </div>
+   </div>
+  </>
+ );
 }
 
-export default SearchNetwork
+export default SearchNetwork;

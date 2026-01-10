@@ -7,13 +7,12 @@ import img from "/No-image.png"
 function SearchCard({ movie }) {
  const imgUrl = "https://image.tmdb.org/t/p/w185"; // smaller = faster
  const navigate = useNavigate();
-
  const isLoading = useApiStore((state) => state.isLoading);
 
  if (isLoading) {
-  return (
-   <Box sx={{ textAlign: "center", mt: 4, fontWeight: "bold" }} className="animate-pulse">Loading...</Box>
-  );
+   return <div className="mt-14 text-2xl font-bold animate-bounce grid place-items-center">
+   Loading...
+  </div>
  } 
 
  if (!movie || movie.length === 0) {
