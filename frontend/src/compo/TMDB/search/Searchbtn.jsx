@@ -1,6 +1,6 @@
 import InputBase from "@mui/material/InputBase";
 import { styled, alpha } from "@mui/material/styles";
-import useApiStore from "./store";
+import useApiStore from "../oth/store";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 
@@ -48,8 +48,8 @@ function Searchbtn() {
 
  return (
   <>
-   <Search>
-    <StyledInputBase
+   <Search >
+    <StyledInputBase 
      placeholder="Search…"
      inputProps={{ "aria-label": "search" }}
      value={val}

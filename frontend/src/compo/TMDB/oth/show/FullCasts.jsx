@@ -9,9 +9,15 @@ function FullCasts() {
  const { id } = useParams();
  const setCasts = useApiStore((state) => state.setCasts);
  const casts = useApiStore((state) => state.casts);
+ const isLoading = useApiStore((state) => state.isLoading);
+
  useEffect(() => {
   setCasts(id);
  }, [id, setCasts]);
+
+ if(isLoading){
+    return <div className="mx-auto grid place-items-center text-2xl font-bold my-14">Loading...</div>
+ }
  return (
   <>
    <Box sx={{ background:"white",}}>

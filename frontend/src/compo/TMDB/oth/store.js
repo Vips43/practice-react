@@ -7,6 +7,7 @@ const useApiStore = create((set) => ({
   trendingAll: [],
   movieDetail: [],
   casts: [],
+  searchResults: [],
 
   loadingPopular: false,
   loadingTopRated: false,
@@ -14,8 +15,22 @@ const useApiStore = create((set) => ({
 
   media_type: null,
   err: null,
+  query: null,
 
   setMedia_Type: (type) => set({ media_type: type }),
+  setQuery: (q) => set({ query: q }),
+
+  searchMovie: async (q) => {
+    set({ isLoading: true })
+    try {
+      const res = await fetch(`https://api.themoviedb.org/3/search/movie?query=${q}&api_key=${API_KEY}`)
+      const data = await res.json();
+      console.log(data)
+      set({ searchResults: data?.results, isLoading: false, err: null })
+    } catch (error) {
+      set({ isLoading: false, err: error })
+    }
+  },
 
   fetchPopular: async () => {
     try {
@@ -68,7 +83,7 @@ const useApiStore = create((set) => ({
     if (!id) return;
     set({ isLoading: true })
     try {
-      
+
       const endpoint =
         type === "tv"
           ? `https://api.themoviedb.org/3/tv/${id}?api_key=${API_KEY}`
@@ -83,7 +98,7 @@ const useApiStore = create((set) => ({
       set({ movieDetail: null, err: err });
     }
   },
-  
+
   setCasts: async (id) => {
     set({ isLoading: true })
     const url = `https://api.themoviedb.org/3/tv/${id}/aggregate_credits?api_key=${API_KEY}&language=en-US`

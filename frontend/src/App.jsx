@@ -21,9 +21,9 @@ import ToDoList from "./compo/todolist/ToDoList";
 import FakeStore from "./compo/fakestore/FakeStore";
 import Login from "./compo/user management/Login";
 import MovieDetails from "./compo/TMDB/MovieDetails";
-import SearchPage from "./compo/TMDB/oth/SearchPage";
 import TVShowDetails from "./compo/TMDB/TVShowDetails";
 import FullCasts from "./compo/TMDB/oth/show/FullCasts";
+import SearchPage from "./compo/TMDB/search/SearchPage";
 
 function App() {
 

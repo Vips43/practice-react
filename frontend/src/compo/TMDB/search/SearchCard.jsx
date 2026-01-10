@@ -1,9 +1,9 @@
 import Box from "@mui/material/Box";
-import Vote from "./oth/Vote";
 import { useNavigate } from "react-router-dom";
 import Typography from "@mui/material/Typography";
+import Vote from "../oth/Vote";
 
-function Card({ movie, children }) {
+function SearchCard({ movie }) {
  const imgUrl = "https://image.tmdb.org/t/p/w500";
  const navigate = useNavigate();
 
@@ -17,12 +17,13 @@ function Card({ movie, children }) {
     mt: 2,
    }}
   >
-   {children}
+   {/* {children} */}
 
    <Box
     sx={{
-     display: "flex",
-     overflowX: "auto",
+     display: "grid",
+     gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))",
+     placeItems: "center",
      pt: 1,
     }}
     className="no-scrollbar"
@@ -64,9 +65,6 @@ function Card({ movie, children }) {
          }}
         />
 
-        <Box sx={{ position: "absolute", bottom: -16, left: 8 }}>
-         <Vote vote={Math.floor(d.vote_average * 10)} />
-        </Box>
        </Box>
 
        {/* TEXT */}
@@ -86,4 +84,4 @@ function Card({ movie, children }) {
  );
 }
 
-export default Card;
+export default SearchCard;

@@ -14,10 +14,9 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-
 import Card from "../Card";
-import Searchbtn from "./Searchbtn";
 import useApiStore from "./store";
+import Searchbtn from '../search/Searchbtn'
 
 const drawerWidth = 240;
 const navItems = ["Movies", "TV Shows", "People", "More"];
