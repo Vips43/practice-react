@@ -43,7 +43,7 @@ function SearchPage() {
     }}
    >
     {/* LEFT SIDEBAR */}
-    <Box sx={{ width: 260, flexShrink: 0, position: "sticky", top: 5 }}>
+    <Box sx={{ width: {xs:180,sm:260}, flexShrink: 0, position: "sticky", top: 5 }}>
      <SearchList />
     </Box>
 

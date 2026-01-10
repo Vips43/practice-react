@@ -16,7 +16,8 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Card from "../Card";
 import useApiStore from "./store";
-import Searchbtn from '../search/Searchbtn'
+import Searchbtn from "../search/compo/Searchbtn"
+
 
 const drawerWidth = 240;
 const navItems = ["Movies", "TV Shows", "People", "More"];
