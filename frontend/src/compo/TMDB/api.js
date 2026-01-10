@@ -38,3 +38,16 @@ export const fetchCast = async (id) => {
     return data.results;
 }
 // fetchCast(95479)
+
+export const duration = (runtime) => {
+    let formattedTime;
+
+    if (!runtime || runtime === 0) return formattedTime = "Runtime: N/A"
+
+    const hours = Math.floor(runtime / 60);
+    const minutes = runtime % 60;
+
+    formattedTime = `${hours > 0 ? `${hours}h ` : ""} ${minutes}m`
+     return formattedTime;
+
+};

@@ -26,9 +26,13 @@ function SearchPage() {
 
  return (
   <Box sx={{ px: 2 }}>
-   <Typography variant="h5" sx={{ fontWeight: 700, mb: 2 }}>
+   <Typography variant="body1" sx={{ fontWeight: 600,display:"grid", placeItems:"center", my: 2 }}>
     searched for: {query}
    </Typography>
+
+   <Box>
+    
+   </Box>
 
    {/* MAIN LAYOUT */}
    <Box
@@ -74,7 +78,7 @@ function SearchAward() {
  return (
   <>
    <div>
-    <div className="mt-14 text-2xl font-bold grid place-items-center">
+    <div className="mt-14 text-2xl font-bold grid place-items-center animate-pulse">
      No Data for Awards...
     </div>
    </div>

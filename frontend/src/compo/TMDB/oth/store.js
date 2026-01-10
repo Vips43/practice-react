@@ -87,15 +87,12 @@ const useApiStore = create((set) => ({
     if (!id) return;
     set({ isLoading: true })
     try {
-
       const endpoint =
         type === "tv"
           ? `https://api.themoviedb.org/3/tv/${id}?api_key=${API_KEY}`
           : `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=en-US`;
-
       const res = await fetch(endpoint);
       const data = await res.json();
-      console.log(data);
       set({ movieDetail: data, isLoading: false, err: null });
     } catch (err) {
       console.error("Movie detail fetch error:", err);

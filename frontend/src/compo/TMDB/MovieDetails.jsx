@@ -4,20 +4,9 @@ import { useEffect } from "react";
 import { useParams } from "react-router";
 import useApiStore from "./oth/store";
 import Vote from "./oth/Vote";
+import { duration } from "./api";
+ 
 
-const duration = (runtime) => {
- if (!runtime || runtime === 0) return <span>Runtime: N/A</span>;
-
- const hours = Math.floor(runtime / 60);
- const minutes = runtime % 60;
-
- return (
-  <span>
-   {hours > 0 ? `${hours}h ` : ""}
-   {minutes}m
-  </span>
- );
-};
 function MovieDetails() {
  const { id } = useParams();
  const imgUrl = "https://image.tmdb.org/t/p/w500";
