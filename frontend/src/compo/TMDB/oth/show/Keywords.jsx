@@ -8,21 +8,28 @@ import { useParams } from "react-router";
 function Keywords({ type }) {
  const { id } = useParams();
  let [keys, setKeys] = useState(null);
+ let [isLoading, setIsLoading] = useState(false);
 
  useEffect(() => {
   const getData = async () => {
    if (!id) return;
+   setIsLoading(true);
    const data = await keywords(id, type);
+   setIsLoading(false);
    setKeys(data);
   };
   getData();
- }, [id]);
- 
- keys = type === "tv" ? keys?.results : keys?.keywords;
- 
-//  if (keys.length === 0) return <div>No keywords available</div>;
 
- if (!keys) {
+  return () => {
+   setKeys(null);
+  };
+ }, [id]);
+
+ keys = type === "tv" ? keys?.results : keys?.keywords;
+
+ //  if (keys.length === 0) return <div>No keywords available</div>;
+
+ if (isLoading) {
   return <Typography sx={{ opacity: 0.5 }}>Loading keywords…</Typography>;
  }
 
@@ -53,6 +60,7 @@ function Keywords({ type }) {
      gap: 1,
     }}
    >
+    {isLoading? <div className="p-2 grid place-items-center animate-pulse">Loading...</div> : ''}
     {keys?.map((k) => (
      <Chip
       key={k.id}

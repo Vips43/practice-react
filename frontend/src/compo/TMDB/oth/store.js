@@ -28,7 +28,7 @@ const useApiStore = create((set) => ({
     try {
       const res = await fetch(`https://api.themoviedb.org/3/search/${type}?query=${q}&api_key=${API_KEY}`)
       const data = await res.json();
-      console.log(data)
+      console.log("searched for ", type, data)
       setTimeout(() => {
         set({ searchResults: data, isLoading: false, err: null })
       }, 2000);

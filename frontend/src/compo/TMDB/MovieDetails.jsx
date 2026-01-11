@@ -19,6 +19,10 @@ function MovieDetails() {
   useApiStore.getState().setMovieDetail(id, "movie");
  }, [id]);
 
+ if(movieDetail.results===0){
+  return "No results found"
+ }
+
  if (isLoading)
   return <div className="text-center text-2xl font-bold my-20">Loading...</div>;
 
