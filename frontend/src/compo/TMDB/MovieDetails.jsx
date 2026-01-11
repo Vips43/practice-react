@@ -5,10 +5,12 @@ import { useParams } from "react-router";
 import useApiStore from "./oth/store";
 import Vote from "./oth/Vote";
 import { duration } from "./api";
+import MovieFullDetail from "./movie/MovieFullDetail";
 
 function MovieDetails() {
- const { id } = useParams();
  const imgUrl = "https://image.tmdb.org/t/p/w500";
+ const { id } = useParams();
+
  const movieDetail = useApiStore((state) => state.movieDetail);
  const setMovieDetail = useApiStore((state) => state.setMovieDetail);
  const isLoading = useApiStore((state) => state.isLoading);
@@ -190,9 +192,12 @@ function MovieDetails() {
      </Box>
     </Box>
    </Box>
-   <Box>
-    
-   </Box>
+
+   {/* full details */}
+
+   <>
+    <MovieFullDetail movie={movieDetail} />
+   </>
   </>
  );
 }

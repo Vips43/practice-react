@@ -45,6 +45,7 @@ export default function SearchList() {
      background: "#01B4E4",
      color: "white",
      fontWeight: "bold",
+     fontSize: {xs:'.85rem', sm:"1rem",md:"1.15rem", lg:"1.25rem"}
     }}
     variant="body1"
    >
@@ -70,7 +71,7 @@ export default function SearchList() {
          },
         }}
        >
-        <ListItemText primary={item.label} sx={{fontSize: ".2rem",}} />
+        <ListItemText primary={item.label} sx={{ '& .MuiListItemText-primary': { fontSize: {xs:'.7rem', sm:"0.9rem",md:"1rem", lg:"1.15rem"} },transition:"all .3s ease-in" }}   />
        </ListItemButton>
       );
      })}

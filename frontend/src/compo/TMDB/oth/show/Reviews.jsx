@@ -29,7 +29,7 @@ function RatingBadge({ rate }) {
  );
 }
 
-export default function Reviews() {
+export default function Reviews({ type }) {
  const [reviews, setReviews] = React.useState([]);
  const { id } = useParams();
  const theme = useTheme();
@@ -37,7 +37,7 @@ export default function Reviews() {
  React.useEffect(() => {
   const getData = async () => {
    if (!id) return;
-   const data = await fetchReviews(id);
+   const data = await fetchReviews(id, type);
    setReviews(data || []);
   };
   getData();

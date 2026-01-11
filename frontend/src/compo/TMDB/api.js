@@ -3,17 +3,17 @@ const TMDB_Key = `9d2ac0e411cefe72dbf19a4500943adb`;
 const movieAPI = async () => {
     const res = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${TMDB_Key}`)
     const data = await res.json();
+ 
     const fdata = data?.results?.filter(
-        (m) => m.poster_path !== null && m.backdrop_path !== null
-    );
+        (m) => m.poster_path !== null && m.backdrop_path !== null);
     return fdata;
 }
+export default movieAPI;
 
-export default movieAPI
-
-export const keywords = async (id) => {
-    const res = await fetch(`https://api.themoviedb.org/3/tv/${id}/keywords?api_key=${TMDB_Key}`)
+export const keywords = async (id, type) => {
+    const res = await fetch(`https://api.themoviedb.org/3/${type}/${id}/keywords?api_key=${TMDB_Key}`)
     const data = await res.json();
+    console.log("keyword",data)
     return data;
 }
 // keywords(66732)
@@ -23,21 +23,26 @@ export const videos = async (id) => {
     return data;
 }
 // videos(66732)
-export const fetchReviews = async (id) => {
-    const res = await fetch(`https://api.themoviedb.org/3/tv/${id}/reviews?api_key=${TMDB_Key}`)
+export const fetchReviews = async (id, type) => {
+    const res = await fetch(`https://api.themoviedb.org/3/${type}/${id}/reviews?api_key=${TMDB_Key}`)
     const data = await res.json();
-    console.log(data)
+    console.log("fetchReviews",data)
     return data.results;
 }
 // reviews(66732)
 
 export const fetchCast = async (id) => {
-    const res = await fetch(`https://api.themoviedb.org/3/tv/${id}/aggregate_credits?api_key=${TMDB_Key}`)
+    const res = await fetch(`https://api.themoviedb.org/3/movie/${id}/credits?api_key=${TMDB_Key}`)
+    const data = await res.json();
+    return data;
+}
+export const fetchContentRating = async (id) => {
+    const res = await fetch(`https://api.themoviedb.org/3/tv/${id}/content_ratings?api_key=${TMDB_Key}`)
     const data = await res.json();
     console.log(data)
-    return data.results;
+    return data;
 }
-// fetchCast(95479)
+// fetchContentRating(66732)
 
 export const duration = (runtime) => {
     let formattedTime;

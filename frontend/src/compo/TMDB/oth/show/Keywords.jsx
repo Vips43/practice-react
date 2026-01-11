@@ -1,39 +1,37 @@
 import Chip from "@mui/material/Chip";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { keywords } from "../../api";
 import { useParams } from "react-router";
 
-function Keywords() {
+function Keywords({ type }) {
  const { id } = useParams();
- const [keys, setKeys] = useState(null);
+ let [keys, setKeys] = useState(null);
 
  useEffect(() => {
   const getData = async () => {
    if (!id) return;
-   const data = await keywords(id);
+   const data = await keywords(id, type);
    setKeys(data);
   };
-
   getData();
  }, [id]);
+ 
+ keys = type === "tv" ? keys?.results : keys?.keywords;
+ 
+//  if (keys.length === 0) return <div>No keywords available</div>;
 
  if (!keys) {
   return <Typography sx={{ opacity: 0.5 }}>Loading keywords…</Typography>;
  }
 
- if (!keys.results?.length) {
-  return <Typography sx={{ opacity: 0.5 }}>No keywords available</Typography>;
- }
-
  return (
   <Box
    sx={{
-    border: "1px solid #2f2f2f",
     borderRadius: 2,
     p: 2,
-    background: "#1f1f1f",
+    background: "#fff",
    }}
   >
    <Typography
@@ -42,7 +40,7 @@ function Keywords() {
      fontWeight: 600,
      mb: 1,
      opacity: 0.8,
-     color:"white",
+     color: "black",
     }}
    >
     Keywords
@@ -55,7 +53,7 @@ function Keywords() {
      gap: 1,
     }}
    >
-    {keys.results.map((k) => (
+    {keys?.map((k) => (
      <Chip
       key={k.id}
       label={k.name}

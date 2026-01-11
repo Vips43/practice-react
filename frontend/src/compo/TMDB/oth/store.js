@@ -14,14 +14,14 @@ const useApiStore = create((set) => ({
   loadingTrending: false,
 
   searchtype: "movie",
-  
+
   err: null,
   query: null,
 
   setSearchType: (type) => set({ searchtype: type }),
   setQuery: (q) => set({ query: q }),
 
-  searchMovie: async (q , type) => {
+  searchMovie: async (q, type) => {
     set({ isLoading: true })
 
     try {
@@ -100,21 +100,24 @@ const useApiStore = create((set) => ({
     }
   },
 
-  setCasts: async (id) => {
-    set({ isLoading: true })
-    const url = `https://api.themoviedb.org/3/tv/${id}/aggregate_credits?api_key=${API_KEY}&language=en-US`
+  setCasts: async (id, type) => {
+    
+    set({ isLoading: true });
+
+    const url = `https://api.themoviedb.org/3/${type}/${id}/aggregate_credits?api_key=${API_KEY}&language=en-US`;
     try {
       const res = await fetch(url);
       const data = await res.json();
-      console.log(data)
-      setTimeout(() => {
-        set({ casts: data, isLoading: false })
-      }, 3000);
+      console.log(data);
+
+      set({ casts: data, isLoading: false, err: null });
+
     } catch (error) {
-      set({ isLoading: false, err: error })
+      set({ isLoading: false, err: error });
     }
   }
 
 }));
 
 export default useApiStore;
+// https://api.themoviedb.org/3/movie/1242898/credits?api_key=15df07cabb8e9d8449809ef48d3acc33&language=en-US

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import Cast from "./Cast";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -14,9 +14,10 @@ function ShowExtraDetails({ url }) {
  const { id } = useParams();
  const setCasts = useApiStore((state) => state.setCasts);
  const casts = useApiStore((state) => state.casts);
-  const type= 'show'
+  const type= 'tv';
+
  useEffect(() => {
-  if (id) setCasts(id);
+  if (id) setCasts(id, type);
  }, [id, setCasts]);
  if (!casts) return null;
 
@@ -76,7 +77,7 @@ function ShowExtraDetails({ url }) {
     }}
    >
     <CurrSeason />
-    <Keywords url={url} />
+    <Keywords url={url} type={"tv"} />
    </Box>
    <Box
     sx={{

@@ -5,24 +5,39 @@ import useApiStore from "../store";
 import { useParams } from "react-router";
 import { useEffect } from "react";
 
-function FullCasts() {
+function FullCasts({ type }) {
  const { id } = useParams();
+ 
  const setCasts = useApiStore((state) => state.setCasts);
  const casts = useApiStore((state) => state.casts);
  const isLoading = useApiStore((state) => state.isLoading);
+ 
+ type = type === "tv" ? "aggregate_credits" : "credits";
 
  useEffect(() => {
   setCasts(id);
  }, [id, setCasts]);
 
- if(isLoading){
-    return <div className="mx-auto grid place-items-center text-2xl font-bold my-14">Loading...</div>
+ if (isLoading) {
+  return (
+   <div className="mx-auto grid place-items-center text-2xl font-bold my-14 animate-bounce">
+    Loading...
+   </div>
+  );
  }
+
  return (
   <>
-   <Box sx={{ background:"white",}}>
+   <Box sx={{ background: "white" }}>
     <Typography>Series Cast length</Typography>
-    <Box sx={{ p: 4, display: "grid", gridTemplateColumns:{ xs:"1fr",sm:"1fr 1fr"}, gap: 2 }}>
+    <Box
+     sx={{
+      p: 4,
+      display: "grid",
+      gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" },
+      gap: 2,
+     }}
+    >
      <CastStrips data={casts.cast} title={`Series Cast `} type="cast" />
      <CastStrips data={casts.crew} title={`Series Crew `} type="crew" />
     </Box>

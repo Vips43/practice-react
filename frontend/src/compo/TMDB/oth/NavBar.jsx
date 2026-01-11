@@ -16,8 +16,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Card from "../Card";
 import useApiStore from "./store";
-import Searchbtn from "../search/compo/Searchbtn"
-
+import Searchbtn from "../search/compo/Searchbtn";
 
 const drawerWidth = 240;
 const navItems = ["Movies", "TV Shows", "People", "More"];
@@ -25,17 +24,15 @@ const navItems = ["Movies", "TV Shows", "People", "More"];
 function NavBar({ window }) {
  const [mobileOpen, setMobileOpen] = React.useState(false);
 
- const {
-  popular,
-  topRated,
-  trendingAll,
-  fetchPopular,
-  fetchTopRated,
-  fetchTrendingAll,
-  loadingPopular,
-  loadingTopRated,
-  loadingTrending,
- } = useApiStore();
+ const popular = useApiStore((s) => s.popular);
+ const topRated = useApiStore((s) => s.topRated);
+ const trendingAll = useApiStore((s) => s.trendingAll);
+ const fetchPopular = useApiStore((s) => s.fetchPopular);
+ const fetchTopRated = useApiStore((s) => s.fetchTopRated);
+ const fetchTrendingAll = useApiStore((s) => s.fetchTrendingAll);
+ const loadingPopular = useApiStore((s) => s.loadingPopular);
+ const loadingTopRated = useApiStore((s) => s.loadingTopRated);
+ const loadingTrending = useApiStore((s) => s.loadingTrending);
 
  React.useEffect(() => {
   fetchPopular();
@@ -117,8 +114,10 @@ function NavBar({ window }) {
         key={item}
         sx={{
          color: "#fff",
-         textTransform: "none",width:"fit-content",
-         fontWeight: 500, whiteSpace:"nowrap"
+         textTransform: "none",
+         width: "fit-content",
+         fontWeight: 500,
+         whiteSpace: "nowrap",
         }}
        >
         {item}
