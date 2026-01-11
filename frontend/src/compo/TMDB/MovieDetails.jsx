@@ -94,7 +94,7 @@ function MovieDetails() {
            <Box
             component="img"
             src={`${imgUrl}${p.logo_path}`}
-            sx={{ width: 80, mb: 0.5 }}
+            sx={{ width: 80, mb: 0.5, mx:"auto" }}
             alt={p.name}
            />
           )}
