@@ -8,6 +8,8 @@ import useApiStore from "../store";
 import img from "/No-image.png";
 
 function Cast({ cast, url, cardWidth = 120 }) {
+ console.log("Cast not render")
+
  const isLoading = useApiStore((state) => state.isLoading);
  const slicedCast = cast?.cast?.slice(0, 10);
  if (isLoading) {
@@ -19,7 +21,7 @@ function Cast({ cast, url, cardWidth = 120 }) {
  }
 
  return (
-  <Box sx={{ display: "flex", gap: 1, overflow: "auto", py: 0.2 }}
+  <Box sx={{ display: "flex", gap: 1, overflow: "auto", py: 0.2, background:"white" }}
    className={"no-scrollbar"} >
    {slicedCast?.map((c, i) => (
     <Card

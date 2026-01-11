@@ -17,13 +17,14 @@ function MovieFullDetail({ movie }) {
  useEffect(() => {
   if (!id) return;
   const getData = async () => {
-   const data = await fetchCast(id);
+   const data = await fetchCast(id, type, 'credits');
    setCast(data);
   };
   getData();
- }, [id]);
+ }, [id,type]);
 
  if (!cast) return;
+ console.log("mFD not render");
 
  return (
   <>
@@ -31,7 +32,7 @@ function MovieFullDetail({ movie }) {
     sx={{
      display: "grid",
      p: 1,
-     gap: 1,
+     gap: 1,background:"white",
      gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" },
     }}
    >
@@ -68,13 +69,11 @@ function MovieFullDetail({ movie }) {
       >
        Full Cast&Crew →
       </Button>
+     <Reviews type={type} />
      </Box>
-     <FullCasts type={type}/>
     </>
     <>
      <OthInfo movie={movie} />
-     <Keywords type={type} />
-     <Reviews type={type} />
     </>
    </Box>
   </>

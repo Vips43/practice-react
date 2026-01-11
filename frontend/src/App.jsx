@@ -10,7 +10,7 @@ import Cuisines from "./form/Cuisines";
 import Home from "./form/Home";
 import Navig from "./form/Navig";
 import About from "./form/About";
-import { RouterProvider } from "react-router";
+import { RouterProvider, useParams } from "react-router";
 import RootLayout from "./Layout/RootLayout";
 import PasswordGen from "./compo/PasswordGen";
 import NotesApp from "./compo/NotesApp/NotesApp";

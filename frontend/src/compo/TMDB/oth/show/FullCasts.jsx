@@ -1,22 +1,28 @@
 import { Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import CastStrips from "../CastStrips";
-import useApiStore from "../store";
 import { useParams } from "react-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { fetchCast } from "../../api";
 
-function FullCasts({ type }) {
- const { id } = useParams();
- 
- const setCasts = useApiStore((state) => state.setCasts);
- const casts = useApiStore((state) => state.casts);
- const isLoading = useApiStore((state) => state.isLoading);
- 
- type = type === "tv" ? "aggregate_credits" : "credits";
+function FullCasts() {
+ const { id, type } = useParams();
+ const [casts, setCast] = useState({ cast: [], crew: [] });
+ const [isLoading, setIsLoading] = useState(false);
 
  useEffect(() => {
-  setCasts(id);
- }, [id, setCasts]);
+  if (!id || !type) return;
+
+  const getData = async () => {
+   setIsLoading(true);
+   
+   const section = type === "tv" ? "aggregate_credits" : "credits";
+   const data = await fetchCast( id, type, section );
+   setIsLoading(false);
+   setCast(data || { cast: [], crew: [] });
+  };
+  getData();
+ }, [id, type]);
 
  if (isLoading) {
   return (
@@ -25,6 +31,8 @@ function FullCasts({ type }) {
    </div>
   );
  }
+ 
+ if (!casts) return;
 
  return (
   <>

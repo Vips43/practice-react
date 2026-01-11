@@ -6,6 +6,7 @@ const useApiStore = create((set) => ({
   topRated: [],
   trendingAll: [],
   movieDetail: [],
+  tvDetail: [],
   casts: [],
   searchResults: [],
 
@@ -93,7 +94,7 @@ const useApiStore = create((set) => ({
           : `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=en-US`;
       const res = await fetch(endpoint);
       const data = await res.json();
-      set({ movieDetail: data, isLoading: false, err: null });
+      set({ [type === "tv" ? "tvDetail" : "movieDetail"]: data, isLoading: false, err: null });
     } catch (err) {
       console.error("Movie detail fetch error:", err);
       set({ movieDetail: null, err: err });
@@ -101,7 +102,7 @@ const useApiStore = create((set) => ({
   },
 
   setCasts: async (id, type) => {
-    
+
     set({ isLoading: true });
 
     const url = `https://api.themoviedb.org/3/${type}/${id}/aggregate_credits?api_key=${API_KEY}&language=en-US`;

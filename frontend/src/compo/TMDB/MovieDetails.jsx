@@ -12,12 +12,12 @@ function MovieDetails() {
  const { id } = useParams();
 
  const movieDetail = useApiStore((state) => state.movieDetail);
- const setMovieDetail = useApiStore((state) => state.setMovieDetail);
  const isLoading = useApiStore((state) => state.isLoading);
 
  useEffect(() => {
-  if (id) setMovieDetail(id, "movie");
- }, [id, setMovieDetail]);
+  if (!id) return
+  useApiStore.getState().setMovieDetail(id, "movie");
+ }, [id]);
 
  if (isLoading)
   return <div className="text-center text-2xl font-bold my-20">Loading...</div>;

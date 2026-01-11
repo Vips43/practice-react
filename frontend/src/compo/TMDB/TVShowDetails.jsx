@@ -14,7 +14,8 @@ function TVShowDetails() {
  const setMovieDetail = useApiStore((state) => state.setMovieDetail);
 
  useEffect(() => {
-  if (id) setMovieDetail(id, "tv");
+  if (!id) return;
+  useApiStore.getState().setMovieDetail(id, "tv");
  }, [id, setMovieDetail]);
 
  /* 🔑 PREVENT CRASH ON REFRESH */
