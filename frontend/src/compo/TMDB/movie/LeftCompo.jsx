@@ -52,6 +52,7 @@ function LeftCompo({ cast, type, imgUrl }) {
      <Images type={type} imgUrl={imgUrl} />
      <Videos type={type} />
     </Box>
+    
    </Box>
   </>
  );

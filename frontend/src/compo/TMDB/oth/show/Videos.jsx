@@ -27,7 +27,7 @@ function Videos({ type }) {
  const trailers = data.results?.filter(
   (v) => v.site === "YouTube" && v.type === "Trailer"
  );
-
+  
  if (!trailers.length) {
   return <Typography>No trailers available</Typography>;
  }
