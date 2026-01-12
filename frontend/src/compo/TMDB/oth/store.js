@@ -15,10 +15,12 @@ const useApiStore = create((set) => ({
   loadingTrending: false,
 
   searchtype: "movie",
+  directorInfo: { name: "", jobs: "", topCrew: [] },
 
   err: null,
   query: null,
 
+  setDirectorInfo: (payload) => set({ directorInfo: payload }),
   setSearchType: (type) => set({ searchtype: type }),
   setQuery: (q) => set({ query: q }),
 
@@ -37,11 +39,11 @@ const useApiStore = create((set) => ({
     }
   },
 
-  fetchPopular: async () => {
+  fetchPopular: async (type) => {
     try {
       set({ loadingPopular: true });
       const res = await fetch(
-        `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}`
+        `https://api.themoviedb.org/3/${type}/popular?api_key=${API_KEY}`
       );
       const data = await res.json();
       const filtered = data?.results?.filter(
@@ -53,11 +55,11 @@ const useApiStore = create((set) => ({
     }
   },
 
-  fetchTopRated: async () => {
+  fetchTopRated: async (type) => {
     try {
       set({ loadingTopRated: true });
       const res = await fetch(
-        `https://api.themoviedb.org/3/movie/top_rated?api_key=${API_KEY}`
+        `https://api.themoviedb.org/3/${type}/top_rated?api_key=${API_KEY}`
       );
       const data = await res.json();
       const filtered = data?.results?.filter(
@@ -86,6 +88,7 @@ const useApiStore = create((set) => ({
   },
   setMovieDetail: async (id, type = "movie") => {
     if (!id) return;
+    console.log(type)
     set({ isLoading: true })
     try {
       const endpoint =
@@ -94,12 +97,16 @@ const useApiStore = create((set) => ({
           : `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=en-US`;
       const res = await fetch(endpoint);
       const data = await res.json();
+
+      console.log(data)
+      
       set({ [type === "tv" ? "tvDetail" : "movieDetail"]: data, isLoading: false, err: null });
     } catch (err) {
       console.error("Movie detail fetch error:", err);
       set({ movieDetail: null, err: err });
     }
   },
+  resetMovieDetail: () => set({ movieDetail: null }),
 
   setCasts: async (id, type) => {
 
@@ -109,7 +116,7 @@ const useApiStore = create((set) => ({
     try {
       const res = await fetch(url);
       const data = await res.json();
-      console.log(data);
+      // console.log(data);
 
       set({ casts: data, isLoading: false, err: null });
 

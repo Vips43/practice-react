@@ -2,12 +2,15 @@ import { Box, Button, Typography } from "@mui/material";
 import Cast from "../oth/show/Cast";
 import { Link, useParams } from "react-router";
 import Reviews from "../oth/show/Reviews";
+import Images from "../oth/Images";
+import Videos from "../oth/show/Videos";
 
 function LeftCompo({ cast, type, imgUrl }) {
  const { id } = useParams();
 
  return (
   <>
+   
    <Box sx={{ flex: 1, minWidth: 0 }}>
     <Typography variant="h5" fontWeight={600} mb={1}>
      Series Cast
@@ -46,6 +49,8 @@ function LeftCompo({ cast, type, imgUrl }) {
       Reviews
      </Typography>
      <Reviews type={type} />
+     <Images type={type} imgUrl={imgUrl} />
+     <Videos type={type} />
     </Box>
    </Box>
   </>

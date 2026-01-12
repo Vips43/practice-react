@@ -2,8 +2,7 @@ import InsertLinkIcon from "@mui/icons-material/InsertLink";
 import { Box, Typography } from "@mui/material";
 import Keywords from "../oth/show/Keywords";
 
-function OthInfo({ movie }) {
- console.log("OI not render");
+function OthInfo({ movie, type }) {
 
  const getLanguageName = (code) => {
   if (!code) return "Unknown";
@@ -45,7 +44,7 @@ function OthInfo({ movie }) {
     <Typography sx={{ fontSize: ".95rem", mb: 2 }}>
      {formatMoney(movie?.revenue)}
     </Typography>
-    <Keywords type={"movie"} />
+    <Keywords type={type} />
    </Box>
   </Box>
  );

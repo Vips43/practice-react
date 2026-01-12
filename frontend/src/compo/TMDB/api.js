@@ -17,8 +17,9 @@ export const keywords = async (id, type) => {
     return data;
 }
 // keywords(66732)
-export const videos = async (id) => {
-    const res = await fetch(`https://api.themoviedb.org/3/tv/${id}/videos?api_key=${TMDB_Key}`)
+export const videos = async (id, type) => {
+    if(!id || !type) return;
+    const res = await fetch(`https://api.themoviedb.org/3/${type}/${id}/videos?api_key=${TMDB_Key}`)
     const data = await res.json();
     return data;
 }
@@ -36,9 +37,38 @@ export const fetchCast = async (id, type, s) => {
 
     const res = await fetch(`https://api.themoviedb.org/3/${type}/${id}/${s}?api_key=${TMDB_Key}`);
     const data = await res.json();
-    console.log("fetchCast "+" for "+type, data)
+
+    const dir = data.crew.filter(c => c.job === "Director").slice(0, 1).map(m => m.name).join('')
+    const topCrew = Array.from(
+        new Map(
+            data.crew.map(({ name, job }) => [name, { name, job }])
+        ).values()
+    ).slice(0, 3);
+
+    const jobs = data.crew.filter(c => c.name === dir).map(j => j.job).join(", ")
+
+    console.log(data, topCrew)
+    return { data, dir, jobs, topCrew };
+}
+// fetchCast(238, 'movie', "credits")
+
+export const fetchImages = async (id, type) => {
+    if (!id || !type) return;
+
+    const res = await fetch(`https://api.themoviedb.org/3/${type}/${id}/images?api_key=${TMDB_Key}`);
+    const data = await res.json();
+    console.log("fetchImages " + " for " + type, data)
     return data;
 }
+export const fetchRandom = async (id, type, oth) => {
+    if (!id || !type || !oth) return;
+
+    const res = await fetch(`https://api.themoviedb.org/3/${type}/${id}/${oth}?api_key=${TMDB_Key}`);
+    const data = await res.json();
+    // console.log("fetchImages " + " for " + type, data)
+    return data;
+}
+// fetchImages(550, "movie")
 export const fetchContentRating = async (id) => {
     const res = await fetch(`https://api.themoviedb.org/3/tv/${id}/content_ratings?api_key=${TMDB_Key}`)
     const data = await res.json();

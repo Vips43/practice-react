@@ -10,12 +10,13 @@ function TVShowDetails() {
  const imgUrl = "https://image.tmdb.org/t/p/w500";
  const { id } = useParams();
 
- const movieDetail = useApiStore((state) => state.movieDetail);
+ const movieDetail = useApiStore((state) => state.tvDetail);
  const setMovieDetail = useApiStore((state) => state.setMovieDetail);
+ const directorInfo = useApiStore((state) => state.directorInfo);
 
  useEffect(() => {
   if (!id) return;
-  useApiStore.getState().setMovieDetail(id, "tv");
+  setMovieDetail(id, "tv");
  }, [id, setMovieDetail]);
 
  /* 🔑 PREVENT CRASH ON REFRESH */
@@ -26,6 +27,8 @@ function TVShowDetails() {
    </Box>
   );
  }
+ 
+ console.log(movieDetail)
 
  return (
   <>
@@ -52,6 +55,7 @@ function TVShowDetails() {
      {/* LEFT COLUMN */}
      <Box
       sx={{
+        color:"white",
        width: { xs: "100%", sm: 300 },
        flexShrink: 0,
       }}
@@ -64,7 +68,7 @@ function TVShowDetails() {
          ? `${imgUrl}${movieDetail?.poster_path}`
          : "/no-poster.png"
        }
-       alt={movieDetail.name}
+       alt={movieDetail.name||'no image'}
        sx={{
         width: "100%",
         borderRadius: 2,
@@ -72,56 +76,55 @@ function TVShowDetails() {
        }}
       />
 
-      {/* PRODUCTION COMPANIES */}
+
       <Box
-       sx={{
-        background: "#2c2b2b79",
-        p: 1,
-        borderRadius: 1,
-
-        /* 🔑 GRID ON MOBILE, COLUMNS ON DESKTOP */
-        display: { xs: "block" },
-        gridTemplateColumns: {  xs: "unset" },
-
-        columnCount: { xs: 2, sm: 3, },
-        columnGap: "10px",
-       }}
-      >
-       {movieDetail?.production_companies?.map((p) => (
-        <Box
-         key={p.id}
-         sx={{
-          background: "#b1b1b1",
-          p: 1,
-          mb: 1,
-          boxShadow: "1px 1px 5px #1a191967",
-          borderRadius: ".3rem",
-          textAlign: "center",
-
-          width: "100%",
-          display: "block",
-          breakInside: "avoid",
-         }}
-        >
-         {p.logo_path && (
-          <Box
-           component="img"
-           src={`${imgUrl}${p.logo_path}`}
-           sx={{ width: 80, mb: 0.5 }}
-           alt={p.name}
-          />
-         )}
+        sx={{
+         display: "flex",
+         flexWrap: "wrap",
+         gap: 3,
+         alignItems: "flex-start",
+        }}
+       >
+        {/* DIRECTOR */}
+        <Box sx={{ minWidth: 120 }}>
          <Typography
           sx={{
-           fontSize: "0.8rem",
+           fontWeight: 600,
            textDecoration: "underline",
+           lineHeight: 1.2,
           }}
          >
-          {p.name}
+          {directorInfo.name}
+         </Typography>
+         <Typography
+          variant="caption"
+          sx={{ opacity: 0.7, display: "block", mt: 0.3 }}
+         >
+          {directorInfo.jobs}
          </Typography>
         </Box>
-       ))}
-      </Box>
+
+        {/* TOP CREW */}
+        {directorInfo?.topCrew?.map((t, i) => (
+         <Box key={i} sx={{ minWidth: 120 }}>
+          <Typography
+           sx={{
+            fontWeight: 600,
+            textDecoration: "underline",
+            lineHeight: 1.2,
+           }}
+          >
+           {t.name}
+          </Typography>
+          <Typography
+           variant="caption"
+           sx={{ opacity: 0.7, mt: 0.3 }}
+          >
+           {t.job}
+          </Typography>
+         </Box>
+        ))}
+       </Box>
      </Box>
 
      {/* RIGHT COLUMN */}
@@ -154,9 +157,7 @@ function TVShowDetails() {
         h="h-20"
        />
        <Typography>
-        User Score:
-        <span className="text-neutral-300"> {movieDetail.vote_count}</span>
-        <br />
+        
         <strong>In Production:</strong>{" "}
         {movieDetail.in_production ? "Yes" : "No"}
         <br />

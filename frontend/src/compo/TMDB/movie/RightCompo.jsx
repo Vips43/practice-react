@@ -1,11 +1,16 @@
 import React from 'react'
 import OthInfo from './OthInfo'
+import Companies from '../oth/Companies'
+import { Box } from '@mui/material'
+import Videos from '../oth/show/Videos'
 
-function RightCompo({movie}) {
+function RightCompo({movie, type}) {
   return (
-    <>
-    <OthInfo movie={movie}  />
-    </>
+    <Box>
+    <OthInfo movie={movie} type={type} />
+    <Companies movie={movie} />
+    
+    </Box>
   )
 }
 

@@ -17,12 +17,15 @@ import Button from "@mui/material/Button";
 import Card from "../Card";
 import useApiStore from "./store";
 import Searchbtn from "../search/compo/Searchbtn";
+import Toggler from "./Toggler";
 
 const drawerWidth = 240;
 const navItems = ["Movies", "TV Shows", "People", "More"];
 
 function NavBar({ window }) {
  const [mobileOpen, setMobileOpen] = React.useState(false);
+ const [pType, setPType] = React.useState("movie");
+ const [rType, setRType] = React.useState("movie");
 
  const popular = useApiStore((s) => s.popular);
  const topRated = useApiStore((s) => s.topRated);
@@ -35,10 +38,10 @@ function NavBar({ window }) {
  const loadingTrending = useApiStore((s) => s.loadingTrending);
 
  React.useEffect(() => {
-  fetchPopular();
-  fetchTopRated();
+  fetchPopular(pType);
+  fetchTopRated(rType);
   fetchTrendingAll();
- }, [fetchPopular, fetchTopRated, fetchTrendingAll]);
+ }, [pType, rType, fetchPopular, fetchTopRated, fetchTrendingAll]);
 
  const handleDrawerToggle = () => {
   setMobileOpen((prev) => !prev);
@@ -46,7 +49,7 @@ function NavBar({ window }) {
 
  const drawer = (
   <Box sx={{ textAlign: "center", p: 2 }}>
-   <Typography variant="h6" sx={{ my: 2, fontWeight: 700, letterSpacing: 2 }}>
+   <Typography variant="h6" sx={{ my: 2, fontWeight: 700, letterSpacing: 2 }} className="tmdb-text-gradient">
     TMDB
    </Typography>
 
@@ -149,15 +152,21 @@ function NavBar({ window }) {
     </Box>
 
     <Card movie={popular} load={loadingPopular}>
-     <Typography sx={{ fontSize: "1.5rem", fontWeight: 600, px: 2 }}>
-      Popular
-     </Typography>
+     <Box sx={{ display: "flex", alignItems: "center" }}>
+      <Typography sx={{ fontSize: "1.5rem", fontWeight: 600, px: 2 }}>
+       Popular
+      </Typography>
+      <Toggler type={pType} set={setPType} />
+     </Box>
     </Card>
 
     <Card movie={topRated} load={loadingTopRated}>
-     <Typography sx={{ fontSize: "1.5rem", fontWeight: 600, px: 2 }}>
-      Top Rated
-     </Typography>
+     <Box sx={{ display: "flex", alignItems: "center" }}>
+      <Typography sx={{ fontSize: "1.5rem", fontWeight: 600, px: 2 }}>
+       Top Rated
+      </Typography>
+      <Toggler type={rType} set={setRType} />
+     </Box>
     </Card>
 
     <Card movie={trendingAll} load={loadingTrending}>

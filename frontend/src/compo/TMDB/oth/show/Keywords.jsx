@@ -11,19 +11,33 @@ function Keywords({ type }) {
  let [isLoading, setIsLoading] = useState(false);
 
  useEffect(() => {
+  const controller = new AbortController();
+  const { signal } = controller;
+
   const getData = async () => {
    if (!id) return;
    setIsLoading(true);
-   const data = await keywords(id, type);
-   setIsLoading(false);
-   setKeys(data);
+   try {
+    const data = await keywords(id, type, { signal });
+    setIsLoading(false);
+    setKeys(data);
+   } catch (error) {
+    if (error.name === "AbortError") {
+     console.log("Request was cancelled");
+    } else {
+     console.error("fetch error:", error);
+    }
+   } finally {
+    if (!signal.aborted) setIsLoading(false);
+   }
   };
   getData();
 
   return () => {
+   controller.abort();
    setKeys(null);
   };
- }, [id]);
+ }, [id, type]);
 
  keys = type === "tv" ? keys?.results : keys?.keywords;
 
@@ -39,6 +53,7 @@ function Keywords({ type }) {
     borderRadius: 2,
     p: 2,
     background: "#fff",
+    height:"fit-content",
    }}
   >
    <Typography
@@ -60,7 +75,11 @@ function Keywords({ type }) {
      gap: 1,
     }}
    >
-    {isLoading? <div className="p-2 grid place-items-center animate-pulse">Loading...</div> : ''}
+    {isLoading ? (
+     <div className="p-2 grid place-items-center animate-pulse">Loading...</div>
+    ) : (
+     ""
+    )}
     {keys?.map((k) => (
      <Chip
       key={k.id}

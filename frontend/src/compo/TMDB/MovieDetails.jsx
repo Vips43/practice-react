@@ -13,14 +13,22 @@ function MovieDetails() {
 
  const movieDetail = useApiStore((state) => state.movieDetail);
  const isLoading = useApiStore((state) => state.isLoading);
+ const directorInfo = useApiStore((state) => state.directorInfo);
+ 
 
  useEffect(() => {
-  if (!id) return
-  useApiStore.getState().setMovieDetail(id, "movie");
+  if (!id) return;
+  
+  const controller = new AbortController();
+  const { signal } = controller;
+
+  useApiStore.getState().setMovieDetail(id, "movie", { signal });
+
+  return () => controller.abort();
  }, [id]);
 
- if(movieDetail.results===0){
-  return "No results found"
+ if (!movieDetail || !movieDetail.id) {
+  return "No results found";
  }
 
  if (isLoading)
@@ -44,7 +52,7 @@ function MovieDetails() {
      <Box
       sx={{
        display: "flex",
-       flexDirection: { xs: "column", sm: "row" },
+       //  flexDirection: { xs: "column", sm: "row" },
        gap: 4,
        alignItems: "flex-start",
       }}
@@ -52,9 +60,11 @@ function MovieDetails() {
       {/* LEFT COLUMN (IMAGE + COMPANIES) */}
       <Box
        sx={{
+        color: "white",
         width: { xs: "100%", sm: 300 },
         flexShrink: 0,
         mx: { xs: "auto", sm: 0 },
+        lineHeight: "1",
        }}
       >
        {/* POSTER */}
@@ -68,48 +78,50 @@ function MovieDetails() {
          mb: 2,
         }}
        />
-
-       {/* PRODUCTION COMPANIES */}
        <Box
         sx={{
-         background: "#2c2b2b79",
-         p: 1,
-         columnCount: { xs: 1, sm: 2, md: 3 }, // responsive columns
-         columnGap: "12px",
-         borderRadius: 1,
+         display: "flex",
+         flexWrap: "wrap",
+         gap: 3,
+         alignItems: "flex-start",
         }}
        >
-        {movieDetail?.production_companies?.map((p) => (
-         <Box
-          key={p.id}
+        {/* DIRECTOR */}
+        <Box sx={{ minWidth: 120 }}>
+         <Typography
           sx={{
-           background: "#b1b1b1",
-           p: "6px",
-           mb: "12px", // spacing between items
-           boxShadow: "1px 1px 5px #1a191967",
-           borderRadius: ".3rem",
-           textAlign: "center",
-           display: "inline-block", // 🔑 REQUIRED for column layout
-           width: "100%",
-           breakInside: "avoid", // 🔑 prevents splitting
+           fontWeight: 600,
+           textDecoration: "underline",
+           lineHeight: 1.2,
           }}
          >
-          {p.logo_path && (
-           <Box
-            component="img"
-            src={`${imgUrl}${p.logo_path}`}
-            sx={{ width: 80, mb: 0.5, mx:"auto" }}
-            alt={p.name}
-           />
-          )}
+          {directorInfo.name}
+         </Typography>
+         <Typography
+          variant="caption"
+          sx={{ opacity: 0.7, display: "block", mt: 0.3 }}
+         >
+          {directorInfo.jobs}
+         </Typography>
+        </Box>
 
+        {/* TOP CREW */}
+        {directorInfo?.topCrew?.map((t, i) => (
+         <Box key={i} sx={{ minWidth: 120 }}>
           <Typography
            sx={{
-            fontSize: "0.8rem",
+            fontWeight: 600,
             textDecoration: "underline",
+            lineHeight: 1.2,
            }}
           >
-           {p.name}
+           {t.name}
+          </Typography>
+          <Typography
+           variant="caption"
+           sx={{ opacity: 0.7, mt: 0.3 }}
+          >
+           {t.job}
           </Typography>
          </Box>
         ))}
@@ -130,11 +142,13 @@ function MovieDetails() {
         <span className="border border-white/40 px-2 py-0.5 rounded">
          {movieDetail.adult ? "Adult" : "U/A 16+"}
         </span>
-        <span>• {movieDetail?.release_date}</span>
+        <span>•</span>
+        <span> {movieDetail?.release_date}</span>
         <span>
-         • {movieDetail.spoken_languages?.map((s) => s.name).join(", ")}
+         {movieDetail.spoken_languages?.map((s) => s.name).join(", ")}
         </span>
-        <span> • {movieDetail.genres?.map((g) => g.name).join(", ")}</span>
+        <span>•</span>
+        <span>{movieDetail.genres?.map((g) => g.name).join(", ")}</span>
        </Box>
 
        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>

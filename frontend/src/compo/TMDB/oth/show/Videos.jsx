@@ -4,19 +4,23 @@ import { useEffect, useState } from "react";
 import { videos } from "../../api";
 import { useParams } from "react-router";
 
-function Videos() {
+function Videos({ type }) {
  const { id } = useParams();
  const [data, setData] = useState(null);
 
  useEffect(() => {
+  const controller = new AbortController();
+  const signal = controller.signal;
+
   const fetchVideos = async () => {
-   if (!id) return;
-   const res = await videos(id);
+   if (!id || !type) return;
+   const res = await videos(id, type, { signal });
    setData(res);
   };
 
   fetchVideos();
- }, [id]);
+  return () => controller.abort();
+ }, [id, type]);
 
  if (!data) return <Typography>Loading videos…</Typography>;
 
@@ -29,49 +33,50 @@ function Videos() {
  }
 
  return (
-  <Box sx={{ mt: 3 }}>
+  <>
    <Typography variant="h5" fontWeight={600} mb={1}>
     Videos
    </Typography>
-
-   <Box
-    sx={{
-     display: "grid",
-     gridTemplateColumns: {
-      xs: "1fr",
-      md: "repeat(2, 1fr)",
-     },
-     gap: 2,
-    }}
-   >
-    {trailers.map((v) => (
-     <Box
-      key={v.id}
-      sx={{
-       position: "relative",
-       paddingTop: "56.25%", // 16:9
-       borderRadius: 2,
-       overflow: "hidden",
-      }}
-     >
-      <iframe
-       src={`https://www.youtube.com/embed/${v.key}`}
-       title={v.name}
-       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-       allowFullScreen
-       style={{
-        position: "absolute",
-        top: 0,
-        left: 0,
-        width: "100%",
-        height: "100%",
-        border: 0,
+   <Box sx={{ maxHeight: "300px", overflow: "auto" }} className="no-scrollbar">
+    <Box
+     sx={{
+      display: "grid",
+      gridTemplateColumns: {
+       xs: "1fr",
+       md: "repeat(2, 1fr)",
+      },
+      gap: 2,
+     }}
+    >
+     {trailers.map((v) => (
+      <Box
+       key={v.id}
+       sx={{
+        position: "relative",
+        paddingTop: "56.25%", // 16:9
+        borderRadius: 2,
+        overflow: "hidden",
        }}
-      />
-     </Box>
-    ))}
+      >
+       <iframe
+        src={`https://www.youtube.com/embed/${v.key}`}
+        title={v.name}
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+        style={{
+         position: "absolute",
+         top: 0,
+         left: 0,
+         width: "100%",
+         height: "100%",
+         border: 0,
+        }}
+       />
+      </Box>
+     ))}
+    </Box>
    </Box>
-  </Box>
+  </>
  );
 }
 
