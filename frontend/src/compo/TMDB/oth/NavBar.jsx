@@ -109,7 +109,7 @@ function NavBar({ window }) {
     </Card>
 
     <Card movie={popularMovie} load={loadingPopular}>
-     <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+     <Box sx={{ display: "flex",flexWrap:"wrap", alignItems: "center", gap: 1 }}>
       <Typography sx={{ fontSize: "1.5rem", fontWeight: 600, px: 2 }}>
        What's Popular on Movies
       </Typography>
