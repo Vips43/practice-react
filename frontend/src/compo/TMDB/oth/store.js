@@ -3,8 +3,9 @@ import { create } from "zustand";
 const API_KEY = `15df07cabb8e9d8449809ef48d3acc33`;
 const useApiStore = create((set) => ({
   popular: [],
+  popularMovie: [],
   topRated: [],
-  trendingAll: [],
+  trending: [],
   movieDetail: [],
   tvDetail: [],
   casts: [],
@@ -39,17 +40,32 @@ const useApiStore = create((set) => ({
     }
   },
 
-  fetchPopular: async (type) => {
+  fetchPopular: async ( status) => {
     try {
       set({ loadingPopular: true });
       const res = await fetch(
-        `https://api.themoviedb.org/3/${type}/popular?api_key=${API_KEY}`
+        `https://api.themoviedb.org/3/tv/${status}?api_key=${API_KEY}`
       );
       const data = await res.json();
       const filtered = data?.results?.filter(
         (m) => m.poster_path && m.backdrop_path
       );
       set({ popular: filtered || [], loadingPopular: false });
+    } catch (err) {
+      set({ loadingPopular: false, err });
+    }
+  },
+  fetchPopularMovie: async ( status) => {
+    try {
+      set({ loadingPopular: true });
+      const res = await fetch(
+        `https://api.themoviedb.org/3/movie/${status}?api_key=${API_KEY}`
+      );
+      const data = await res.json();
+      const filtered = data?.results?.filter(
+        (m) => m.poster_path && m.backdrop_path
+      );
+      set({ popularMovie: filtered || [], loadingPopular: false });
     } catch (err) {
       set({ loadingPopular: false, err });
     }
@@ -71,17 +87,17 @@ const useApiStore = create((set) => ({
     }
   },
 
-  fetchTrendingAll: async () => {
+  fetchTrending: async (time="day") => {
     try {
       set({ loadingTrending: true });
       const res = await fetch(
-        `https://api.themoviedb.org/3/trending/all/week?api_key=${API_KEY}`
+        `https://api.themoviedb.org/3/trending/all/${time}?api_key=${API_KEY}`
       );
       const data = await res.json();
       const filtered = data?.results?.filter(
         (m) => m.poster_path && m.backdrop_path
       );
-      set({ trendingAll: filtered || [], loadingTrending: false });
+      set({ trending: filtered || [], loadingTrending: false });
     } catch (err) {
       set({ loadingTrending: false, err });
     }
@@ -106,7 +122,6 @@ const useApiStore = create((set) => ({
       set({ movieDetail: null, err: err });
     }
   },
-  resetMovieDetail: () => set({ movieDetail: null }),
 
   setCasts: async (id, type) => {
 

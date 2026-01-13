@@ -12,8 +12,6 @@ function Card({ movie, children }) {
  return (
   <Box
    sx={{
-    border: "1px solid lightgrey",
-    borderRadius: "10px",
     mt: 2,
    }}
   >

@@ -75,7 +75,13 @@ export const fetchContentRating = async (id) => {
     console.log(data)
     return data;
 }
-// fetchContentRating(66732)
+export const fetchm = async (id) => {
+    const res = await fetch(`https://api.themoviedb.org/3/movie/upcoming?api_key=${TMDB_Key}`)
+    const data = await res.json();
+    console.log(data)
+    return data;
+}
+fetchm()
 
 export const duration = (runtime) => {
     let formattedTime;

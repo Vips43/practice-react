@@ -3,176 +3,136 @@ import PropTypes from "prop-types";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
-import Divider from "@mui/material/Divider";
-import Drawer from "@mui/material/Drawer";
-import IconButton from "@mui/material/IconButton";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
-import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
 import Card from "../Card";
 import useApiStore from "./store";
 import Searchbtn from "../search/compo/Searchbtn";
 import Toggler from "./Toggler";
-
-const drawerWidth = 240;
-const navItems = ["Movies", "TV Shows", "People", "More"];
+import "../../../../src/App.css";
 
 function NavBar({ window }) {
- const [mobileOpen, setMobileOpen] = React.useState(false);
- const [pType, setPType] = React.useState("movie");
+ const [pType, setPType] = React.useState("now_playing");
+ const [pStatus, setPStatus] = React.useState("airing_today");
  const [rType, setRType] = React.useState("movie");
+ const [tType, setTType] = React.useState("day");
 
  const popular = useApiStore((s) => s.popular);
+ const popularMovie = useApiStore((s) => s.popularMovie);
  const topRated = useApiStore((s) => s.topRated);
- const trendingAll = useApiStore((s) => s.trendingAll);
+ const trending = useApiStore((s) => s.trending);
  const fetchPopular = useApiStore((s) => s.fetchPopular);
+ const fetchPopularMovie = useApiStore((s) => s.fetchPopularMovie);
  const fetchTopRated = useApiStore((s) => s.fetchTopRated);
- const fetchTrendingAll = useApiStore((s) => s.fetchTrendingAll);
+ const fetchTrending = useApiStore((s) => s.fetchTrending);
  const loadingPopular = useApiStore((s) => s.loadingPopular);
  const loadingTopRated = useApiStore((s) => s.loadingTopRated);
  const loadingTrending = useApiStore((s) => s.loadingTrending);
 
+ const item1 = [
+  { label: "Movies", key: "movie" },
+  { label: "TV-Show", key: "tv" },
+ ];
+ const item2 = [
+  { label: "Today", key: "day" },
+  { label: "This-week", key: "week" },
+ ];
+ const item3 = [
+  { label: "Streaming", key: "airing_today" },
+  { label: "On Air", key: "on_the_air" },
+  { label: "Popular", key: "popular" },
+ ];
+ const item4 = [
+  { label: "Streaming", key: "now_playing" },
+  { label: "Popular", key: "popular" },
+  { label: "Top Rated", key: "top_rated" },
+  { label: "Upcoming", key: "upcoming" },
+ ];
+
  React.useEffect(() => {
-  fetchPopular(pType);
+  fetchPopular(pStatus);
+  fetchPopularMovie(pType)
   fetchTopRated(rType);
-  fetchTrendingAll();
- }, [pType, rType, fetchPopular, fetchTopRated, fetchTrendingAll]);
-
- const handleDrawerToggle = () => {
-  setMobileOpen((prev) => !prev);
- };
-
- const drawer = (
-  <Box sx={{ textAlign: "center", p: 2 }}>
-   <Typography variant="h6" sx={{ my: 2, fontWeight: 700, letterSpacing: 2 }} className="tmdb-text-gradient">
-    TMDB
-   </Typography>
-
-   <Divider />
-
-   <List>
-    {navItems.map((item) => (
-     <ListItem key={item} disablePadding>
-      <ListItemButton sx={{ justifyContent: "center" }}>
-       <ListItemText
-        primary={item}
-        sx={{ textAlign: "center", whiteSpace: "nowrap" }}
-       />
-      </ListItemButton>
-     </ListItem>
-    ))}
-   </List>
-  </Box>
- );
-
- const container =
-  window !== undefined ? () => window().document.body : undefined;
+  fetchTrending(tType);
+ }, [pType, pStatus, rType, tType, fetchPopular, fetchTopRated, fetchTrending]);
 
  return (
   <Box>
    <CssBaseline />
 
-   {/* APP BAR */}
-   <AppBar position="sticky">
-    <Toolbar sx={{ minHeight: { xs: 56, sm: 64 } }}>
-     {/* MOBILE MENU */}
-     <IconButton
-      color="inherit"
-      edge="start"
-      onClick={handleDrawerToggle}
-      sx={{ mr: 2, display: { sm: "none" } }}
-     >
-      <MenuIcon />
-     </IconButton>
-
+   {/* ================= NAV BAR (ONLY LOGO + SEARCH) ================= */}
+   <AppBar
+    position="sticky"
+    sx={{
+     backgroundColor: "#0d253f",
+    }}
+   >
+    <Toolbar
+     sx={{
+      minHeight: { xs: 56, sm: 64 },
+      display: "flex",
+      alignItems: "center",
+      gap: 2,
+     }}
+    >
      {/* LOGO */}
      <Typography
       variant="h6"
+      className="tmdb"
       sx={{
        fontWeight: 800,
-       fontSize: "1.8rem",
-       letterSpacing: "3px",
-       display: { xs: "none", sm: "block" },
+       letterSpacing: "0.15em",
+       display: "inline-block",
+       color: "transparent",
+       whiteSpace: "nowrap",
       }}
      >
       TMDB
      </Typography>
 
-     {/* DESKTOP NAV */}
-     <Box
-      sx={{
-       display: { xs: "none", sm: "flex" },
-       alignItems: "center",
-       gap: 2,
-       ml: 4,
-      }}
-     >
-      {navItems.map((item) => (
-       <Button
-        key={item}
-        sx={{
-         color: "#fff",
-         textTransform: "none",
-         width: "fit-content",
-         fontWeight: 500,
-         whiteSpace: "nowrap",
-        }}
-       >
-        {item}
-       </Button>
-      ))}
+     {/* SEARCH BAR */}
+     <Box sx={{ flex: 1, maxWidth: 520, ml: "auto" }}>
+      <Searchbtn />
      </Box>
     </Toolbar>
    </AppBar>
 
-   {/* MOBILE DRAWER */}
-   <Drawer
-    container={container}
-    variant="temporary"
-    open={mobileOpen}
-    onClose={handleDrawerToggle}
-    ModalProps={{ keepMounted: true }}
-    sx={{
-     display: { xs: "block", sm: "none" },
-     "& .MuiDrawer-paper": { width: drawerWidth },
-    }}
-   >
-    {drawer}
-   </Drawer>
-
-   {/* MAIN CONTENT */}
+   {/* ================= MAIN CONTENT (UNCHANGED) ================= */}
    <Box component="main" sx={{ p: 3 }}>
-    <Box sx={{ mb: 3 }}>
-     <Searchbtn />
-    </Box>
-
     <Card movie={popular} load={loadingPopular}>
-     <Box sx={{ display: "flex", alignItems: "center" }}>
+     <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
       <Typography sx={{ fontSize: "1.5rem", fontWeight: 600, px: 2 }}>
-       Popular
+       What's Popular on TV show
       </Typography>
-      <Toggler type={pType} set={setPType} />
+      <Toggler type={pStatus} set={setPStatus} items={item3} />
+     </Box>
+    </Card>
+
+    <Card movie={popularMovie} load={loadingPopular}>
+     <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+      <Typography sx={{ fontSize: "1.5rem", fontWeight: 600, px: 2 }}>
+       What's Popular on Movies
+      </Typography>
+      <Toggler type={pType} set={setPType} items={item4} />
      </Box>
     </Card>
 
     <Card movie={topRated} load={loadingTopRated}>
-     <Box sx={{ display: "flex", alignItems: "center" }}>
+     <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
       <Typography sx={{ fontSize: "1.5rem", fontWeight: 600, px: 2 }}>
        Top Rated
       </Typography>
-      <Toggler type={rType} set={setRType} />
+      <Toggler type={rType} set={setRType} items={item1} />
      </Box>
     </Card>
 
-    <Card movie={trendingAll} load={loadingTrending}>
-     <Typography sx={{ fontSize: "1.5rem", fontWeight: 600, px: 2 }}>
-      Trending
-     </Typography>
+    <Card movie={trending} load={loadingTrending}>
+     <Box sx={{ display: "flex", alignItems: "center" }}>
+      <Typography sx={{ fontSize: "1.5rem", fontWeight: 600, px: 2 }}>
+       Trending
+      </Typography>
+      <Toggler type={tType} set={setTType} items={item2} />
+     </Box>
     </Card>
    </Box>
   </Box>

@@ -52,7 +52,7 @@ function MovieDetails() {
      <Box
       sx={{
        display: "flex",
-       //  flexDirection: { xs: "column", sm: "row" },
+        flexDirection: { xs: "column", sm: "row" },
        gap: 4,
        alignItems: "flex-start",
       }}

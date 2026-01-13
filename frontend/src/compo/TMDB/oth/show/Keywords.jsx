@@ -51,7 +51,7 @@ function Keywords({ type }) {
   <Box
    sx={{
     borderRadius: 2,
-    p: 2,
+    p: 0,
     background: "#fff",
     height:"fit-content",
    }}
@@ -61,7 +61,6 @@ function Keywords({ type }) {
     sx={{
      fontWeight: 600,
      mb: 1,
-     opacity: 0.8,
      color: "black",
     }}
    >

@@ -116,10 +116,15 @@ h3{
   font-weight: bold;
 }
 
-.tmdb-text-gradient {
-  background: linear-gradient(to right, #90cea1 0%, #01b4e4 100%);
+.tmdb {
+  background: linear-gradient(
+    90deg,
+    #90cea1 0%,
+    #3cbec9 35%,
+    #01b4e4 70%,
+    #0d253f 100%
+  );
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
   background-clip: text;
-  font-weight: bold; /* Recommended to make the gradient visible */
+  -webkit-text-fill-color: transparent;
 }
