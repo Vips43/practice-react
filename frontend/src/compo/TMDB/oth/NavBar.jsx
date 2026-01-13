@@ -101,7 +101,7 @@ function NavBar({ window }) {
    <Box component="main" sx={{ p: 3 }}>
     <Card movie={popular} load={loadingPopular}>
      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-      <Typography sx={{ fontSize: "1.5rem", fontWeight: 600, px: 2 }}>
+      <Typography sx={{ fontSize: "1.5rem", whiteSpace:"wrap", fontWeight: 600, px: 2 }}>
        What's Popular on TV show
       </Typography>
       <Toggler type={pStatus} set={setPStatus} items={item3} />
@@ -109,8 +109,8 @@ function NavBar({ window }) {
     </Card>
 
     <Card movie={popularMovie} load={loadingPopular}>
-     <Box sx={{ display: "flex",flexWrap:"wrap", alignItems: "center", gap: 1 }}>
-      <Typography sx={{ fontSize: "1.5rem", fontWeight: 600, px: 2 }}>
+     <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+      <Typography sx={{ fontSize: "1.5rem", whiteSpace:"wrap",fontWeight: 600, px: 2 }}>
        What's Popular on Movies
       </Typography>
       <Toggler type={pType} set={setPType} items={item4} />
@@ -119,7 +119,7 @@ function NavBar({ window }) {
 
     <Card movie={topRated} load={loadingTopRated}>
      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-      <Typography sx={{ fontSize: "1.5rem", fontWeight: 600, px: 2 }}>
+      <Typography sx={{ fontSize: "1.5rem", whiteSpace:"wrap", fontWeight: 600, px: 2 }}>
        Top Rated
       </Typography>
       <Toggler type={rType} set={setRType} items={item1} />
