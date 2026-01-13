@@ -47,7 +47,7 @@ function Cast({ cast, url, cardWidth = 120 }) {
         variant="subtitle2"
         sx={{
          fontWeight: 600,
-         lineHeight: 1.1,
+         lineHeight: 1,
         }}
        >
         {c.name}
@@ -59,6 +59,11 @@ function Cast({ cast, url, cardWidth = 120 }) {
          lineHeight: 1.1,
          display: "block",
          opacity: 0.85,
+         overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          display: '-webkit-box',
+          WebkitLineClamp: 2, 
+          WebkitBoxOrient: 'vertical'
         }}
        >
         {c.roles?.map((r) => r?.character).join(", ")}
@@ -68,7 +73,9 @@ function Cast({ cast, url, cardWidth = 120 }) {
         variant="caption"
         sx={{
          display: "block",
+         mt:1,
          color: "text.secondary",
+         lineHeight:1
         }}
        >
         {c.known_for_department}
