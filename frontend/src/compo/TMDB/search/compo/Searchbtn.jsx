@@ -6,30 +6,33 @@ import { useNavigate } from "react-router";
 
 const Search = styled("div")(({ theme }) => ({
  position: "relative",
- borderRadius: theme.shape.borderRadius,
- backgroundColor: alpha(theme.palette.common.white, 0.15),
- "&:hover": {
-  backgroundColor: alpha(theme.palette.common.white, 0.25),
- },
- marginRight: theme.spacing(2),
- marginLeft: 0,
+ display: "flex",
+ alignItems: "center",
  width: "100%",
- border: "1px solid grey",
- [theme.breakpoints.up("sm")]: {
-  marginLeft: theme.spacing(1),
-  width: "40%",
+ maxWidth: 420,
+ borderRadius: 999,
+ backgroundColor: alpha("#ffffff", 0.15),
+ border: "1px solid rgba(255,255,255,0.3)",
+ transition: "all 0.25s ease",
+
+ "&:focus-within": {
+  backgroundColor: alpha("#ffffff", 0.25),
+  borderColor: "#01b4e4",
  },
+
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
- color: "inherit",
+ color: "#fff",
+ width: "100%",
  "& .MuiInputBase-input": {
-  padding: theme.spacing(1, 1, 1, 0),
-  paddingLeft: `calc(1em + ${theme.spacing(0.5)})`,
-  transition: theme.transitions.create("width"),
-  width: "100%",
-  [theme.breakpoints.up("md")]: {
-   width: "20ch",
+  padding: theme.spacing(1, 2),
+  fontSize: "0.9rem",
+  transition: "all 0.2s ease",
+
+  "&::placeholder": {
+   color: "rgba(255,255,255,0.6)",
+   opacity: 1,
   },
  },
 }));
@@ -39,30 +42,24 @@ function Searchbtn() {
  const setQuery = useApiStore((state) => state.setQuery);
  const [val, setVal] = useState("");
 
- const handleClick = () => {
-  if (val.trim()) {
-   setQuery(val);
-   console.log(val);
-  }
+ const handleSubmit = () => {
+  if (!val.trim()) return;
+  setQuery(val.trim());
+  navigate(`/search/${val.trim()}`);
  };
 
  return (
-  <>
-   <Search >
-    <StyledInputBase 
-     placeholder="Search…"
-     inputProps={{ "aria-label": "search" }}
-     value={val}
-     onChange={(e) => setVal(e.target.value)}
-     onKeyDown={(e) => {
-      if (e.key === "Enter") {
-       handleClick();
-       navigate(`/search/${val}`);
-      }
-     }}
-    />
-   </Search>
-  </>
+  <Search>
+   <StyledInputBase
+    placeholder="Search movies, TV shows…"
+    inputProps={{ "aria-label": "search" }}
+    value={val}
+    onChange={(e) => setVal(e.target.value)}
+    onKeyDown={(e) => {
+     if (e.key === "Enter") handleSubmit();
+    }}
+   />
+  </Search>
  );
 }
 
