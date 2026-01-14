@@ -75,7 +75,7 @@ function TVShowDetails() {
      <Box
       sx={{
        color: "white",
-       width: { xs: "100%", sm: 300 },
+       width: { xs: "100%", sm: 350 },
        flexShrink: 0,
       }}
      >
