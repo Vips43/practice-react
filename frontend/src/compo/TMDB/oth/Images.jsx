@@ -48,7 +48,7 @@ const handleShowMore=()=>{
 
  return (
   <>
-   <Box sx={{ height:"270px", }}>
+   <Box sx={{ height:"225px", mb:2, }}>
     {/* TABS */}
     <Box sx={{ display: "flex", gap: 1, mb: 2 }}>
      <Typography fontWeight="600" sx={{ fontSize: "1.25rem" }}>

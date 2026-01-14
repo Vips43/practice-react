@@ -35,7 +35,7 @@ function Similar({ type, value = "similar" }) {
 
  return (
   <>
-   <Box>
+   <Box sx={{ mb: 4 }}>
     <Typography variant="h5" fontWeight="600" sx={{ overflow: "auto" }}>
      {" "}
      Similar{" "}
@@ -44,7 +44,7 @@ function Similar({ type, value = "similar" }) {
      sx={{ background: "white", display: "flex", gap: 3, overflow: "auto" }}
      className="no-scrollbar"
     >
-     {similars?.results?.map((s,i) => (
+     {similars?.results?.map((s, i) => (
       <Box key={i} sx={{ flexShrink: 0, width: 220 }}>
        <Box
         component="img"
@@ -56,12 +56,19 @@ function Similar({ type, value = "similar" }) {
        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Typography
          variant="subtitle2"
-         sx={{ ":hover": { textDecoration: "underline", cursor: "pointer" } }}
+         sx={{
+          ":hover": {
+           textDecoration: "underline",
+           cursor: "pointer",
+           lineHeight: "1rem",
+          },
+         }}
+         className="line-clamp-1 hover:line-clamp-none hover:leading-tight"
          onClick={() => navigate(`/tmdbapp/${type}/${s.id}`)}
         >
-         {s.title}
+         {s.title || s.name}
         </Typography>
-        <Typography variant="subtitle2" sx={{}}>
+        <Typography variant="subtitle2" fontWeight="600" sx={{}}>
          {Math.floor(s.vote_average * 10)}%
         </Typography>
        </Box>

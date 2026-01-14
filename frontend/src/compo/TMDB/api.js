@@ -78,7 +78,7 @@ export const fetchContentRating = async (id) => {
 export const fetchGlobal = async (type, id, value) => {
     const res = await fetch(`https://api.themoviedb.org/3/${type}/${id}/${value}?api_key=${TMDB_Key}`)
     const data = await res.json();
-    console.log(data)
+    // console.log(data)
     return data;
 }
 // fetchm()

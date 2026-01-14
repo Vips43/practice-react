@@ -37,7 +37,7 @@ function Videos({ type }) {
    <Typography variant="h5" fontWeight={600} mb={1}>
     Videos
    </Typography>
-   <Box sx={{ maxHeight: "300px", overflow: "auto" }} className="no-scrollbar">
+   <Box sx={{ maxHeight: "300px", overflow: "auto", mb:2 }} className="no-scrollbar">
     <Box
      sx={{
       display: "grid",

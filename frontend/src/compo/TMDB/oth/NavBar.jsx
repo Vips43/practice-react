@@ -12,13 +12,13 @@ import Toggler from "./Toggler";
 import "../../../../src/App.css";
 import Similar from "./Similar";
 
-function NavBar({ window }) {
+function NavBar() {
  const [pType, setPType] = React.useState("movie");
  const [pTV, setPV] = React.useState("airing_today");
  const [pMovie, setPMovie] = React.useState("now_playing");
  const [rType, setRType] = React.useState("movie");
  const [tType, setTType] = React.useState("day");
- const toggle = pType === "tv" ? true : false;
+ const toggle = pType === "tv";
 
  const popular = useApiStore((s) => s.popular);
  const topRated = useApiStore((s) => s.topRated);
@@ -54,9 +54,7 @@ function NavBar({ window }) {
   fetchPopular(pType, toggle ? pTV : pMovie);
   fetchTopRated(rType);
   fetchTrending(tType);
- }, [
-    // pType,toggle,pMovie, pTV, rType, tType, fetchPopular, fetchTopRated, fetchTrending
-]);
+ }, [pType,toggle,pMovie, pTV, rType, tType, fetchPopular, fetchTopRated, fetchTrending]);
  
  return (
   <Box>
@@ -114,14 +112,14 @@ function NavBar({ window }) {
         px: 2,
        }}
       >
-       What's Popular on TV show
+       What's Popular on {pType === "tv" ? "TV Shows" : "Movies"}
       </Typography>
-      <Toggler type={pType} set={setPType} items={item1} />
+      <Toggler value={pType} onChange={setPType} items={item1} />
 
       {toggle ? (
-       <Toggler type={pTV} set={setPV} items={item3TV} />
+       <Toggler value={pTV} onChange={setPV} items={item3TV} />
       ) : (
-       <Toggler type={pMovie} set={setPMovie} items={item4Movie} />
+       <Toggler value={pMovie} onChange={setPMovie} items={item4Movie} />
       )}
      </Box>
     </Card>
@@ -138,7 +136,7 @@ function NavBar({ window }) {
       >
        Top Rated
       </Typography>
-      <Toggler type={rType} set={setRType} items={item1} />
+      <Toggler value={rType} onChange={setRType} items={item1} />
      </Box>
     </Card>
 
@@ -149,7 +147,7 @@ function NavBar({ window }) {
       >
        Trending
       </Typography>
-      <Toggler type={tType} set={setTType} items={item2} />
+      <Toggler value={tType} onChange={setTType} items={item2} />
      </Box>
     </Card>
    </Box>

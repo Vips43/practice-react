@@ -27,9 +27,7 @@ function MovieFullDetail({ movie }) {
     setLoading(true);
     setError(null);
 
-    const { data, dir, jobs, topCrew } = await fetchCast(id, type, "credits", {
-     signal: controller.signal,
-    });
+    const { data, dir, jobs, topCrew } = await fetchCast(id, type, "credits", { signal: controller.signal,});
 
     if (!controller.signal.aborted) {
      setDirectorInfo({name:dir, jobs, topCrew});

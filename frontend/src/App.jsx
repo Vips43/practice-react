@@ -1,21 +1,16 @@
 import "./App.css";
 import LogIn from "./form/LogIn";
 import Signup from "./form/Signup";
-import {
- createBrowserRouter,
- createRoutesFromElements,
- Route,
-} from "react-router-dom";
+import {createBrowserRouter,createRoutesFromElements,Route,} from "react-router-dom";
 import Cuisines from "./form/Cuisines";
 import Home from "./form/Home";
 import Navig from "./form/Navig";
 import About from "./form/About";
-import { RouterProvider, useParams } from "react-router";
+import { RouterProvider } from "react-router";
 import RootLayout from "./Layout/RootLayout";
 import PasswordGen from "./compo/PasswordGen";
 import NotesApp from "./compo/NotesApp/NotesApp";
 import ColorApp from "./compo/color/ColorApp";
-import MoviePage from "./compo/TMDB/MoviePage";
 import RateReview from "./compo/Rate and review/RateReview";
 import ToDoList from "./compo/todolist/ToDoList";
 import FakeStore from "./compo/fakestore/FakeStore";
@@ -24,6 +19,7 @@ import MovieDetails from "./compo/TMDB/MovieDetails";
 import TVShowDetails from "./compo/TMDB/TVShowDetails";
 import FullCasts from "./compo/TMDB/oth/show/FullCasts";
 import SearchPage from "./compo/TMDB/search/SearchPage";
+import TMDB from "./compo/TMDB/TMDB";
 
 function App() {
 
@@ -39,7 +35,7 @@ function App() {
     <Route path="/navigation/passgenapp" element={<PasswordGen />} />
     <Route path="/navigation/notepadapp" element={<NotesApp />} />
     <Route path="/navigation/colorapp" element={<ColorApp />} />
-    <Route path="/navigation/tmdbapp" element={<MoviePage />} />
+    <Route path="/navigation/tmdbapp" element={<TMDB />} />
     <Route path="/search/:q" element={<SearchPage />} />
     <Route path="/tmdbapp/movie/:id" element={<MovieDetails />} />
     <Route path="/tmdbapp/tv/:id" element={<TVShowDetails />} />

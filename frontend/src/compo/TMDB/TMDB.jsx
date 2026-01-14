@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import movieAPI from "./api";
 import NavBar from "./oth/NavBar";
 
-function MoviePage() {
+function TMDB() {
  const [movie, setMovie] = useState([]);
  const imgUrl = "https://image.tmdb.org/t/p/w500";
 
@@ -25,4 +25,4 @@ function MoviePage() {
  );
 }
 
-export default MoviePage;
+export default TMDB;

@@ -2,9 +2,6 @@ import { useEffect } from "react";
 import Box from "@mui/material/Box";
 import useApiStore from "../store";
 import { useParams } from "react-router";
-import CurrSeason from "./CurrSeason";
-import Keywords from "./Keywords";
-import Reviews from "./Reviews";
 import LeftCompo from "../../movie/LeftCompo";
 import RightCompo from "../../movie/RightCompo";
 

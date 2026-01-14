@@ -53,7 +53,7 @@ function Keywords({ type }) {
     borderRadius: 2,
     p: 0,
     background: "#fff",
-    height:"fit-content",
+    height: "fit-content",
    }}
   >
    <Typography
@@ -66,7 +66,7 @@ function Keywords({ type }) {
    >
     Keywords
    </Typography>
-
+   {!keys ? "No data for keywords" : ""}
    <Box
     sx={{
      display: "flex",

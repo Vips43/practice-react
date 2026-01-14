@@ -1,14 +1,16 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Vote from "./oth/Vote";
 import useApiStore from "./oth/store";
 import { useParams } from "react-router";
 import ShowExtraDetails from "./oth/show/ShowExtraDetails";
+import { fetchGlobal } from "./api";
 
 function TVShowDetails() {
  const imgUrl = "https://image.tmdb.org/t/p/w500";
  const { id } = useParams();
+ const [content_rating, setContenet_Rating] = useState(null);
 
  const movieDetail = useApiStore((state) => state.tvDetail);
  const setMovieDetail = useApiStore((state) => state.setMovieDetail);
@@ -16,7 +18,26 @@ function TVShowDetails() {
 
  useEffect(() => {
   if (!id) return;
-  setMovieDetail(id, "tv");
+  const controller = new AbortController();
+  const signal = controller;
+
+  setMovieDetail(id, "tv", { signal });
+
+  const getData = async () => {
+   let data = await fetchGlobal("tv", id, "content_ratings", { signal });
+   data = data?.results?.find(
+    (d) =>
+     d.iso_3166_1 === "IN" ?? data.results.find((d) => d.iso_3166_1 === "US")
+   );
+   console.log("content rating ", data);
+
+   setContenet_Rating(data);
+  };
+  getData();
+
+  return () => {
+   controller.abort();
+  };
  }, [id, setMovieDetail]);
 
  /* 🔑 PREVENT CRASH ON REFRESH */
@@ -27,15 +48,13 @@ function TVShowDetails() {
    </Box>
   );
  }
- 
- console.log(movieDetail)
 
  return (
   <>
    <Box
     sx={{
-     py: { xs: 1, sm: 3 },
-     px: { xs: 2, md: 6 },
+     py: { xs: 2, sm: 3 },
+     px: { xs: 3, md: 6 },
      backgroundSize: "cover",
      backgroundPosition: "center",
      backgroundImage: movieDetail?.backdrop_path
@@ -55,7 +74,7 @@ function TVShowDetails() {
      {/* LEFT COLUMN */}
      <Box
       sx={{
-        color:"white",
+       color: "white",
        width: { xs: "100%", sm: 300 },
        flexShrink: 0,
       }}
@@ -68,7 +87,7 @@ function TVShowDetails() {
          ? `${imgUrl}${movieDetail?.poster_path}`
          : "/no-poster.png"
        }
-       alt={movieDetail.name||'no image'}
+       alt={movieDetail.name || "no image"}
        sx={{
         width: "100%",
         borderRadius: 2,
@@ -76,17 +95,36 @@ function TVShowDetails() {
        }}
       />
 
-
       <Box
-        sx={{
-         display: "flex",
-         flexWrap: "wrap",
-         gap: 3,
-         alignItems: "flex-start",
-        }}
-       >
-        {/* DIRECTOR */}
-        <Box sx={{ minWidth: 120 }}>
+       sx={{
+        display: { xs: "none", md: "flex" },
+        flexWrap: "wrap",
+        gap: 3,
+        alignItems: "flex-start",
+       }}
+      >
+       {/* DIRECTOR */}
+       <Box sx={{ minWidth: 120 }}>
+        <Typography
+         sx={{
+          fontWeight: 600,
+          textDecoration: "underline",
+          lineHeight: 1.2,
+         }}
+        >
+         {directorInfo.name}
+        </Typography>
+        <Typography
+         variant="caption"
+         sx={{ opacity: 0.7, display: "block", mt: 0.3 }}
+        >
+         {directorInfo.jobs}
+        </Typography>
+       </Box>
+
+       {/* TOP CREW */}
+       {directorInfo?.topCrew?.map((t, i) => (
+        <Box key={i} sx={{ minWidth: 120 }}>
          <Typography
           sx={{
            fontWeight: 600,
@@ -94,37 +132,14 @@ function TVShowDetails() {
            lineHeight: 1.2,
           }}
          >
-          {directorInfo.name}
+          {t.name}
          </Typography>
-         <Typography
-          variant="caption"
-          sx={{ opacity: 0.7, display: "block", mt: 0.3 }}
-         >
-          {directorInfo.jobs}
+         <Typography variant="caption" sx={{ opacity: 0.7, mt: 0.3 }}>
+          {t.job}
          </Typography>
         </Box>
-
-        {/* TOP CREW */}
-        {directorInfo?.topCrew?.map((t, i) => (
-         <Box key={i} sx={{ minWidth: 120 }}>
-          <Typography
-           sx={{
-            fontWeight: 600,
-            textDecoration: "underline",
-            lineHeight: 1.2,
-           }}
-          >
-           {t.name}
-          </Typography>
-          <Typography
-           variant="caption"
-           sx={{ opacity: 0.7, mt: 0.3 }}
-          >
-           {t.job}
-          </Typography>
-         </Box>
-        ))}
-       </Box>
+       ))}
+      </Box>
      </Box>
 
      {/* RIGHT COLUMN */}
@@ -139,7 +154,7 @@ function TVShowDetails() {
 
       <Box sx={{ mb: 3 }}>
        <span className="border border-white/40 px-2 py-0.5 rounded">
-        {movieDetail.adult ? "Adult" : "U/A 16+"}
+        {content_rating?.rating}
        </span>
        <span> • {movieDetail?.first_air_date}</span>
        <span>
@@ -157,7 +172,6 @@ function TVShowDetails() {
         h="h-20"
        />
        <Typography>
-        
         <strong>In Production:</strong>{" "}
         {movieDetail.in_production ? "Yes" : "No"}
         <br />

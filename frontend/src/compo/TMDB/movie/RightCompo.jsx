@@ -8,7 +8,7 @@ function RightCompo({movie, type}) {
   return (
     <Box>
     <OthInfo movie={movie} type={type} />
-    <Companies movie={movie} />
+    <Companies movie={movie} type={type} />
     
     </Box>
   )
