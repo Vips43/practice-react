@@ -10,19 +10,20 @@ import useApiStore from "./store";
 import Searchbtn from "../search/compo/Searchbtn";
 import Toggler from "./Toggler";
 import "../../../../src/App.css";
+import Similar from "./Similar";
 
 function NavBar({ window }) {
- const [pType, setPType] = React.useState("now_playing");
- const [pStatus, setPStatus] = React.useState("airing_today");
+ const [pType, setPType] = React.useState("movie");
+ const [pTV, setPV] = React.useState("airing_today");
+ const [pMovie, setPMovie] = React.useState("now_playing");
  const [rType, setRType] = React.useState("movie");
  const [tType, setTType] = React.useState("day");
+ const toggle = pType === "tv" ? true : false;
 
  const popular = useApiStore((s) => s.popular);
- const popularMovie = useApiStore((s) => s.popularMovie);
  const topRated = useApiStore((s) => s.topRated);
  const trending = useApiStore((s) => s.trending);
  const fetchPopular = useApiStore((s) => s.fetchPopular);
- const fetchPopularMovie = useApiStore((s) => s.fetchPopularMovie);
  const fetchTopRated = useApiStore((s) => s.fetchTopRated);
  const fetchTrending = useApiStore((s) => s.fetchTrending);
  const loadingPopular = useApiStore((s) => s.loadingPopular);
@@ -37,12 +38,12 @@ function NavBar({ window }) {
   { label: "Today", key: "day" },
   { label: "This-week", key: "week" },
  ];
- const item3 = [
+ const item3TV = [
   { label: "Streaming", key: "airing_today" },
   { label: "On Air", key: "on_the_air" },
   { label: "Popular", key: "popular" },
  ];
- const item4 = [
+ const item4Movie = [
   { label: "Streaming", key: "now_playing" },
   { label: "Popular", key: "popular" },
   { label: "Top Rated", key: "top_rated" },
@@ -50,12 +51,13 @@ function NavBar({ window }) {
  ];
 
  React.useEffect(() => {
-  fetchPopular(pStatus);
-  fetchPopularMovie(pType)
+  fetchPopular(pType, toggle ? pTV : pMovie);
   fetchTopRated(rType);
   fetchTrending(tType);
- }, [pType, pStatus, rType, tType, fetchPopular, fetchTopRated, fetchTrending]);
-
+ }, [
+    // pType,toggle,pMovie, pTV, rType, tType, fetchPopular, fetchTopRated, fetchTrending
+]);
+ 
  return (
   <Box>
    <CssBaseline />
@@ -72,7 +74,7 @@ function NavBar({ window }) {
       minHeight: { xs: 56, sm: 64 },
       display: "flex",
       alignItems: "center",
-      justifyContent:"space-between",
+      justifyContent: "space-between",
       gap: 2,
      }}
     >
@@ -101,26 +103,39 @@ function NavBar({ window }) {
    {/* ================= MAIN CONTENT (UNCHANGED) ================= */}
    <Box component="main" sx={{ p: 3 }}>
     <Card movie={popular} load={loadingPopular}>
-     <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-      <Typography sx={{ fontSize: {xs:"1rem", sm:"1.5rem"}, whiteSpace:"wrap", fontWeight: 600, px: 2 }}>
+     <Box
+      sx={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 1 }}
+     >
+      <Typography
+       sx={{
+        fontSize: { xs: "1rem", sm: "1.5rem", width: "100%" },
+        whiteSpace: "wrap",
+        fontWeight: 600,
+        px: 2,
+       }}
+      >
        What's Popular on TV show
       </Typography>
-      <Toggler type={pStatus} set={setPStatus} items={item3} />
-     </Box>
-    </Card>
+      <Toggler type={pType} set={setPType} items={item1} />
 
-    <Card movie={popularMovie} load={loadingPopular}>
-     <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-      <Typography sx={{ fontSize: {xs:"1rem", sm:"1.5rem"}, whiteSpace:"wrap",fontWeight: 600, px: 2 }}>
-       What's Popular on Movies
-      </Typography>
-      <Toggler type={pType} set={setPType} items={item4} />
+      {toggle ? (
+       <Toggler type={pTV} set={setPV} items={item3TV} />
+      ) : (
+       <Toggler type={pMovie} set={setPMovie} items={item4Movie} />
+      )}
      </Box>
     </Card>
 
     <Card movie={topRated} load={loadingTopRated}>
      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-      <Typography sx={{ fontSize: {xs:"1rem", sm:"1.5rem"}, whiteSpace:"wrap", fontWeight: 600, px: 2 }}>
+      <Typography
+       sx={{
+        fontSize: { xs: "1rem", sm: "1.5rem" },
+        whiteSpace: "wrap",
+        fontWeight: 600,
+        px: 2,
+       }}
+      >
        Top Rated
       </Typography>
       <Toggler type={rType} set={setRType} items={item1} />
@@ -129,7 +144,9 @@ function NavBar({ window }) {
 
     <Card movie={trending} load={loadingTrending}>
      <Box sx={{ display: "flex", alignItems: "center" }}>
-      <Typography sx={{ fontSize: {xs:"1rem", sm:"1.5rem"}, fontWeight: 600, px: 2 }}>
+      <Typography
+       sx={{ fontSize: { xs: "1rem", sm: "1.5rem" }, fontWeight: 600, px: 2 }}
+      >
        Trending
       </Typography>
       <Toggler type={tType} set={setTType} items={item2} />

@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router";
 import Reviews from "../oth/show/Reviews";
 import Images from "../oth/Images";
 import Videos from "../oth/show/Videos";
+import Similar from "../oth/Similar";
 
 function LeftCompo({ cast, type, imgUrl }) {
  const { id } = useParams();
@@ -51,6 +52,7 @@ function LeftCompo({ cast, type, imgUrl }) {
      <Reviews type={type} />
      <Images type={type} imgUrl={imgUrl} />
      <Videos type={type} />
+     <Similar type={type} />
     </Box>
     
    </Box>

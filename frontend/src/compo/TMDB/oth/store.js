@@ -3,7 +3,6 @@ import { create } from "zustand";
 const API_KEY = `15df07cabb8e9d8449809ef48d3acc33`;
 const useApiStore = create((set) => ({
   popular: [],
-  popularMovie: [],
   topRated: [],
   trending: [],
   movieDetail: [],
@@ -14,6 +13,7 @@ const useApiStore = create((set) => ({
   loadingPopular: false,
   loadingTopRated: false,
   loadingTrending: false,
+  toggle: false,
 
   searchtype: "movie",
   directorInfo: { name: "", jobs: "", topCrew: [] },
@@ -21,6 +21,7 @@ const useApiStore = create((set) => ({
   err: null,
   query: null,
 
+  setToggle: () => set({ toggle: true }),
   setDirectorInfo: (payload) => set({ directorInfo: payload }),
   setSearchType: (type) => set({ searchtype: type }),
   setQuery: (q) => set({ query: q }),
@@ -40,32 +41,18 @@ const useApiStore = create((set) => ({
     }
   },
 
-  fetchPopular: async ( status) => {
+  fetchPopular: async (type, status) => {
     try {
       set({ loadingPopular: true });
       const res = await fetch(
-        `https://api.themoviedb.org/3/tv/${status}?api_key=${API_KEY}`
+        `https://api.themoviedb.org/3/${type}/${status}?api_key=${API_KEY}`
       );
       const data = await res.json();
       const filtered = data?.results?.filter(
         (m) => m.poster_path && m.backdrop_path
       );
+      console.log(filtered)
       set({ popular: filtered || [], loadingPopular: false });
-    } catch (err) {
-      set({ loadingPopular: false, err });
-    }
-  },
-  fetchPopularMovie: async ( status) => {
-    try {
-      set({ loadingPopular: true });
-      const res = await fetch(
-        `https://api.themoviedb.org/3/movie/${status}?api_key=${API_KEY}`
-      );
-      const data = await res.json();
-      const filtered = data?.results?.filter(
-        (m) => m.poster_path && m.backdrop_path
-      );
-      set({ popularMovie: filtered || [], loadingPopular: false });
     } catch (err) {
       set({ loadingPopular: false, err });
     }
@@ -87,7 +74,7 @@ const useApiStore = create((set) => ({
     }
   },
 
-  fetchTrending: async (time="day") => {
+  fetchTrending: async (time = "day") => {
     try {
       set({ loadingTrending: true });
       const res = await fetch(
@@ -115,7 +102,7 @@ const useApiStore = create((set) => ({
       const data = await res.json();
 
       console.log(data)
-      
+
       set({ [type === "tv" ? "tvDetail" : "movieDetail"]: data, isLoading: false, err: null });
     } catch (err) {
       console.error("Movie detail fetch error:", err);

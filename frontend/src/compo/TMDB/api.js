@@ -60,14 +60,14 @@ export const fetchImages = async (id, type) => {
     console.log("fetchImages " + " for " + type, data)
     return data;
 }
-export const fetchRandom = async (id, type, oth) => {
-    if (!id || !type || !oth) return;
+// export const fetchRandom = async (id, type, oth) => {
+//     if (!id || !type || !oth) return;
 
-    const res = await fetch(`https://api.themoviedb.org/3/${type}/${id}/${oth}?api_key=${TMDB_Key}`);
-    const data = await res.json();
-    // console.log("fetchImages " + " for " + type, data)
-    return data;
-}
+//     const res = await fetch(`https://api.themoviedb.org/3/${type}/${id}/${oth}?api_key=${TMDB_Key}`);
+//     const data = await res.json();
+//     // console.log("fetchImages " + " for " + type, data)
+//     return data;
+// }
 // fetchImages(550, "movie")
 export const fetchContentRating = async (id) => {
     const res = await fetch(`https://api.themoviedb.org/3/tv/${id}/content_ratings?api_key=${TMDB_Key}`)
@@ -75,13 +75,13 @@ export const fetchContentRating = async (id) => {
     console.log(data)
     return data;
 }
-export const fetchm = async (id) => {
-    const res = await fetch(`https://api.themoviedb.org/3/movie/upcoming?api_key=${TMDB_Key}`)
+export const fetchGlobal = async (type, id, value) => {
+    const res = await fetch(`https://api.themoviedb.org/3/${type}/${id}/${value}?api_key=${TMDB_Key}`)
     const data = await res.json();
     console.log(data)
     return data;
 }
-fetchm()
+// fetchm()
 
 export const duration = (runtime) => {
     let formattedTime;
