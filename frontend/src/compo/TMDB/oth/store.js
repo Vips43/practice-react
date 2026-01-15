@@ -91,7 +91,6 @@ const useApiStore = create((set) => ({
   },
   setMovieDetail: async (id, type = "movie") => {
     if (!id) return;
-    console.log(type)
     set({ isLoading: true })
     try {
       const endpoint =
@@ -101,7 +100,7 @@ const useApiStore = create((set) => ({
       const res = await fetch(endpoint);
       const data = await res.json();
 
-      console.log(data)
+      // console.log(data)
 
       set({ [type === "tv" ? "tvDetail" : "movieDetail"]: data, isLoading: false, err: null });
     } catch (err) {

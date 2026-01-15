@@ -16,10 +16,8 @@ function Similar({ type, value = "similar" }) {
   const { signal } = controller;
 
   const getData = async () => {
-   console.log("first");
    try {
     const data = await fetchGlobal(type, id, value, { signal });
-    console.log(data);
     setSimilars(data);
    } catch (error) {
     console.log(error);
@@ -30,8 +28,6 @@ function Similar({ type, value = "similar" }) {
    controller.abort();
   };
  }, [id, type, value]);
-
- if (similars) console.log(similars);
 
  return (
   <>

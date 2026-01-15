@@ -136,8 +136,8 @@ function Watch_Provider({ type }) {
        {/* LOGO BOX */}
        <Box
         sx={{
-         width: 48,
-         height: 48,
+         width: 44,
+         height: 44,
          background: "#f1f1f1",
          borderRadius: 1,
          display: "flex",

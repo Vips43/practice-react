@@ -1,5 +1,19 @@
 const TMDB_Key = `9d2ac0e411cefe72dbf19a4500943adb`;
 
+
+export const duration = (runtime) => {
+    let formattedTime;
+
+    if (!runtime || runtime === 0) return formattedTime = "Runtime: N/A"
+
+    const hours = Math.floor(runtime / 60);
+    const minutes = runtime % 60;
+
+    formattedTime = `${hours > 0 ? `${hours}h ` : ""} ${minutes}m`
+    return formattedTime;
+
+};
+
 const movieAPI = async () => {
     const res = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${TMDB_Key}`)
     const data = await res.json();
@@ -44,10 +58,8 @@ export const fetchCast = async (id, type, s) => {
             data.crew.map(({ name, job }) => [name, { name, job }])
         ).values()
     ).slice(0, 3);
-
     const jobs = data.crew.filter(c => c.name === dir).map(j => j.job).join(", ")
-
-    console.log(data, topCrew)
+    // console.log(data, topCrew)
     return { data, dir, jobs, topCrew };
 }
 // fetchCast(238, 'movie', "credits")
@@ -57,22 +69,13 @@ export const fetchImages = async (id, type) => {
 
     const res = await fetch(`https://api.themoviedb.org/3/${type}/${id}/images?api_key=${TMDB_Key}`);
     const data = await res.json();
-    console.log("fetchImages " + " for " + type, data)
+    // console.log("fetchImages " + " for " + type, data)
     return data;
 }
-// export const fetchRandom = async (id, type, oth) => {
-//     if (!id || !type || !oth) return;
-
-//     const res = await fetch(`https://api.themoviedb.org/3/${type}/${id}/${oth}?api_key=${TMDB_Key}`);
-//     const data = await res.json();
-//     // console.log("fetchImages " + " for " + type, data)
-//     return data;
-// }
-// fetchImages(550, "movie")
 export const fetchContentRating = async (id) => {
     const res = await fetch(`https://api.themoviedb.org/3/tv/${id}/content_ratings?api_key=${TMDB_Key}`)
     const data = await res.json();
-    console.log(data)
+    // console.log(data)
     return data;
 }
 export const fetchGlobal = async (type, id, value) => {
@@ -81,17 +84,12 @@ export const fetchGlobal = async (type, id, value) => {
     // console.log(data)
     return data;
 }
-// fetchm()
 
-export const duration = (runtime) => {
-    let formattedTime;
 
-    if (!runtime || runtime === 0) return formattedTime = "Runtime: N/A"
-
-    const hours = Math.floor(runtime / 60);
-    const minutes = runtime % 60;
-
-    formattedTime = `${hours > 0 ? `${hours}h ` : ""} ${minutes}m`
-    return formattedTime;
-
-};
+export const fetchDummy = async (type, id, value) => {
+    const res = await fetch(`https://api.themoviedb.org/3/search/collection?api_key=${TMDB_Key}`)
+    const data = await res.json();
+    console.log("fetchDummy",data)
+    return data;
+}
+fetchDummy("The Housemaid Collection");
