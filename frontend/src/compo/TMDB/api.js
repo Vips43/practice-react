@@ -1,18 +1,18 @@
 const TMDB_Key = `9d2ac0e411cefe72dbf19a4500943adb`;
 
+// const TMDB_Key = import.meta.env.VITE_TMDB_KEY;
+// const TMDB_BEARER = import.meta.env.VITE_TMDB_BEARER;
+
 
 export const duration = (runtime) => {
-    let formattedTime;
+    if (!runtime) return "Runtime: N/A";
 
-    if (!runtime || runtime === 0) return formattedTime = "Runtime: N/A"
+    const h = Math.floor(runtime / 60);
+    const m = runtime % 60;
 
-    const hours = Math.floor(runtime / 60);
-    const minutes = runtime % 60;
-
-    formattedTime = `${hours > 0 ? `${hours}h ` : ""} ${minutes}m`
-    return formattedTime;
-
+    return `${h ? `${h}h ` : ""}${m}m`;
 };
+
 
 const movieAPI = async () => {
     const res = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${TMDB_Key}`)
@@ -20,6 +20,8 @@ const movieAPI = async () => {
 
     const fdata = data?.results?.filter(
         (m) => m.poster_path !== null && m.backdrop_path !== null);
+        console.log(fdata)
+        
     return fdata;
 }
 export default movieAPI;
@@ -32,7 +34,7 @@ export const keywords = async (id, type) => {
 }
 // keywords(66732)
 export const videos = async (id, type) => {
-    if(!id || !type) return;
+    if (!id || !type) return;
     const res = await fetch(`https://api.themoviedb.org/3/${type}/${id}/videos?api_key=${TMDB_Key}`)
     const data = await res.json();
     return data;
@@ -52,13 +54,21 @@ export const fetchCast = async (id, type, s) => {
     const res = await fetch(`https://api.themoviedb.org/3/${type}/${id}/${s}?api_key=${TMDB_Key}`);
     const data = await res.json();
 
-    const dir = data.crew.filter(c => c.job === "Director").slice(0, 1).map(m => m.name).join('')
-    const topCrew = Array.from(
-        new Map(
-            data.crew.map(({ name, job }) => [name, { name, job }])
-        ).values()
-    ).slice(0, 3);
-    const jobs = data.crew.filter(c => c.name === dir).map(j => j.job).join(", ")
+    const crew = data?.crew || [];
+
+    const dir = crew
+        .filter((c) => c.job === "Director")
+        .map((m) => m.name)[0] || "";
+
+    const topCrew = [...new Map(
+        crew.map(({ name, job }) => [name, { name, job }])
+    ).values()].slice(0, 3);
+
+    const jobs = crew
+        .filter((c) => c.name === dir)
+        .map((j) => j.job)
+        .join(", ");
+
     // console.log(data, topCrew)
     return { data, dir, jobs, topCrew };
 }
@@ -73,6 +83,7 @@ export const fetchImages = async (id, type) => {
     return data;
 }
 export const fetchContentRating = async (id) => {
+    if (!id) return { data: [] }
     const res = await fetch(`https://api.themoviedb.org/3/tv/${id}/content_ratings?api_key=${TMDB_Key}`)
     const data = await res.json();
     // console.log(data)
@@ -86,10 +97,26 @@ export const fetchGlobal = async (type, id, value) => {
 }
 
 
-export const fetchDummy = async (type, id, value) => {
+export const fetchDummy = async () => {
     const res = await fetch(`https://api.themoviedb.org/3/search/collection?api_key=${TMDB_Key}`)
     const data = await res.json();
-    console.log("fetchDummy",data)
+    console.log("fetchDummy", data)
     return data;
 }
-fetchDummy("The Housemaid Collection");
+// fetchDummy("The Housemaid Collection");
+
+export const Auth = async (id) => {
+    const options = {
+        method: 'GET',
+        headers: {
+            accept: 'application/json',
+            Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxNWRmMDdjYWJiOGU5ZDg0NDk4MDllZjQ4ZDNhY2MzMyIsIm5iZiI6MTc2MzAzOTE5Ny43NjcsInN1YiI6IjY5MTVkN2RkNTc5YjMyNWFiNjNhNDRhZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.CHspmbtF7ndXliVl5HxPrba8Dl8dZcLjRTKFM7UqLh8'
+        }
+    };
+    const url = `https://api.themoviedb.org/3/account/${id}`;
+    const res = await fetch(url, options)
+    const data = await res.json();
+    console.log("Auth", data)
+    return data;
+}
+Auth(22466989)

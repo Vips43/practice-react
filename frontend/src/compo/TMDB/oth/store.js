@@ -51,7 +51,7 @@ const useApiStore = create((set) => ({
       const filtered = data?.results?.filter(
         (m) => m.poster_path && m.backdrop_path
       );
-      console.log(filtered)
+      // console.log(filtered)
       set({ popular: filtered || [], loadingPopular: false });
     } catch (err) {
       set({ loadingPopular: false, err });
@@ -100,7 +100,7 @@ const useApiStore = create((set) => ({
       const res = await fetch(endpoint);
       const data = await res.json();
 
-      // console.log(data)
+      console.log("movie details",data)
 
       set({ [type === "tv" ? "tvDetail" : "movieDetail"]: data, isLoading: false, err: null });
     } catch (err) {
