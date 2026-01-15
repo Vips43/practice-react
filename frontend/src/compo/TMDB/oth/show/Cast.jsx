@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import CardActionArea from "@mui/material/CardActionArea";
 import Box from "@mui/material/Box";
 import useApiStore from "../store";
-import img from "/No-image.png";
+import img from "/casts.png";
 
 function Cast({ cast, url, cardWidth = 120 }) {
 

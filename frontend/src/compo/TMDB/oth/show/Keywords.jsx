@@ -52,13 +52,13 @@ function Keywords({ type }) {
    sx={{
     borderRadius: 2,
     p: 0,
-    background: "#fff",
     height: "fit-content",
    }}
   >
    <Typography
     variant="subtitle1"
     sx={{
+        fontSize:"1.25rem",
      fontWeight: 600,
      mb: 1,
      color: "black",
