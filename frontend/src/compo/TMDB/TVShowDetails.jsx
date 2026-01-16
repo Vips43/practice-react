@@ -46,17 +46,15 @@ function TVShowDetails() {
  /* 🔑 PREVENT CRASH ON REFRESH */
  if (!movieDetail || !movieDetail.id) {
   return (
-   <Box
+   <Typography
     sx={{
-     p: 4,
+      mt:10,
      textAlign: "center",
-     color: "white",
-     bgcolor: "#0f0f0f",
-     minHeight: "100vh",
-    }}
+     fontWeight:"700"
+    }} className="animate-pulse"
    >
     Loading TV show details...
-   </Box>
+   </Typography>
   );
  }
 
@@ -218,7 +216,7 @@ function TVShowDetails() {
         <Box
          sx={{
           display: "flex",
-          alignItems: {xs:"center",sm:"flex-start"},
+          alignItems: { xs: "center", sm: "flex-start" },
           justifyContent: { xs: "center", sm: "flex-start" },
           flexDirection: "column",
           gap: 2,
@@ -232,15 +230,14 @@ function TVShowDetails() {
            gap: 1,
           }}
          >
-          
-           <Vote
-            vote={Math.floor(movieDetail.vote_average * 10)}
-            w="w-12 md:w-16"
-            h="h-12 md:h-16"
-            showDetails={true}
-           />          
+          <Vote
+           vote={Math.floor(movieDetail.vote_average * 10)}
+           w="w-12 md:w-16"
+           h="h-12 md:h-16"
+           showDetails={true}
+          />
          </Box>
-         <ActionButtons/>
+         <ActionButtons />
         </Box>
 
         {/* --- DESKTOP ONLY: Tagline, Overview, Creators --- */}

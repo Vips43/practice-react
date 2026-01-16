@@ -20,11 +20,8 @@ function ActionButtons() {
 
  // 2. ONE generic toggler function
  const handleToggle = (key) => {
-  setStatus((prev) => {
-   console.log( {...prev, [key]: prev[key], ["new list updated"]: {...prev}});
-   return { ...prev, [key]: !prev[key] };
-  });
- };
+  setStatus((prev) => ({ ...prev, [key]: !prev[key] }))
+};
 
  const actions = [
   {

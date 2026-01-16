@@ -1,10 +1,11 @@
 import { create } from "zustand";
 
-// const API_KEY = `15df07cabb8e9d8449809ef48d3acc33`;
 const TMDB_Key = import.meta.env.VITE_TMDB_KEY;
 const TMDB_BEARER = import.meta.env.VITE_TMDB_BEARER;
 
-const useApiStore = create((set) => ({
+const useApiStore = create((set, get) => ({
+  /* ================= STATE ================= */
+
   popular: [],
   topRated: [],
   trending: [],
@@ -12,123 +13,237 @@ const useApiStore = create((set) => ({
   tvDetail: [],
   casts: [],
   searchResults: [],
+  globalData:[],
 
   loadingPopular: false,
   loadingTopRated: false,
   loadingTrending: false,
-  toggle: false,
+  isLoading: false,
 
+  toggle: false,
   searchtype: "movie",
+
   directorInfo: { name: "", jobs: "", topCrew: [] },
 
   err: null,
   query: null,
+
+  /* ================= CACHE ================= */
+
+  cache: {},
+
+  /* ================= SETTERS ================= */
 
   setToggle: () => set({ toggle: true }),
   setDirectorInfo: (payload) => set({ directorInfo: payload }),
   setSearchType: (type) => set({ searchtype: type }),
   setQuery: (q) => set({ query: q }),
 
+  /* ================= SEARCH ================= */
+
   searchMovie: async (q, type) => {
-    set({ isLoading: true })
+    const key = `search_${type}_${q}`;
+    const cached = get().cache[key];
+
+    if (cached) {
+      set({ searchResults: cached, err: null });
+      return;
+    }
+
+    set({ isLoading: true });
 
     try {
-      const res = await fetch(`https://api.themoviedb.org/3/search/${type}?query=${q}&api_key=${TMDB_Key}`)
+      const res = await fetch(
+        `https://api.themoviedb.org/3/search/${type}?query=${q}&api_key=${TMDB_Key}`
+      );
       const data = await res.json();
-      console.log("searched for ", type, data)
-      setTimeout(() => {
-        set({ searchResults: data, isLoading: false, err: null })
-      }, 2000);
+
+      set((state) => ({
+        searchResults: data,
+        isLoading: false,
+        err: null,
+        cache: { ...state.cache, [key]: data },
+      }));
     } catch (error) {
-      set({ isLoading: false, err: error })
+      set({ isLoading: false, err: error });
     }
   },
 
+  /* ================= POPULAR ================= */
+
   fetchPopular: async (type, status) => {
+    const key = `popular_${type}_${status}`;
+    const cached = get().cache[key];
+
+    if (cached) {
+      set({ popular: cached });
+      return;
+    }
+
     try {
       set({ loadingPopular: true });
+
       const res = await fetch(
         `https://api.themoviedb.org/3/${type}/${status}?api_key=${TMDB_Key}`
       );
       const data = await res.json();
-      const filtered = data?.results?.filter(
-        (m) => m.poster_path && m.backdrop_path
-      );
-      // console.log(filtered)
-      set({ popular: filtered || [], loadingPopular: false });
+
+      const filtered =
+        data?.results?.filter(
+          (m) => m.poster_path && m.backdrop_path
+        ) || [];
+
+      set((state) => ({
+        popular: filtered,
+        loadingPopular: false,
+        cache: { ...state.cache, [key]: filtered },
+      }));
     } catch (err) {
       set({ loadingPopular: false, err });
     }
   },
 
+  /* ================= TOP RATED ================= */
+
   fetchTopRated: async (type) => {
+    const key = `topRated_${type}`;
+    const cached = get().cache[key];
+
+    if (cached) {
+      set({ topRated: cached });
+      return;
+    }
+
     try {
       set({ loadingTopRated: true });
+
       const res = await fetch(
         `https://api.themoviedb.org/3/${type}/top_rated?api_key=${TMDB_Key}`
       );
       const data = await res.json();
-      const filtered = data?.results?.filter(
-        (m) => m.poster_path && m.backdrop_path
-      );
-      set({ topRated: filtered || [], loadingTopRated: false });
+
+      const filtered =
+        data?.results?.filter(
+          (m) => m.poster_path && m.backdrop_path
+        ) || [];
+
+      set((state) => ({
+        topRated: filtered,
+        loadingTopRated: false,
+        cache: { ...state.cache, [key]: filtered },
+      }));
     } catch (err) {
       set({ loadingTopRated: false, err });
     }
   },
 
+  /* ================= TRENDING ================= */
+
   fetchTrending: async (time = "day") => {
+    const key = `trending_${time}`;
+    const cached = get().cache[key];
+
+    if (cached) {
+      set({ trending: cached });
+      return;
+    }
+
     try {
       set({ loadingTrending: true });
+
       const res = await fetch(
         `https://api.themoviedb.org/3/trending/all/${time}?api_key=${TMDB_Key}`
       );
       const data = await res.json();
-      const filtered = data?.results?.filter(
-        (m) => m.poster_path && m.backdrop_path
-      );
-      set({ trending: filtered || [], loadingTrending: false });
+
+      const filtered =
+        data?.results?.filter(
+          (m) => m.poster_path && m.backdrop_path
+        ) || [];
+
+      set((state) => ({
+        trending: filtered,
+        loadingTrending: false,
+        cache: { ...state.cache, [key]: filtered },
+      }));
     } catch (err) {
       set({ loadingTrending: false, err });
     }
   },
+
+  /* ================= MOVIE / TV DETAIL ================= */
+
   setMovieDetail: async (id, type = "movie") => {
     if (!id) return;
-    set({ isLoading: true })
+
+    const key = `detail_${type}_${id}`;
+    const cached = get().cache[key];
+
+    if (cached) {
+      set({ [type === "tv" ? "tvDetail" : "movieDetail"]: cached });
+      return;
+    }
+
+    set({ isLoading: true });
+
     try {
       const endpoint =
         type === "tv"
           ? `https://api.themoviedb.org/3/tv/${id}?api_key=${TMDB_Key}`
           : `https://api.themoviedb.org/3/movie/${id}?api_key=${TMDB_Key}&language=en-US`;
+
       const res = await fetch(endpoint);
       const data = await res.json();
 
-      console.log("movie details",data)
-
-      set({ [type === "tv" ? "tvDetail" : "movieDetail"]: data, isLoading: false, err: null });
+      set((state) => ({
+        [type === "tv" ? "tvDetail" : "movieDetail"]: data,
+        isLoading: false,
+        err: null,
+        cache: { ...state.cache, [key]: data },
+      }));
     } catch (err) {
-      console.error("Movie detail fetch error:", err);
-      set({ movieDetail: null, err: err });
+      set({ isLoading: false, err });
     }
   },
 
+  /* ================= CAST ================= */
+
   setCasts: async (id, type) => {
+    const key = `casts_${type}_${id}`;
+    const cached = get().cache[key];
+
+    if (cached) {
+      set({ casts: cached });
+      return;
+    }
 
     set({ isLoading: true });
 
-    const url = `https://api.themoviedb.org/3/${type}/${id}/aggregate_credits?api_key=${TMDB_Key}&language=en-US`;
     try {
-      const res = await fetch(url);
+      const res = await fetch(
+        `https://api.themoviedb.org/3/${type}/${id}/aggregate_credits?api_key=${TMDB_Key}&language=en-US`
+      );
       const data = await res.json();
-      // console.log(data);
 
-      set({ casts: data, isLoading: false, err: null });
-
+      set((state) => ({
+        casts: data,
+        isLoading: false,
+        err: null,
+        cache: { ...state.cache, [key]: data },
+      }));
     } catch (error) {
       set({ isLoading: false, err: error });
     }
+  },
+  fetchGlobalAPI: async (type, key, page=1) => {
+    set({isLoading:true})
+    const res = await fetch(`https://api.themoviedb.org/3/${type}/${key}?api_key=${TMDB_Key}&page=${page}`);
+    const data=await res.json();
+    setTimeout(()=>{
+      set({globalData:data, isLoading:false})
+    },1000)
   }
-
 }));
+
 
 export default useApiStore;

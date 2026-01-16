@@ -1,7 +1,6 @@
 const TMDB_Key = import.meta.env.VITE_TMDB_KEY;
 const TMDB_BEARER = import.meta.env.VITE_TMDB_BEARER;
 
-console.log(TMDB_BEARER,TMDB_Key)
 
 export const duration = (runtime) => {
     if (!runtime) return "Runtime: N/A";
@@ -118,4 +117,4 @@ export const Auth = async (id) => {
     console.log("Auth", data)
     return data;
 }
-Auth(22466989)
+Auth()

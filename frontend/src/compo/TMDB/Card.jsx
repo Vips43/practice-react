@@ -2,11 +2,14 @@ import Box from "@mui/material/Box";
 import Vote from "./oth/Vote";
 import { useNavigate } from "react-router-dom";
 import Typography from "@mui/material/Typography";
+import { Pagination, Stack } from "@mui/material";
 
-function Card({ movie, children }) {
+function Card(props) {
+ const { movie, children, totalPages, active = false, setPage } = props;
  const imgUrl = "https://image.tmdb.org/t/p/w500";
  const navigate = useNavigate();
 
+ console.log(movie);
  if (!movie || movie.length === 0) return null;
 
  return (
@@ -21,15 +24,15 @@ function Card({ movie, children }) {
     sx={{
      display: "flex",
      overflowX: "auto",
-     pt: 1,
+     p: 1,
+     gap: 2,
+     flexWrap: active ? "wrap" : "nowrap",
     }}
     className="no-scrollbar"
    >
     {movie?.map((d) => {
-     // ✅ NORMALIZE MEDIA TYPE
      const type = d.media_type ?? (d?.first_air_date ? "tv" : "movie");
 
-     // ✅ NORMALIZE TITLE & DATE
      const title = type === "movie" ? d.title : d.name;
      const date = type === "movie" ? d.release_date : d.first_air_date;
 
@@ -37,12 +40,14 @@ function Card({ movie, children }) {
       <Box
        key={d.id}
        sx={{
-        flexShrink: 0,
-        px: 1,
+        flexShrink: 1,
+        flex: active ? 1 : "",
+        boxShadow: "2px 2px 5px grey",
         cursor: "pointer",
+        borderRadius: 1,
         transition: "transform 0.2s",
         "&:hover": {
-         transform: "translate(1px, 1px)",
+         opacity: 0.85,
         },
        }}
        onClick={() => {
@@ -57,8 +62,11 @@ function Card({ movie, children }) {
          src={`${imgUrl}${d.poster_path}`}
          alt={title}
          sx={{
-          height: 200,
+          width: "100%",
+          aspectRatio: "2 / 3",
           borderRadius: 1,
+          borderBottomRightRadius: 1,
+          borderBottomLeftRadius: 1,
          }}
         />
 
@@ -68,7 +76,7 @@ function Card({ movie, children }) {
        </Box>
 
        {/* TEXT */}
-       <Box sx={{ mt: 3, width: 130 }}>
+       <Box sx={{ mt: 3, width: 130, px: 1 }}>
         <Typography fontSize="0.9rem" fontWeight={600} noWrap>
          {title}
         </Typography>
@@ -80,6 +88,21 @@ function Card({ movie, children }) {
      );
     })}
    </Box>
+   {active ? (
+    <Box sx={{ width: "100%", display: "flex", mt: 2, mb: 5 }}>
+     <Stack spacing={2} sx={{ mx: "auto" }}>
+      <Pagination
+       count={totalPages}
+       onChange={(e, val) => {
+        setPage(val);
+       }}
+       shape="rounded"
+      />
+     </Stack>
+    </Box>
+   ) : (
+    ""
+   )}
   </Box>
  );
 }
