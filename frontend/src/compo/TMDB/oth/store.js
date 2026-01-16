@@ -241,7 +241,7 @@ const useApiStore = create((set, get) => ({
     const data=await res.json();
     setTimeout(()=>{
       set({globalData:data, isLoading:false})
-    },1000)
+    },2000)
   }
 }));
 

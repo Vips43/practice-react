@@ -21,6 +21,7 @@ import FullCasts from "./compo/TMDB/oth/show/FullCasts";
 import SearchPage from "./compo/TMDB/search/SearchPage";
 import TMDB from "./compo/TMDB/TMDB";
 import HeroMenus from "./compo/TMDB/HeroMenus";
+import PersonCard from "./compo/TMDB/PersonCard";
 
 function App() {
 
@@ -42,6 +43,7 @@ function App() {
     <Route path="/tmdbapp/tv/:id" element={<TVShowDetails />} />
     <Route path="/tmdbapp/:type/:id/cast" element={<FullCasts />} />
     <Route path="/tmdbapp/nav/:type/:keyVal" element={<HeroMenus />} />
+    <Route path="/tmdbapp/:type/:keyVal" element={<PersonCard />} />
     <Route path="/navigation/review" element={<RateReview />} />
     <Route path="/navigation/ToDoList" element={<ToDoList />} />
     <Route path="/navigation/fakestore" element={<FakeStore />} />

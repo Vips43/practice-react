@@ -3,14 +3,15 @@ import Vote from "./oth/Vote";
 import { useNavigate } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import { Pagination, Stack } from "@mui/material";
+import useApiStore from "./oth/store";
 
 function Card(props) {
  const { movie, children, totalPages, active = false, setPage } = props;
  const imgUrl = "https://image.tmdb.org/t/p/w500";
  const navigate = useNavigate();
 
- console.log(movie);
  if (!movie || movie.length === 0) return null;
+
 
  return (
   <Box

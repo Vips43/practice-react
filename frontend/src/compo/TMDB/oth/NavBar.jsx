@@ -191,7 +191,7 @@ function NavBar() {
        label="People"
        items={peopleMenu}
        onSelect={(key) => {
-        console.log(key); navigate(`/tmdbapp/nav/people/${key}`)
+        console.log(key); navigate(`/tmdbapp/nav/person/${key}`)
        }}
       />
 
