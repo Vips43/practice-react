@@ -1,6 +1,9 @@
 import { create } from "zustand";
 
-const API_KEY = `15df07cabb8e9d8449809ef48d3acc33`;
+// const API_KEY = `15df07cabb8e9d8449809ef48d3acc33`;
+const TMDB_Key = import.meta.env.VITE_TMDB_KEY;
+const TMDB_BEARER = import.meta.env.VITE_TMDB_BEARER;
+
 const useApiStore = create((set) => ({
   popular: [],
   topRated: [],
@@ -30,7 +33,7 @@ const useApiStore = create((set) => ({
     set({ isLoading: true })
 
     try {
-      const res = await fetch(`https://api.themoviedb.org/3/search/${type}?query=${q}&api_key=${API_KEY}`)
+      const res = await fetch(`https://api.themoviedb.org/3/search/${type}?query=${q}&api_key=${TMDB_Key}`)
       const data = await res.json();
       console.log("searched for ", type, data)
       setTimeout(() => {
@@ -45,7 +48,7 @@ const useApiStore = create((set) => ({
     try {
       set({ loadingPopular: true });
       const res = await fetch(
-        `https://api.themoviedb.org/3/${type}/${status}?api_key=${API_KEY}`
+        `https://api.themoviedb.org/3/${type}/${status}?api_key=${TMDB_Key}`
       );
       const data = await res.json();
       const filtered = data?.results?.filter(
@@ -62,7 +65,7 @@ const useApiStore = create((set) => ({
     try {
       set({ loadingTopRated: true });
       const res = await fetch(
-        `https://api.themoviedb.org/3/${type}/top_rated?api_key=${API_KEY}`
+        `https://api.themoviedb.org/3/${type}/top_rated?api_key=${TMDB_Key}`
       );
       const data = await res.json();
       const filtered = data?.results?.filter(
@@ -78,7 +81,7 @@ const useApiStore = create((set) => ({
     try {
       set({ loadingTrending: true });
       const res = await fetch(
-        `https://api.themoviedb.org/3/trending/all/${time}?api_key=${API_KEY}`
+        `https://api.themoviedb.org/3/trending/all/${time}?api_key=${TMDB_Key}`
       );
       const data = await res.json();
       const filtered = data?.results?.filter(
@@ -95,8 +98,8 @@ const useApiStore = create((set) => ({
     try {
       const endpoint =
         type === "tv"
-          ? `https://api.themoviedb.org/3/tv/${id}?api_key=${API_KEY}`
-          : `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=en-US`;
+          ? `https://api.themoviedb.org/3/tv/${id}?api_key=${TMDB_Key}`
+          : `https://api.themoviedb.org/3/movie/${id}?api_key=${TMDB_Key}&language=en-US`;
       const res = await fetch(endpoint);
       const data = await res.json();
 
@@ -113,7 +116,7 @@ const useApiStore = create((set) => ({
 
     set({ isLoading: true });
 
-    const url = `https://api.themoviedb.org/3/${type}/${id}/aggregate_credits?api_key=${API_KEY}&language=en-US`;
+    const url = `https://api.themoviedb.org/3/${type}/${id}/aggregate_credits?api_key=${TMDB_Key}&language=en-US`;
     try {
       const res = await fetch(url);
       const data = await res.json();
@@ -129,4 +132,3 @@ const useApiStore = create((set) => ({
 }));
 
 export default useApiStore;
-// https://api.themoviedb.org/3/movie/1242898/credits?api_key=15df07cabb8e9d8449809ef48d3acc33&language=en-US

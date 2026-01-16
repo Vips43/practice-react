@@ -1,8 +1,7 @@
-const TMDB_Key = `9d2ac0e411cefe72dbf19a4500943adb`;
+const TMDB_Key = import.meta.env.VITE_TMDB_KEY;
+const TMDB_BEARER = import.meta.env.VITE_TMDB_BEARER;
 
-// const TMDB_Key = import.meta.env.VITE_TMDB_KEY;
-// const TMDB_BEARER = import.meta.env.VITE_TMDB_BEARER;
-
+console.log(TMDB_BEARER,TMDB_Key)
 
 export const duration = (runtime) => {
     if (!runtime) return "Runtime: N/A";
@@ -110,7 +109,7 @@ export const Auth = async (id) => {
         method: 'GET',
         headers: {
             accept: 'application/json',
-            Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxNWRmMDdjYWJiOGU5ZDg0NDk4MDllZjQ4ZDNhY2MzMyIsIm5iZiI6MTc2MzAzOTE5Ny43NjcsInN1YiI6IjY5MTVkN2RkNTc5YjMyNWFiNjNhNDRhZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.CHspmbtF7ndXliVl5HxPrba8Dl8dZcLjRTKFM7UqLh8'
+            Authorization: 'Bearer ' + TMDB_BEARER
         }
     };
     const url = `https://api.themoviedb.org/3/account/${id}`;
