@@ -51,7 +51,7 @@ function PersonCard(props) {
      >
       {/* IMAGE */}
       <Box sx={{ position: "relative" }}>
-       
+
        <Box
         component="img"
         src={`${imgUrl}${per?.profile_path}` || `${img}`}

@@ -37,7 +37,7 @@ function App() {
     <Route path="/navigation/passgenapp" element={<PasswordGen />} />
     <Route path="/navigation/notepadapp" element={<NotesApp />} />
     <Route path="/navigation/colorapp" element={<ColorApp />} />
-    <Route path="/navigation/tmdbapp" element={<TMDB />} />
+    <Route path="/tmdbapp" element={<TMDB />} />
     <Route path="/search/:q" element={<SearchPage />} />
     <Route path="/tmdbapp/movie/:id" element={<MovieDetails />} />
     <Route path="/tmdbapp/tv/:id" element={<TVShowDetails />} />

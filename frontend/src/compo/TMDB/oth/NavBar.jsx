@@ -1,118 +1,77 @@
 import * as React from "react";
 import PropTypes from "prop-types";
-import {
- AppBar,
- Box,
- CssBaseline,
- Toolbar,
- Typography,
- Button,
- Menu,
- MenuItem,
-} from "@mui/material";
+import { AppBar, Box, CssBaseline, Toolbar, Typography } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import { useNavigate } from "react-router";
 
 import Card from "../Card";
 import useApiStore from "./store";
 import Searchbtn from "../search/compo/Searchbtn";
 import Toggler from "./Toggler";
-import { useNavigate } from "react-router";
+import NavDropdown from "../navbar component/NavDropdown";
+import NavDrawer from "../navbar component/NavDrawer";
 
-/* ================= MENU DATA ================= */
+/* ================= CONSTANTS ================= */
 
-const movieMenu = [
+const MOVIE_MENU = [
  { label: "Popular", key: "popular" },
  { label: "Now Playing", key: "now_playing" },
  { label: "Top Rated", key: "top_rated" },
  { label: "Upcoming", key: "upcoming" },
 ];
 
-const tvMenu = [
+const TV_MENU = [
  { label: "Airing Today", key: "airing_today" },
  { label: "On The Air", key: "on_the_air" },
  { label: "Popular", key: "popular" },
 ];
 
-const peopleMenu = [{ label: "Popular People", key: "popular" }];
-
-/* ================= DROPDOWN COMPONENT ================= */
-
-function NavDropdown({ label, items, onSelect }) {
- const [anchorEl, setAnchorEl] = React.useState(null);
- const open = Boolean(anchorEl);
-
- return (
-  <>
-   <Button
-    onClick={(e) => setAnchorEl(e.currentTarget)}
-    sx={{
-     color: "#fff",
-     fontWeight: 600,
-     whiteSpace: "nowrap",
-     ":hover": { background: "none", opacity: 0.85 },
-    }}
-   >
-    {label}
-   </Button>
-
-   <Menu anchorEl={anchorEl} open={open} onClose={() => setAnchorEl(null)}>
-    {items.map((item) => (
-     <MenuItem
-      key={item.key}
-      onClick={() => {
-       onSelect(item.key);
-       setAnchorEl(null);
-      }}
-     >
-      {item.label}
-     </MenuItem>
-    ))}
-   </Menu>
-  </>
- );
-}
+const PEOPLE_MENU = [{ label: "Popular People", key: "popular" }];
 
 /* ================= NAVBAR ================= */
 
 function NavBar() {
+ const navigate = useNavigate();
+
+ const [mobileOpen, setMobileOpen] = React.useState(false);
+
  const [pType, setPType] = React.useState("movie");
  const [pTV, setPV] = React.useState("airing_today");
  const [pMovie, setPMovie] = React.useState("now_playing");
  const [rType, setRType] = React.useState("movie");
  const [tType, setTType] = React.useState("day");
 
- 
- const navigate = useNavigate();
- const toggle = pType === "tv";
+ const {
+  popular,
+  topRated,
+  trending,
+  fetchPopular,
+  fetchTopRated,
+  fetchTrending,
+  loadingPopular,
+  loadingTopRated,
+  loadingTrending,
+ } = useApiStore();
 
- const popular = useApiStore((s) => s.popular);
- const topRated = useApiStore((s) => s.topRated);
- const trending = useApiStore((s) => s.trending);
+ const isTvToggle = pType === "tv";
 
- const fetchPopular = useApiStore((s) => s.fetchPopular);
- const fetchTopRated = useApiStore((s) => s.fetchTopRated);
- const fetchTrending = useApiStore((s) => s.fetchTrending);
-
- const loadingPopular = useApiStore((s) => s.loadingPopular);
- const loadingTopRated = useApiStore((s) => s.loadingTopRated);
- const loadingTrending = useApiStore((s) => s.loadingTrending);
-
- const item1 = [
+ const mediaTypes = [
   { label: "Movies", key: "movie" },
   { label: "TV-Show", key: "tv" },
  ];
 
- const item2 = [
+ const timeWindows = [
   { label: "Today", key: "day" },
   { label: "This-week", key: "week" },
  ];
 
- const item3TV = [
+ const popularTvFilters = [
   { label: "Streaming", key: "airing_today" },
   { label: "On Air", key: "on_the_air" },
   { label: "Popular", key: "popular" },
  ];
 
- const item4Movie = [
+ const popularMovieFilters = [
   { label: "Streaming", key: "now_playing" },
   { label: "Popular", key: "popular" },
   { label: "Top Rated", key: "top_rated" },
@@ -120,14 +79,13 @@ function NavBar() {
  ];
 
  React.useEffect(() => {
-  fetchPopular(pType, toggle ? pTV : pMovie);
+  fetchPopular(pType, isTvToggle ? pTV : pMovie);
   fetchTopRated(rType);
   fetchTrending(tType);
  }, [
   pType,
-  toggle,
-  pMovie,
   pTV,
+  pMovie,
   rType,
   tType,
   fetchPopular,
@@ -139,117 +97,112 @@ function NavBar() {
   <Box>
    <CssBaseline />
 
-   {/* ================= APP BAR ================= */}
-   <AppBar position="sticky" sx={{ backgroundColor: "#0d253f" }}>
-    <Toolbar
-     sx={{
-      minHeight: { xs: 56, sm: 64 },
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "space-between",
-      gap: 2,
-     }}
-    >
-     {/* LOGO */}
+   <AppBar position="sticky" sx={{ bgcolor: "#032541" }}>
+    <Toolbar sx={{ display: "flex" }}>
+     <MenuIcon
+      aria-label="open navigation menu"
+      role="button"
+      onClick={() => setMobileOpen(true)}
+      sx={{ cursor: "pointer", display: { sm: "none" } }}
+     />
+
      <Typography
       variant="h6"
-      className="tmdb"
+      onClick={() => navigate("/tmdbapp/")}
       sx={{
        fontWeight: 800,
-       letterSpacing: "0.15em",
-       color: "transparent",
-       whiteSpace: "nowrap",
+       width: "100%",
+       cursor: "pointer",
+       background: "linear-gradient(to right, #90cea1, #01b4e4)",
+       WebkitBackgroundClip: "text",
+       WebkitTextFillColor: "transparent",
+       textAlign: { xs: "center", sm: "left" },
       }}
      >
       TMDB
      </Typography>
 
-     {/* MENU + SEARCH */}
      <Box
       sx={{
        display: { xs: "none", sm: "flex" },
        alignItems: "center",
        gap: 1,
-       ml: "auto",
+       mr: 3,
       }}
      >
       <NavDropdown
        label="Movies"
-       items={movieMenu}
-       onSelect={(key) => {
-        console.log(key) ; navigate(`/tmdbapp/nav/movie/${key}`)
-       }}
+       items={MOVIE_MENU}
+       onSelect={(key) => navigate(`/tmdbapp/nav/movie/${key}`)}
       />
-
       <NavDropdown
        label="TV Shows"
-       items={tvMenu}
-       onSelect={(key) => { console.log(key); navigate(`/tmdbapp/nav/tv/${key}`) }}
+       items={TV_MENU}
+       onSelect={(key) => navigate(`/tmdbapp/nav/tv/${key}`)}
       />
-
       <NavDropdown
        label="People"
-       items={peopleMenu}
-       onSelect={(key) => {
-        console.log(key); navigate(`/tmdbapp/nav/person/${key}`)
-       }}
+       items={PEOPLE_MENU}
+       onSelect={(key) => navigate(`/tmdbapp/nav/person/${key}`)}
       />
-
-      <Searchbtn />
      </Box>
+     <Searchbtn />
     </Toolbar>
    </AppBar>
 
-   {/* ================= MAIN CONTENT ================= */}
-   <Box component="main" sx={{ p: 3 }}>
+   {/* MOBILE DRAWER */}
+   <NavDrawer
+    mobileOpen={mobileOpen}
+    setMobileOpen={setMobileOpen}
+    MOVIE_MENU={MOVIE_MENU}
+    TV_MENU={TV_MENU}
+    PEOPLE_MENU={PEOPLE_MENU}
+   />
+
+   {/* ===== MAIN CONTENT (UNCHANGED) ===== */}
+   <Box component="main" sx={{ p: 3, maxWidth: "1400px", mx: "auto" }}>
     <Card movie={popular} active={false} load={loadingPopular}>
-     <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
-      <Typography
-       sx={{
-        fontSize: { xs: "1rem", sm: "1.5rem" },
-        fontWeight: 600,
-        width: "100%",
-        px: 2,
-       }}
-      >
-       What's Popular on {pType === "tv" ? "TV Shows" : "Movies"}
+     <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2, mb: 2 }}>
+      <Typography variant="h5" sx={{ fontWeight: 600, whiteSpace: "nowrap" }}>
+       What's Popular
       </Typography>
-
-      <Toggler value={pType} onChange={setPType} items={item1} />
-
-      {toggle ? (
-       <Toggler value={pTV} onChange={setPV} items={item3TV} />
-      ) : (
-       <Toggler value={pMovie} onChange={setPMovie} items={item4Movie} />
-      )}
+      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+       <Toggler value={pType} onChange={setPType} items={mediaTypes} />
+       <Toggler
+        value={isTvToggle ? pTV : pMovie}
+        onChange={isTvToggle ? setPV : setPMovie}
+        items={isTvToggle ? popularTvFilters : popularMovieFilters}
+       />
+      </Box>
      </Box>
     </Card>
 
     <Card movie={topRated} active={false} load={loadingTopRated}>
-     <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-      <Typography sx={{ fontSize: "1.5rem", fontWeight: 600, px: 2 }}>
+     <Box sx={{ display: "flex", gap: 2, mb: 2 }}>
+      <Typography variant="h5" sx={{ fontWeight: 600 }}>
        Top Rated
       </Typography>
-      <Toggler value={rType} onChange={setRType} items={item1} />
+      <Box>
+       <Toggler value={rType} onChange={setRType} items={mediaTypes} />
+      </Box>
      </Box>
     </Card>
 
     <Card movie={trending} active={false} load={loadingTrending}>
-     <Box sx={{ display: "flex", alignItems: "center" }}>
-      <Typography sx={{ fontSize: "1.5rem", fontWeight: 600, px: 2 }}>
+     <Box sx={{ display: "flex", gap: 2, mb: 2 }}>
+      <Typography variant="h5" sx={{ fontWeight: 600 }}>
        Trending
       </Typography>
-      <Toggler value={tType} onChange={setTType} items={item2} />
+      <Box>
+       <Toggler value={tType} onChange={setTType} items={timeWindows} />
+      </Box>
      </Box>
     </Card>
    </Box>
-
   </Box>
  );
 }
 
-NavBar.propTypes = {
- window: PropTypes.func,
-};
+NavBar.propTypes = { window: PropTypes.func };
 
 export default NavBar;
