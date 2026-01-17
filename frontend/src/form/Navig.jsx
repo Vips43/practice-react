@@ -16,7 +16,7 @@ function Navig() {
     <Link to={"/navigation/colorapp"}>
      <button className="m-0!">Color App</button>
     </Link>
-    <Link to={"/navigation/tmdbapp"}>
+    <Link to={"/tmdbapp"}>
      <button className="m-0!">TMDB App</button>
     </Link>
     <Link to={"/navigation/review"}>

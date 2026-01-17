@@ -1,9 +1,10 @@
-import { Container } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import Card from "./Card";
 import useApiStore from "./oth/store";
 import PersonCard from "./PersonCard";
+import LeftNav from "./navbar component/LeftNav";
 
 function HeroMenus() {
  const { type, keyVal } = useParams();
@@ -17,9 +18,7 @@ function HeroMenus() {
  useEffect(() => {
   setPage(1);
  }, [type, keyVal]);
- 
- console.log(type);
- 
+
  useEffect(() => {
   fetchGlobalAPI(type, keyVal, page);
  }, [page, type]);
@@ -34,22 +33,32 @@ function HeroMenus() {
  return (
   <>
    <Container>
-    {type && type != "person" ?
-    (<Card
-    movie={globalData.results}
-    page={page}
-    setPage={setPage}
-    totalPages={globalData.total_pages}
-     active={true}
-    >
-    </Card>) :
-    (<PersonCard page={page} person={globalData.results}
-    setPage={setPage}
-    totalPages={globalData.total_pages}
-     active={true} >
-        hello
-    </PersonCard>)
-}
+    {type && type != "person" ? (
+     <>
+      <Box sx={{ display: "flex" }}>
+       <Box sx={{ position: "sticky", top: 0 }}>
+        <LeftNav />
+       </Box>
+       <Card
+        movie={globalData.results}
+        page={page}
+        setPage={setPage}
+        totalPages={globalData.total_pages}
+        active={true}
+       ></Card>
+      </Box>
+     </>
+    ) : (
+     <PersonCard
+      page={page}
+      person={globalData.results}
+      setPage={setPage}
+      totalPages={globalData.total_pages}
+      active={true}
+     >
+      hello
+     </PersonCard>
+    )}
    </Container>
   </>
  );

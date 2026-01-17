@@ -1,3 +1,4 @@
+
 const TMDB_Key = import.meta.env.VITE_TMDB_KEY;
 const TMDB_BEARER = import.meta.env.VITE_TMDB_BEARER;
 
@@ -18,7 +19,7 @@ const movieAPI = async () => {
 
     const fdata = data?.results?.filter(
         (m) => m.poster_path !== null && m.backdrop_path !== null);
-        console.log(fdata)
+        // console.log(fdata)
         
     return fdata;
 }
@@ -95,13 +96,19 @@ export const fetchGlobal = async (type, id, value) => {
 }
 
 
-export const fetchDummy = async () => {
-    const res = await fetch(`https://api.themoviedb.org/3/search/collection?api_key=${TMDB_Key}`)
+export const fetchCountries = async () => {
+    const res = await fetch(`https://api.themoviedb.org/3/configuration/countries?api_key=${TMDB_Key}`)
     const data = await res.json();
-    console.log("fetchDummy", data)
+    console.log(data)
     return data;
 }
-// fetchDummy("The Housemaid Collection");
+export const fetchDummy = async (val) => {
+    const res = await fetch(`https://api.themoviedb.org/3/watch/providers/regions?api_key=${TMDB_Key}`)
+    const data = await res.json();
+    const filtered = data.results.find(i=> i.iso_3166_1 === val)
+    return filtered;
+}
+// fetchDummy();
 
 export const Auth = async (id) => {
     const options = {
@@ -117,4 +124,4 @@ export const Auth = async (id) => {
     console.log("Auth", data)
     return data;
 }
-Auth()
+// Auth()

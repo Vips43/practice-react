@@ -9,7 +9,7 @@ import MovieFullDetail from "./movie/MovieFullDetail";
 import ActionButtons from "./oth/ActionButtons";
 
 function MovieDetails() {
- const imgUrl = "https://image.tmdb.org/t/p/w500";
+ const imgUrl = "https://image.tmdb.org/t/p/original";
  const originalImgUrl = "https://image.tmdb.org/t/p/original";
  const { id } = useParams();
 

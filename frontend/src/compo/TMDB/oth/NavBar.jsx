@@ -10,6 +10,7 @@ import Searchbtn from "../search/compo/Searchbtn";
 import Toggler from "./Toggler";
 import NavDropdown from "../navbar component/NavDropdown";
 import NavDrawer from "../navbar component/NavDrawer";
+import LeftNav from '../navbar component/LeftNav'
 
 /* ================= CONSTANTS ================= */
 
@@ -158,6 +159,8 @@ function NavBar() {
     TV_MENU={TV_MENU}
     PEOPLE_MENU={PEOPLE_MENU}
    />
+
+  
 
    {/* ===== MAIN CONTENT (UNCHANGED) ===== */}
    <Box component="main" sx={{ p: 3, maxWidth: "1400px", mx: "auto" }}>

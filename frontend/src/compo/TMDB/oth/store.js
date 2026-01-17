@@ -49,15 +49,12 @@ const useApiStore = create((set, get) => ({
       set({ searchResults: cached, err: null });
       return;
     }
-
     set({ isLoading: true });
-
     try {
       const res = await fetch(
         `https://api.themoviedb.org/3/search/${type}?query=${q}&api_key=${TMDB_Key}`
       );
       const data = await res.json();
-
       set((state) => ({
         searchResults: data,
         isLoading: false,
@@ -79,7 +76,6 @@ const useApiStore = create((set, get) => ({
       set({ popular: cached });
       return;
     }
-
     try {
       set({ loadingPopular: true });
 
@@ -87,12 +83,10 @@ const useApiStore = create((set, get) => ({
         `https://api.themoviedb.org/3/${type}/${status}?api_key=${TMDB_Key}`
       );
       const data = await res.json();
-
       const filtered =
         data?.results?.filter(
           (m) => m.poster_path && m.backdrop_path
         ) || [];
-
       set((state) => ({
         popular: filtered,
         loadingPopular: false,
@@ -194,7 +188,6 @@ const useApiStore = create((set, get) => ({
 
       const res = await fetch(endpoint);
       const data = await res.json();
-
       set((state) => ({
         [type === "tv" ? "tvDetail" : "movieDetail"]: data,
         isLoading: false,
@@ -247,3 +240,8 @@ const useApiStore = create((set, get) => ({
 
 
 export default useApiStore;
+
+
+
+
+

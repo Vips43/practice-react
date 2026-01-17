@@ -9,7 +9,7 @@ import { fetchGlobal } from "./api";
 import ActionButtons from "./oth/ActionButtons";
 
 function TVShowDetails() {
- const imgUrl = "https://image.tmdb.org/t/p/w500";
+ const imgUrl = "https://image.tmdb.org/t/p/original";
  const originalImgUrl = "https://image.tmdb.org/t/p/original"; // High res for backdrop
  const { id } = useParams();
  const [content_rating, setContenet_Rating] = useState(null);
