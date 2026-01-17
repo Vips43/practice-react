@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
  FaRegHeart,
  FaHeart,
@@ -9,19 +9,27 @@ import {
  FaRegBookmark,
  FaBookmark,
 } from "react-icons/fa";
+import { setFav_Watch } from "../api";
 
-function ActionButtons() {
- // 1. ONE state object to manage all buttons independently
+function ActionButtons({type, id}) {
+ 
  const [status, setStatus] = useState({
   list: false,
   fav: false,
   watch: false,
  });
 
- // 2. ONE generic toggler function
+ useEffect(()=>{
+  const getData=async ()=>{
+    const data= await setFav_Watch(type, id, status.fav);
+    console.log(data)
+  }
+  getData()
+ },[status.fav])
+
  const handleToggle = (key) => {
-  setStatus((prev) => ({ ...prev, [key]: !prev[key] }))
-};
+  setStatus((prev) => ({ ...prev, [key]: !prev[key] }));
+ };
 
  const actions = [
   {

@@ -6,7 +6,7 @@ import { Pagination, Stack } from "@mui/material";
 import useApiStore from "./oth/store";
 
 function Card(props) {
- const { movie, children, totalPages, active = false, setPage } = props;
+ const { movie, children, totalPages,page, active = false, setPage } = props;
  const imgUrl = "https://image.tmdb.org/t/p/original";
  const navigate = useNavigate();
 
@@ -47,6 +47,7 @@ function Card(props) {
         cursor: "pointer",
         borderRadius: 1,
         transition: "transform 0.2s",
+        flexGrow:0,
         "&:hover": {
          opacity: 0.85,
         },
@@ -90,17 +91,21 @@ function Card(props) {
     })}
    </Box>
    {active ? (
-    <Box sx={{ width: "100%", display: "flex", mt: 2, mb: 5 }}>
-     <Stack spacing={2} sx={{ mx: "auto" }}>
-      <Pagination
-       count={totalPages}
-       onChange={(_, val) => {
-        setPage(val);
-       }}
-       shape="rounded"
-      />
-     </Stack>
-    </Box>
+    <Stack spacing={4} alignItems="center" sx={{ my: 4 }}>
+  <Pagination
+    color="primary"
+    count={totalPages}
+    page={page}
+    size="small"
+    shape="rounded"
+    onChange={(e, val) => {
+      e.preventDefault();
+      setPage(val);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }}
+  />
+</Stack>
+
    ) : (
     ""
    )}

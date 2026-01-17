@@ -19,8 +19,8 @@ const movieAPI = async () => {
 
     const fdata = data?.results?.filter(
         (m) => m.poster_path !== null && m.backdrop_path !== null);
-        // console.log(fdata)
-        
+    // console.log(fdata)
+
     return fdata;
 }
 export default movieAPI;
@@ -105,7 +105,7 @@ export const fetchCountries = async () => {
 export const fetchDummy = async (val) => {
     const res = await fetch(`https://api.themoviedb.org/3/watch/providers/regions?api_key=${TMDB_Key}`)
     const data = await res.json();
-    const filtered = data.results.find(i=> i.iso_3166_1 === val)
+    const filtered = data.results.find(i => i.iso_3166_1 === val)
     return filtered;
 }
 // fetchDummy();
@@ -124,4 +124,25 @@ export const Auth = async (id) => {
     console.log("Auth", data)
     return data;
 }
-// Auth()
+
+export async function setFav_Watch(type, id, fav, userId=22466989) {
+
+    const options = {
+        method: 'POST',
+        headers: {
+            accept: "application/json",
+            "content-type": "application/json",
+            Authorization: 'Bearer ' + TMDB_BEARER
+        },
+        body: JSON.stringify({
+            media_type: type,
+            media_id: id,
+            favorite: fav,
+        }),
+    };
+
+   const res = await fetch(`https://api.themoviedb.org/3/account/${userId}/favorite`, options);
+   const data = await res.json();
+    return data;
+}
+

@@ -38,39 +38,39 @@ function HeroMenus() {
 
  return (
   <>
-   <Container>
+   <Container maxWidth="xl" disableGutters>
     {type && type != "person" ? (
      <>
       <Box onClick={toggleDrawer(true)} sx={{ display: { sm: "none" }, mt: 1 }}>
        <MenuIcon />
       </Box>
       <Drawer
-       sx={{ position: "sticky", top: 0, display:{sm:"none"} }}
+       sx={{ display: { sm: "none" } }}
        open={open}
        onClose={toggleDrawer(false)}
       >
-        <LeftNav />
+       <LeftNav />
       </Drawer>
-       <Box sx={{ display: { xs: "none", sm: "block" } }}>
-      <LeftNav />
+      <Box sx={{ display: "flex", alignItems: "flex-start"  }}>
+       <Box sx={{ display: { xs: "none", sm: "block" }, position: "sticky", top: 0, }} className="sticky! top-0" >
+        <LeftNav />
        </Box>
-      <Box sx={{ display: "flex" }}>
        <Card
-       movie={globalData.results}
-       page={page}
-       setPage={setPage}
-       totalPages={globalData.total_pages}
-       active={true}
+        movie={globalData.results}
+        page={page}
+        setPage={setPage}
+        totalPages={globalData.total_pages}
+        active={true}
        ></Card>
       </Box>
      </>
     ) : (
      <PersonCard
-       page={page}
-       person={globalData.results}
-       setPage={setPage}
-       totalPages={globalData.total_pages}
-       active={true}
+      page={page}
+      person={globalData.results}
+      setPage={setPage}
+      totalPages={globalData.total_pages}
+      active={true}
      >
       hello
      </PersonCard>

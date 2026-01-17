@@ -13,6 +13,8 @@ function MovieDetails() {
  const originalImgUrl = "https://image.tmdb.org/t/p/original";
  const { id } = useParams();
 
+ const type = "movie";
+
  const movieDetail = useApiStore((state) => state.movieDetail);
  const isLoading = useApiStore((state) => state.isLoading);
  const directorInfo = useApiStore((state) => state.directorInfo);
@@ -191,9 +193,9 @@ function MovieDetails() {
          <Box
           sx={{
            display: "flex",
-           flexDirection:{xs:"row", sm:"column"},
-           alignItems: {xs:"center", sm:"flex-start",},
-           justifyContent: { xs:"center",sm: "flex-start" },
+           flexDirection: { xs: "row", sm: "column" },
+           alignItems: { xs: "center", sm: "flex-start" },
+           justifyContent: { xs: "center", sm: "flex-start" },
            gap: 2,
            mb: { xs: 0, md: 3 }, // Remove bottom margin on mobile as content ends here
           }}
@@ -205,10 +207,9 @@ function MovieDetails() {
             h="h-12 md:h-16"
             showDetails={true}
            />
-           
           </Box>
           <Box>
-           <ActionButtons />
+           <ActionButtons id={movieDetail.id} type={type} />
           </Box>
          </Box>
 
