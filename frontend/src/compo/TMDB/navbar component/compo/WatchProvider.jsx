@@ -29,7 +29,7 @@ function WatchProvider() {
      width: 225,
      border: "1px solid grey",
      borderRadius: 2,
-     m: 2,
+     mx: 1,
      display: "grid",
      justifyItems: "center",
     }}

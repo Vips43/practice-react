@@ -94,7 +94,7 @@ function Card(props) {
      <Stack spacing={2} sx={{ mx: "auto" }}>
       <Pagination
        count={totalPages}
-       onChange={(e, val) => {
+       onChange={(_, val) => {
         setPage(val);
        }}
        shape="rounded"
