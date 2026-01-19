@@ -108,41 +108,40 @@ export const fetchDummy = async (val) => {
     const filtered = data.results.find(i => i.iso_3166_1 === val)
     return filtered;
 }
-// fetchDummy();
 
-export const Auth = async (id) => {
-    const options = {
-        method: 'GET',
-        headers: {
-            accept: 'application/json',
-            Authorization: 'Bearer ' + TMDB_BEARER
-        }
-    };
-    const url = `https://api.themoviedb.org/3/account/${id}`;
-    const res = await fetch(url, options)
-    const data = await res.json();
-    console.log("Auth", data)
-    return data;
+export const getFindById = async (external_id) => {
+    try {
+        const res = await fetch(`https://api.themoviedb.org/3/find/${external_id}?external_source=imdb_id&api_key=${TMDB_Key}`);
+        if (!res.ok) console.log("network", res.status)
+        const data = await res.json();
+        return data
+    } catch (error) {
+        console.error("error in findById", error)
+        return data
+    }
 }
+let cache = {};
 
-export async function setFav_Watch(type, id, fav, userId=22466989) {
+export const getPersonFull = async (id) => {
+    const key = `personFull_${id}`;
 
-    const options = {
-        method: 'POST',
-        headers: {
-            accept: "application/json",
-            "content-type": "application/json",
-            Authorization: 'Bearer ' + TMDB_BEARER
-        },
-        body: JSON.stringify({
-            media_type: type,
-            media_id: id,
-            favorite: fav,
-        }),
-    };
+    if (cache[key]) {
+        console.log('returned from cached')
+        return cache[key];
+    }
 
-   const res = await fetch(`https://api.themoviedb.org/3/account/${userId}/favorite`, options);
-   const data = await res.json();
-    return data;
-}
+    const res = await fetch(
+        `https://api.themoviedb.org/3/person/${id}?api_key=${TMDB_Key}&append_to_response=combined_credits`
+    );
+    const data = await res.json()
+    
+
+    cache[key] = data
+    console.log("perfull details", data, cache)
+
+    return cache[key];
+};
+
+// getPersonFull(1498158)
+
 

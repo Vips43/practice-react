@@ -21,7 +21,8 @@ import FullCasts from "./compo/TMDB/oth/show/FullCasts";
 import SearchPage from "./compo/TMDB/search/SearchPage";
 import TMDB from "./compo/TMDB/TMDB";
 import HeroMenus from "./compo/TMDB/HeroMenus";
-import PersonCard from "./compo/TMDB/PersonCard";
+import AuthSuccess from "./compo/TMDB/AuthSuccess";
+import PersonDetails from "./compo/TMDB/person details/PersonDetails";
 
 function App() {
 
@@ -38,12 +39,13 @@ function App() {
     <Route path="/navigation/notepadapp" element={<NotesApp />} />
     <Route path="/navigation/colorapp" element={<ColorApp />} />
     <Route path="/tmdbapp" element={<TMDB />} />
+    <Route path="/auth-success" element={<AuthSuccess />} />
     <Route path="/search/:q" element={<SearchPage />} />
     <Route path="/tmdbapp/movie/:id" element={<MovieDetails />} />
     <Route path="/tmdbapp/tv/:id" element={<TVShowDetails />} />
     <Route path="/tmdbapp/:type/:id/cast" element={<FullCasts />} />
     <Route path="/tmdbapp/nav/:type/:keyVal" element={<HeroMenus />} />
-    <Route path="/tmdbapp/:type/:keyVal" element={<PersonCard />} />
+    <Route path="/tmdbapp/:type/:id/:keyVal" element={<PersonDetails />} />
     <Route path="/navigation/review" element={<RateReview />} />
     <Route path="/navigation/ToDoList" element={<ToDoList />} />
     <Route path="/navigation/fakestore" element={<FakeStore />} />

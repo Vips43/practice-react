@@ -1,24 +1,31 @@
 import Box from "@mui/material/Box";
-import Vote from "./oth/Vote";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import { Pagination, Stack } from "@mui/material";
-import useApiStore from "./oth/store";
-import img from "/casts.png"
+import img from "/casts.png";
+import { useEffect } from "react";
+import { capitalizeFirstLetter } from "./Auth";
 
 function PersonCard(props) {
- const { person, children, totalPages, setPage } = props;
+ const { person, children, totalPages, page, setPage } = props;
+
  const imgUrl = "https://image.tmdb.org/t/p/w500";
  const navigate = useNavigate();
 
+ const {type, keyVal} = useParams();
+ console.log(type)
+ useEffect(() => {
+    let types = capitalizeFirstLetter(type);
+    let key = capitalizeFirstLetter(keyVal);
+  document.title = `${key} ${types}`;
+ }, []);
  console.log(person);
- if (!person) return <p>no data</p>
-
+ if (!person) return <p>no data</p>;
 
  return (
   <Box
    sx={{
-    mt: 2,
+    m: 4,
    }}
   >
    {children}
@@ -26,7 +33,7 @@ function PersonCard(props) {
    <Box
     sx={{
      display: "flex",
-     flexWrap:"wrap",
+     flexWrap: "wrap",
      p: 1,
      gap: 2,
     }}
@@ -36,26 +43,26 @@ function PersonCard(props) {
      <Box
       sx={{
        flexShrink: 0,
-       flexBasis:"140px",
+       flexBasis: "140px",
        boxShadow: "2px 2px 5px grey",
        cursor: "pointer",
-       borderRadius: 1,
+       borderRadius: 3,
        transition: "transform 0.2s",
        "&:hover": {
-        opacity: 0.85,
+        opacity: 0.75,
        },
       }}
       onClick={() => {
-       console.log("hello from persons");
+       console.log("hello from persons", per.name);
+       navigate(`/tmdbapp/person/${per.id}/${per.name}`)
       }}
      >
       {/* IMAGE */}
       <Box sx={{ position: "relative" }}>
-
        <Box
         component="img"
         src={`${imgUrl}${per?.profile_path}` || `${img}`}
-         alt={per.name }
+        alt={per.name}
         sx={{
          width: "100%",
          aspectRatio: "2 / 3",
@@ -72,11 +79,12 @@ function PersonCard(props) {
 
       {/* TEXT */}
       <Box sx={{ mt: 3, width: 130, px: 1 }}>
-       <Typography fontSize="0.9rem" fontWeight={600} noWrap>
-        {per.name} name
+       <Typography fontSize="0.9rem" fontWeight={600}>
+        {per.name}
        </Typography>
        <Typography fontSize="0.75rem" color="text.secondary">
-        {/* {date} */}
+        {per.known_for?.map((kno) => kno.name||"").join(" ")}
+        {per.known_for?.map((kno) => kno.title||"").join(", ")}
        </Typography>
       </Box>
      </Box>
@@ -86,10 +94,11 @@ function PersonCard(props) {
    <Box sx={{ width: "100%", display: "flex", mt: 2, mb: 5 }}>
     <Stack spacing={2} sx={{ mx: "auto" }}>
      <Pagination
-         count={totalPages}
-         onChange={(e, val) => {
-          setPage(val);}}
-
+      count={totalPages}
+      page={page}
+      onChange={(e, val) => {
+       setPage(val);
+      }}
       shape="rounded"
      />
     </Stack>

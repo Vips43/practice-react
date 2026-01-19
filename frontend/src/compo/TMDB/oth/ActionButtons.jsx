@@ -9,23 +9,40 @@ import {
  FaRegBookmark,
  FaBookmark,
 } from "react-icons/fa";
-import { setFav_Watch } from "../api";
+import { setFav_Watch, getAccountStates, Auth } from "../Auth";
 
-function ActionButtons({type, id}) {
- 
+function ActionButtons({ type, id }) {
+ const SESSION_ID = localStorage.getItem("TMDB_SESSION");
+ const ACCOUNT_ID = localStorage.getItem("TMDB_AC");
+
  const [status, setStatus] = useState({
   list: false,
   fav: false,
   watch: false,
  });
 
- useEffect(()=>{
-  const getData=async ()=>{
-    const data= await setFav_Watch(type, id, status.fav);
-    console.log(data)
-  }
-  getData()
- },[status.fav])
+ useEffect(() => {
+  const getStatus = async () => {
+   const data = await getAccountStates(type, id, SESSION_ID);
+   console.log(data);
+
+   setStatus((prev) => ({
+    ...prev,
+    fav: data.favorite,
+    watch: data.watchlist,
+   }));
+  };
+  getStatus();
+ }, [id]);
+
+ useEffect(() => {
+  const updateFav = async () => {
+   const data = await setFav_Watch( type, id, status.fav, ACCOUNT_ID, SESSION_ID, );
+   console.log("Fav:", data);
+  };
+
+  updateFav();
+ }, [status.fav]);
 
  const handleToggle = (key) => {
   setStatus((prev) => ({ ...prev, [key]: !prev[key] }));

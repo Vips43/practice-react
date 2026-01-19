@@ -179,7 +179,7 @@ const useApiStore = create((set, get) => ({
     }
 
     set({ isLoading: true });
-
+    console.log(type)
     try {
       const endpoint =
         type === "tv"
@@ -188,6 +188,7 @@ const useApiStore = create((set, get) => ({
 
       const res = await fetch(endpoint);
       const data = await res.json();
+      console.log(data)
       set((state) => ({
         [type === "tv" ? "tvDetail" : "movieDetail"]: data,
         isLoading: false,
@@ -232,9 +233,7 @@ const useApiStore = create((set, get) => ({
     set({isLoading:true})
     const res = await fetch(`https://api.themoviedb.org/3/${type}/${key}?api_key=${TMDB_Key}&page=${page}`);
     const data=await res.json();
-    setTimeout(()=>{
       set({globalData:data, isLoading:false})
-    },2000)
   }
 }));
 

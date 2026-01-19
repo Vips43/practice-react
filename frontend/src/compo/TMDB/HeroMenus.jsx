@@ -1,4 +1,4 @@
-import { Box, Container, Drawer } from "@mui/material";
+import { Box, Container, Drawer, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import Card from "./Card";
@@ -72,7 +72,9 @@ function HeroMenus() {
       totalPages={globalData.total_pages}
       active={true}
      >
-      hello
+      <Typography sx={{fontWeight:"600", fontSize:"1.5rem", m:2}}>
+        Popular Peoples
+      </Typography>
      </PersonCard>
     )}
    </Container>
