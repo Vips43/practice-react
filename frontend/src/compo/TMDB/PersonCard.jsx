@@ -9,7 +9,7 @@ import { capitalizeFirstLetter } from "./oth/js_files/Auth";
 function PersonCard(props) {
  const { person, children, totalPages, page, setPage } = props;
 
- const imgUrl = "https://image.tmdb.org/t/p/w500";
+ const imgUrl = "https://image.tmdb.org/t/p/w342";
  const navigate = useNavigate();
 
  const {type, keyVal} = useParams();

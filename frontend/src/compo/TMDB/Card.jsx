@@ -6,7 +6,7 @@ import { Pagination, Stack } from "@mui/material";
 
 function Card(props) {
  const { movie, children, totalPages,page, active = false, setPage } = props;
- const imgUrl = "https://image.tmdb.org/t/p/original";
+ const imgUrl = "https://image.tmdb.org/t/p/w185";
  const navigate = useNavigate();
 
  if (!movie || movie.length === 0) return null;
@@ -23,6 +23,7 @@ function Card(props) {
    <Box
     sx={{
      display: "flex",
+     justifyContent:"space-evenly",
      overflowX: "auto",
      p: 1,
      gap: 2,

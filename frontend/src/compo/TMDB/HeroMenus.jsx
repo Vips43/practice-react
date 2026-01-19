@@ -41,7 +41,7 @@ function HeroMenus() {
    <Container maxWidth="xl" disableGutters>
     {type && type != "person" ? (
      <>
-      <Box onClick={toggleDrawer(true)} sx={{ display: { sm: "none" }, mt: 1 }}>
+      <Box onClick={toggleDrawer(true)} sx={{ display: { sm: "none" }, mt: 1, px:5 }}>
        <MenuIcon />
       </Box>
       <Drawer
@@ -51,7 +51,7 @@ function HeroMenus() {
       >
        <LeftNav />
       </Drawer>
-      <Box sx={{ display: "flex", alignItems: "flex-start"  }}>
+      <Box sx={{ display: "flex", justifyContent: "center", }}>
        <Box sx={{ display: { xs: "none", sm: "block" }, position: "sticky", top: 0, }} className="sticky! top-0" >
         <LeftNav />
        </Box>
@@ -61,7 +61,9 @@ function HeroMenus() {
         setPage={setPage}
         totalPages={globalData.total_pages}
         active={true}
-       ></Card>
+       >
+        <Typography></Typography>
+       </Card>
       </Box>
      </>
     ) : (

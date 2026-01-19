@@ -7,6 +7,7 @@ const useNavStore = create((set) => ({
 
     country: [],
     providers: [],
+    genres:[],
 
     loading: false,
 
@@ -26,6 +27,13 @@ const useNavStore = create((set) => ({
         const data = await res.json();  
         const logo = data.results.filter(i=> i.display_priorities[val])
         set({ providers: logo });
+    },
+    setGenres: async () => {
+        const res = await fetch(
+            `https://api.themoviedb.org/3/genre/movie/list?language=en?api_key=${TMDB_Key}`
+        );
+        const data = await res.json();
+        set({ genres: data });
     },
 
 }));
