@@ -11,12 +11,7 @@ function LeftPer({ info }) {
 
  const gender = globalData?.gender == 1 ? "female" : "male";
 
- if (isLoading)
-  return (
-   <div className="text-center mt-10 font-bold text-2xl animate-pulse">
-    Loading...
-   </div>
-  );
+ 
 
  return (
   <>
@@ -54,7 +49,7 @@ function LeftPer({ info }) {
      <Typography>
       <strong>Known Credits</strong>
       <br />
-      {info?.data?.combined_credits?.cast?.length}
+      {info.combined_credits?.cast?.length}
      </Typography>
      <Typography>
       <strong>Gender</strong>

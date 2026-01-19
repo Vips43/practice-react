@@ -8,58 +8,60 @@ import { getPersonFull } from "../api";
 
 function PersonDetails() {
  const fetchGlobalAPI = useApiStore((s) => s.fetchGlobalAPI);
- const globalData = useApiStore((s) => s.globalData);
+ const isLoading = useApiStore((s) => s.isLoading);
  const { type, id } = useParams();
- 
+
  const [info, setInfo] = useState([]);
 
  useEffect(() => {
   fetchGlobalAPI(type, id);
  }, [id]);
 
- 
-  useEffect(() => {
-   if (!id) return;
-   const controller = new AbortController();
-   const signal = controller;
- 
-   const getData = async () => {
-    const fullData = await getPersonFull(id, { signal });
-    setInfo(fullData);
-   };
-     getData();
-   return () => controller.abort();
-  }, [id]);
-//  console.log("from person details", id, globalData);
+ useEffect(() => {
+  if (!id) return;
+  const controller = new AbortController();
+  const signal = controller;
+
+  const getData = async () => {
+   const fullData = await getPersonFull(id, { signal });
+   setInfo(fullData);
+  };
+  getData();
+  return () => controller.abort();
+ }, [id]);
 
  return (
   <>
-   <Container maxWidth="xl" sx={{my:2}}>
-    <Box
-     sx={{
-      display: "grid",
-      gridTemplateColumns: {
-       xs: "1fr",
-       sm: "300px 1fr",
-       md: "320px 1fr",
-      },
-      gap: 4,
-      alignItems: "start", // 👈 CRITICAL for sticky
-     }}
-    >
+   {isLoading ? (
+    <div className="text-center text-2xl font-bold mt-20 animate-pulse">Loading...</div>
+   ) : (
+    <Container maxWidth="xl" sx={{ my: 2 }}>
      <Box
       sx={{
-       position: "sticky",
-       top: 20,
-       height: "fit-content",
+       display: "grid",
+       gridTemplateColumns: {
+        xs: "1fr",
+        sm: "300px 1fr",
+        md: "320px 1fr",
+       },
+       gap: 4,
+       alignItems: "start", // 👈 CRITICAL for sticky
       }}
      >
-      <LeftPer info={info} />
-     </Box>
+      <Box
+       sx={{
+        position: "sticky",
+        top: 20,
+        height: "fit-content",
+       }}
+      >
+       <LeftPer info={info} />
+      </Box>
 
-     <RightPer infos={info} />
-    </Box>
-   </Container>
+      <RightPer infos={info} />
+     </Box>
+    </Container>
+   )}
   </>
  );
 }

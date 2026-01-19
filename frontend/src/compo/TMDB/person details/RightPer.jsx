@@ -34,16 +34,6 @@ function RightPer({infos}) {
   return () => controller.abort();
  }, [imdb_id,]);
 
-
-
- if (loading) return <div>Loading...</div>;
- if (isLoading)
-  return (
-   <div className="text-center mt-10 font-bold text-2xl animate-pulse">
-    Loading...
-   </div>
-  );
-
  return (
   <>
    <Box>
