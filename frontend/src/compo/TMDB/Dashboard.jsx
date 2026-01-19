@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { getRequestToken } from "./Auth";
+import { getRequestToken } from "./oth/js_files/Auth";
 
 function Dashboard() {
  useEffect(() => {

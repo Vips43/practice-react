@@ -1,6 +1,6 @@
 import InsertLinkIcon from "@mui/icons-material/InsertLink";
 import { Box, Typography } from "@mui/material";
-import Keywords from "../oth/show/Keywords";
+import Keywords from "../show/Keywords";
 
 function OthInfo({ movie, type }) {
  const imgUrl = "https://image.tmdb.org/t/p/w500";

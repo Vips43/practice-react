@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import Box from "@mui/material/Box";
-import useApiStore from "../store";
 import { useParams } from "react-router";
-import LeftCompo from "../../movie/LeftCompo";
-import RightCompo from "../../movie/RightCompo";
+import useApiStore from "../oth/js_files/store";
+import RightCompo from "../movie/RightCompo";
+import LeftCompo from "../movie/LeftCompo";
 
 function ShowExtraDetails({ url, movieDetail }) {
  const { id } = useParams();

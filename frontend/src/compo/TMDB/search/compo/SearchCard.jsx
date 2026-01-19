@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import { useNavigate } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import img from "/No-image.png"
-import useApiStore from "../../oth/store";
+import useApiStore from "../../oth/js_files/store";
 
 function SearchCard({ movie }) {
  const imgUrl = "https://image.tmdb.org/t/p/w185"; // smaller = faster

@@ -2,7 +2,7 @@ import { Box, Typography } from "@mui/material";
 import ProviderLogos from "./ProviderLogos";
 import Selector from "./Selector";
 import { useEffect } from "react";
-import { fetchCountries } from "../../api";
+import { fetchCountries } from "../../oth/js_files/api";
 import useNavStore from "./NavStore";
 
 function WatchProvider() {

@@ -1,6 +1,6 @@
 import { Box, Card, CardContent, CardMedia, Typography } from "@mui/material";
 import img from "/No-image.png";
-import useApiStore from "../../oth/store";
+import useApiStore from "../../oth/js_files/store";
 
 function SearchPeople({ movie }) {
  const imgUrl = "https://image.tmdb.org/t/p/w500";

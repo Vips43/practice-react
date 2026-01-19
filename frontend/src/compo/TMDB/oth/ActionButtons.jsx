@@ -9,7 +9,7 @@ import {
  FaRegBookmark,
  FaBookmark,
 } from "react-icons/fa";
-import { setFav_Watch, getAccountStates, Auth } from "../Auth";
+import { setFav_Watch, getAccountStates } from "./js_files/Auth";
 
 function ActionButtons({ type, id }) {
  const SESSION_ID = localStorage.getItem("TMDB_SESSION");

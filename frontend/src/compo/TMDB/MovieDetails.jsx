@@ -2,9 +2,9 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
-import useApiStore from "./oth/store";
+import useApiStore from "./oth/js_files/store";
 import Vote from "./oth/Vote";
-import { duration } from "./api";
+import { duration } from "./oth/js_files/api";
 import MovieFullDetail from "./movie/MovieFullDetail";
 import ActionButtons from "./oth/ActionButtons";
 
@@ -65,7 +65,13 @@ function MovieDetails() {
       <Box key={n.id}>
        {" "}
        {/* Wrap items in a Box or Fragment with key */}
-       <Typography fontWeight="bold" sx={{userSelect:"none", cursor:"pointer"}} onClick={()=>navigate(`/tmdbapp//${n.media_type}/${n.id}/${n.name}`)} >{n.name}</Typography>
+       <Typography
+        fontWeight="bold"
+        sx={{ userSelect: "none", cursor: "pointer", "&:hover":{textDecoration:"underline", opacity:0.6, fontWeight:"800"} }}
+        onClick={() => navigate(`/tmdbapp/person/${n.id}/${n.name}`)}
+       >
+        {n.name}
+       </Typography>
        <Typography variant="caption" sx={{ opacity: 0.8 }}>
         {n.job}
        </Typography>
@@ -76,7 +82,13 @@ function MovieDetails() {
    {/* Existing Top Crew logic */}
    {directorInfo?.topCrew?.slice(0, 5).map((t, i) => (
     <Box key={i}>
-     <Typography fontWeight="bold">{t?.name}</Typography>
+     <Typography
+      fontWeight="bold"
+      sx={{cursor:"pointer", "&:hover":{textDecoration:"underline", opacity:0.6}}}
+      onClick={() => navigate(`/tmdbapp/person/${t.id}/${t.name}`)}
+     >
+      {t?.name}
+     </Typography>
      <Typography variant="caption" sx={{ opacity: 0.8 }}>
       {t?.job}
      </Typography>

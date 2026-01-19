@@ -3,14 +3,13 @@ import PropTypes from "prop-types";
 import { AppBar, Box, CssBaseline, Toolbar, Typography } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useNavigate } from "react-router";
-
-import Card from "../Card";
-import useApiStore from "./store";
+import useApiStore from "../oth/js_files/store";
+import NavDrawer from "./NavDrawer";
+import NavDropdown from "./NavDropdown";
 import Searchbtn from "../search/compo/Searchbtn";
-import Toggler from "./Toggler";
-import NavDropdown from "../navbar component/NavDropdown";
-import NavDrawer from "../navbar component/NavDrawer";
-import LeftNav from '../navbar component/LeftNav'
+import Card from "../Card";
+import Toggler from "../oth/Toggler";
+
 
 /* ================= CONSTANTS ================= */
 

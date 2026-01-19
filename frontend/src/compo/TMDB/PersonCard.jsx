@@ -4,7 +4,7 @@ import Typography from "@mui/material/Typography";
 import { Pagination, Stack } from "@mui/material";
 import img from "/casts.png";
 import { useEffect } from "react";
-import { capitalizeFirstLetter } from "./Auth";
+import { capitalizeFirstLetter } from "./oth/js_files/Auth";
 
 function PersonCard(props) {
  const { person, children, totalPages, page, setPage } = props;
@@ -33,6 +33,7 @@ function PersonCard(props) {
    <Box
     sx={{
      display: "flex",
+     justifyContent:"center",
      flexWrap: "wrap",
      p: 1,
      gap: 2,

@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { fetchImages } from "../api";
+import { fetchImages } from "./js_files/api";
 
 function Images({ type = "movie", imgUrl }) {
  const { id } = useParams(); // unused for now

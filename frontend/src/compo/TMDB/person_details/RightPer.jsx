@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import useApiStore from "../oth/store";
-import { getFindById, getPersonFull } from "../api";
+import useApiStore from "../oth/js_files/store";
+import { getFindById, getPersonFull } from "../oth/js_files/api";
 import { useNavigate, useParams } from "react-router";
 import RightOth from "./RightOth";
 

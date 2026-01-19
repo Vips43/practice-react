@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import useApiStore from "../oth/store";
+import useApiStore from "../oth/js_files/store";
 import { useParams } from "react-router";
 import { Box, Container, Grid, Stack } from "@mui/material";
 import LeftPer from "./LeftPer";
 import RightPer from "./RightPer";
-import { getPersonFull } from "../api";
+import { getPersonFull } from "../oth/js_files/api";
 
 function PersonDetails() {
  const fetchGlobalAPI = useApiStore((s) => s.fetchGlobalAPI);

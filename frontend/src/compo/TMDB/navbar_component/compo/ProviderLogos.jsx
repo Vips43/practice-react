@@ -12,8 +12,9 @@ export default function ProviderLogos() {
  return (
   <>
    {providers &&
-    providers.map((provider) => (
+    providers.map((provider,i) => (
      <Tooltip
+     key={i}
       title={provider.provider_name || ""}
       placement="top"
       arrow

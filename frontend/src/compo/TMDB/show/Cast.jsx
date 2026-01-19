@@ -4,10 +4,13 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import CardActionArea from "@mui/material/CardActionArea";
 import Box from "@mui/material/Box";
-import useApiStore from "../store";
+import { useNavigate } from "react-router";
 import img from "/casts.png";
+import useApiStore from "../oth/js_files/store";
 
 function Cast({ cast, url, cardWidth = 120 }) {
+
+  const navigate = useNavigate();
 
  const isLoading = useApiStore((state) => state.isLoading);
  const slicedCast = cast?.cast?.slice(0, 10);
@@ -28,6 +31,7 @@ function Cast({ cast, url, cardWidth = 120 }) {
      sx={{
       width: cardWidth,
       flexShrink: 0,
+      transition:"all .8s easeInOut",
      }}
     >
      <CardActionArea
@@ -42,7 +46,10 @@ function Cast({ cast, url, cardWidth = 120 }) {
        alt={c.name || c.character}
       />
 
-      <CardContent sx={{ p: 0.5 }}>
+      <CardContent sx={{ p: 0.5, 
+      "&:hover":{textDecoration:"underline", opacity:0.8, cursor:"pointer"} }} 
+      onClick={()=> navigate(`/tmdbapp/person/${c.id}/${c.name}`)} 
+      >
        <Typography
         variant="subtitle2"
         sx={{

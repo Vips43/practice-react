@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { fetchGlobal } from "../api";
+import { fetchGlobal } from "./js_files/api";
 import { useParams } from "react-router";
 
 function Companies({ movie, type }) {

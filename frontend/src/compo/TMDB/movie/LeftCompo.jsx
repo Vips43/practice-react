@@ -1,9 +1,9 @@
 import { Box, Button, Typography } from "@mui/material";
-import Cast from "../oth/show/Cast";
+import Cast from "../show/Cast";
 import { Link, useParams } from "react-router";
-import Reviews from "../oth/show/Reviews";
+import Reviews from "../show/Reviews";
 import Images from "../oth/Images";
-import Videos from "../oth/show/Videos";
+import Videos from "../show/Videos";
 import Similar from "../oth/Similar";
 
 function LeftCompo({ cast, type, imgUrl }) {
@@ -32,7 +32,7 @@ function LeftCompo({ cast, type, imgUrl }) {
       fontSize: "1rem",
 
       "&:hover": {
-       backgroundColor: "transparent",
+       backgroundColor: "lightgrey",
        textDecoration: "underline",
        opacity: 0.7,
       },

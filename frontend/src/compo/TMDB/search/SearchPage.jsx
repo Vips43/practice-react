@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import { useEffect } from "react";
 import { Typography } from "@mui/material";
 import { useNavigate } from "react-router";
-import useApiStore from "../oth/store";
+import useApiStore from "../oth/js_files/store";
 import SearchCard from "./compo/SearchCard";
 import SearchCompany from "./compo/SearchCompany";
 import SearchKeyword from "./compo/SearchKeyword";

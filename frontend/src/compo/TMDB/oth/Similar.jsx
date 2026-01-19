@@ -1,7 +1,7 @@
 import { Typography, Box } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
-import { fetchGlobal } from "../api";
+import { fetchGlobal } from "./js_files/api";
 import similar from "/similar.jpg";
 
 function Similar({ type, value = "similar" }) {

@@ -1,16 +1,17 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
-import Vote from "./oth/Vote";
-import useApiStore from "./oth/store";
 import { useParams } from "react-router";
-import ShowExtraDetails from "./oth/show/ShowExtraDetails";
-import { fetchGlobal } from "./api";
+import useApiStore from "./oth/js_files/store";
+import { fetchGlobal } from "./oth/js_files/api";
+import Vote from "./oth/Vote";
 import ActionButtons from "./oth/ActionButtons";
+import ShowExtraDetails  from "./show/ShowExtraDetails";
 
 function TVShowDetails() {
- const imgUrl = "https://image.tmdb.org/t/p/original";
- const originalImgUrl = "https://image.tmdb.org/t/p/original"; // High res for backdrop
+ const imgUrl = "https://image.tmdb.org/t/p/w500";
+ const originalImgUrl = "https://image.tmdb.org/t/p/original";
+
  const { id } = useParams();
  const [content_rating, setContenet_Rating] = useState(null);
 
@@ -48,10 +49,11 @@ function TVShowDetails() {
   return (
    <Typography
     sx={{
-      mt:10,
+     mt: 10,
      textAlign: "center",
-     fontWeight:"700"
-    }} className="animate-pulse"
+     fontWeight: "700",
+    }}
+    className="animate-pulse"
    >
     Loading TV show details...
    </Typography>

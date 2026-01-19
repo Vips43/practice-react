@@ -1,6 +1,6 @@
 import InputBase from "@mui/material/InputBase";
 import { styled, alpha } from "@mui/material/styles";
-import useApiStore from "../../oth/store";
+import useApiStore from "../../oth/js_files/store";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 

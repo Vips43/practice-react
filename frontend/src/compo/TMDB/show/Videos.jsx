@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
-import { videos } from "../../api";
+import { videos } from "../oth/js_files/api";
 import { useParams } from "react-router";
 
 function Videos({ type }) {

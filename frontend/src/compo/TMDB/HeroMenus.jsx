@@ -2,10 +2,10 @@ import { Box, Container, Drawer, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import Card from "./Card";
-import useApiStore from "./oth/store";
+import useApiStore from "./oth/js_files/store";
 import PersonCard from "./PersonCard";
 import MenuIcon from "@mui/icons-material/Menu";
-import LeftNav from "./navbar component/LeftNav";
+import LeftNav from "./navbar_component/LeftNav";
 
 function HeroMenus() {
  const { type, keyVal } = useParams();

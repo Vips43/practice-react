@@ -6,8 +6,8 @@ import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { useTheme } from "@mui/material/styles";
-import { fetchReviews } from "../../api";
 import { useParams } from "react-router";
+import { fetchReviews } from "../oth/js_files/api";
 
 const IMG_URL = "https://image.tmdb.org/t/p/w500";
 

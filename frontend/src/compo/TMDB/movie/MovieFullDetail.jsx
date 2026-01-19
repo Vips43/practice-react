@@ -1,10 +1,10 @@
 import { Box } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { fetchCast } from "../api.js";
+import { fetchCast } from "../oth/js_files/api.js";
 import LeftCompo from "./LeftCompo.jsx";
 import RightCompo from "./RightCompo.jsx";
-import useApiStore from "../oth/store.js";
+import useApiStore from "../oth/js_files/store.js";
 
 function MovieFullDetail({ movie }) {
  const imgUrl = "https://image.tmdb.org/t/p/w500";

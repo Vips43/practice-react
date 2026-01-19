@@ -52,6 +52,7 @@ function RightOth({ info }) {
       sx={{
        display: "flex",
        alignItems: "center",
+       justifyContent:"flex-start",
        gap: 2,
        p: 1,
        borderBottom: "1px solid lightgrey",

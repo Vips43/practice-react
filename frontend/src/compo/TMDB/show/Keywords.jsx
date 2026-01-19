@@ -2,8 +2,8 @@ import Chip from "@mui/material/Chip";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
-import { keywords } from "../../api";
 import { useParams } from "react-router";
+import { keywords } from "../oth/js_files/api";
 
 function Keywords({ type }) {
  const { id } = useParams();

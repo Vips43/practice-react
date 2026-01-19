@@ -3,7 +3,6 @@ import Vote from "./oth/Vote";
 import { useNavigate } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import { Pagination, Stack } from "@mui/material";
-import useApiStore from "./oth/store";
 
 function Card(props) {
  const { movie, children, totalPages,page, active = false, setPage } = props;

@@ -1,4 +1,4 @@
-import useApiStore from "../../oth/store";
+import useApiStore from "../../oth/js_files/store";
 
 
 function SearchCompany({ movie }) {

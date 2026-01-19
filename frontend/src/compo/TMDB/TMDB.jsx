@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import movieAPI from "./api";
-import NavBar from "./oth/NavBar";
+import movieAPI from "./oth/js_files/api";
+import NavBar from "./navbar_component/NavBar";
 
 function TMDB() {
  const [movie, setMovie] = useState([]);

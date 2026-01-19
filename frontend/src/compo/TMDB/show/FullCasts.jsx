@@ -1,9 +1,8 @@
 import { Typography } from "@mui/material";
 import Box from "@mui/material/Box";
-import CastStrips from "../CastStrips";
 import { useParams } from "react-router";
 import { useEffect, useState } from "react";
-import { fetchCast } from "../../api";
+import { fetchCast } from "../oth/js_files/api";
 
 function FullCasts() {
  const { id, type } = useParams();

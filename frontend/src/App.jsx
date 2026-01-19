@@ -17,12 +17,12 @@ import FakeStore from "./compo/fakestore/FakeStore";
 import Login from "./compo/user management/Login";
 import MovieDetails from "./compo/TMDB/MovieDetails";
 import TVShowDetails from "./compo/TMDB/TVShowDetails";
-import FullCasts from "./compo/TMDB/oth/show/FullCasts";
+import FullCasts from "./compo/TMDB/show/FullCasts";
 import SearchPage from "./compo/TMDB/search/SearchPage";
 import TMDB from "./compo/TMDB/TMDB";
 import HeroMenus from "./compo/TMDB/HeroMenus";
 import AuthSuccess from "./compo/TMDB/AuthSuccess";
-import PersonDetails from "./compo/TMDB/person details/PersonDetails";
+import PersonDetails from "./compo/TMDB/person_details/PersonDetails";
 
 function App() {
 
