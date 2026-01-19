@@ -33,9 +33,18 @@ function PersonDetails() {
  return (
   <>
    {isLoading ? (
-    <div className="text-center text-2xl font-bold mt-20 animate-pulse">Loading...</div>
+    <div className="text-center text-2xl font-bold mt-20 animate-pulse">
+     Loading...
+    </div>
    ) : (
-    <Container maxWidth="xl" sx={{ my: 2 }}>
+    <Container
+     maxWidth="xl"
+     sx={{
+      py: 2,
+      minHeight: "100vh",
+      bgcolor: "white",
+     }}
+    >
      <Box
       sx={{
        display: "grid",
@@ -44,21 +53,23 @@ function PersonDetails() {
         sm: "300px 1fr",
         md: "320px 1fr",
        },
+       overflow: "visible",
        gap: 4,
-       alignItems: "start", // 👈 CRITICAL for sticky
       }}
      >
       <Box
        sx={{
-        position: "sticky",
-        top: 20,
-        height: "fit-content",
+        // 1. Sticky Logic
+        position: { xs: "static", sm: "sticky" },
+        top: 10,
+        alignSelf: "start",
        }}
       >
        <LeftPer info={info} />
       </Box>
-
-      <RightPer infos={info} />
+      <Box>
+       <RightPer infos={info} />
+      </Box>
      </Box>
     </Container>
    )}

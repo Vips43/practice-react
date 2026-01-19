@@ -7,16 +7,13 @@ import useApiStore from "../oth/store";
 function LeftPer({ info }) {
  const imgUrl = `https://image.tmdb.org/t/p/original`;
  const globalData = useApiStore((s) => s.globalData);
- const isLoading = useApiStore((s) => s.isLoading);
 
  const gender = globalData?.gender == 1 ? "female" : "male";
-
- 
 
  return (
   <>
    <Box sx={{}}>
-    <Box sx={{ p: { xs: 0, sm: 0 }, mb: 10 }}>
+    <Box sx={{ width:"100%",bgcolor:"white", p: { xs: 0, sm: 0 }, mb: 10, position:{xs:"sticky", xm:"static"}, top:0 }}>
      <Box
       component="img"
       src={`${imgUrl}${globalData?.profile_path}`}
@@ -37,7 +34,7 @@ function LeftPer({ info }) {
       </Box>
      </Box>
     </Box>
-    <Box sx={{ fontSize: "1rem", display: "grid", gap: 2 }}>
+    <Box sx={{ fontSize: "1rem", display: "grid", gap: 2, overflow:"auto", }}>
      <Typography fontWeight={600} fontSize="1.5rem">
       Personal Info
      </Typography>

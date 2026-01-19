@@ -39,8 +39,9 @@ function PersonCard(props) {
     }}
     className="no-scrollbar"
    >
-    {person?.map((per) => (
+    {person?.map((per,i) => (
      <Box
+     key={i}
       sx={{
        flexShrink: 0,
        flexBasis: "140px",

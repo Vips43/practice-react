@@ -14,8 +14,9 @@ function RootLayout() {
     <AnimatePresence mode="wait">
      <motion.div
       key={location.pathname}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 40, y: 0 }}
+      className="w-full flex-1"
+      initial={{ opacity: 0,  }}
+      animate={{ opacity: 1,  }}
       exit={{ opacity: 0, y: 0 }}
       transition={{ duration: 0.15, ease: "easeInOut" }}
      >

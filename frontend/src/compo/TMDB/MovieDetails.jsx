@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { useEffect } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import useApiStore from "./oth/store";
 import Vote from "./oth/Vote";
 import { duration } from "./api";
@@ -9,6 +9,7 @@ import MovieFullDetail from "./movie/MovieFullDetail";
 import ActionButtons from "./oth/ActionButtons";
 
 function MovieDetails() {
+ const navigate = useNavigate();
  const imgUrl = "https://image.tmdb.org/t/p/original";
  const originalImgUrl = "https://image.tmdb.org/t/p/original";
  const { id } = useParams();
@@ -32,7 +33,7 @@ function MovieDetails() {
  if (!movieDetail || !movieDetail.id) {
   return (
    <Box sx={{ color: "white", p: 4, textAlign: "center" }}>
-    No results found
+    No results found...
    </Box>
   );
  }
@@ -58,16 +59,26 @@ function MovieDetails() {
    }}
   >
    <Box>
-    <Typography fontWeight="bold">{directorInfo.name}</Typography>
-    <Typography variant="caption" sx={{ opacity: 0.8 }}>
-     {directorInfo.jobs}
-    </Typography>
+    {/* FIX: Add Array.isArray check here */}
+    {Array.isArray(directorInfo?.name) &&
+     directorInfo.name.map((n) => (
+      <Box key={n.id}>
+       {" "}
+       {/* Wrap items in a Box or Fragment with key */}
+       <Typography fontWeight="bold" sx={{userSelect:"none", cursor:"pointer"}} onClick={()=>navigate(`/tmdbapp//${n.media_type}/${n.id}/${n.name}`)} >{n.name}</Typography>
+       <Typography variant="caption" sx={{ opacity: 0.8 }}>
+        {n.job}
+       </Typography>
+      </Box>
+     ))}
    </Box>
+
+   {/* Existing Top Crew logic */}
    {directorInfo?.topCrew?.slice(0, 5).map((t, i) => (
     <Box key={i}>
-     <Typography fontWeight="bold">{t.name}</Typography>
+     <Typography fontWeight="bold">{t?.name}</Typography>
      <Typography variant="caption" sx={{ opacity: 0.8 }}>
-      {t.job}
+      {t?.job}
      </Typography>
     </Box>
    ))}

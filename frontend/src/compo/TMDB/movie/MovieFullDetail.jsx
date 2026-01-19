@@ -27,10 +27,10 @@ function MovieFullDetail({ movie }) {
     setLoading(true);
     setError(null);
 
-    const { data, dir, jobs, topCrew } = await fetchCast(id, type, "credits", { signal: controller.signal,});
+    const { data, dir, topCrew } = await fetchCast(id, type, "credits");
 
     if (!controller.signal.aborted) {
-     setDirectorInfo({name:dir, jobs, topCrew});
+     setDirectorInfo({ name: dir, topCrew, data });
      setCast(data || { cast: [], crew: [] });
     }
    } catch (err) {
@@ -43,13 +43,9 @@ function MovieFullDetail({ movie }) {
     }
    }
   };
-
   getData();
-
-  return () => {
-   controller.abort();
-  };
- }, [id, type]);
+  return () => controller.abort();
+ }, [id, type, setDirectorInfo]); // Added setDirectorInfo to dependency array
 
  // 🔹 Loading state
  if (loading) {

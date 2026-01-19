@@ -43,7 +43,7 @@ function RightOth({ info }) {
    </Box>
 
    <Box
-    sx={{ border: "1px solid lightgrey", maxHeight: "22rem", overflow: "auto" }}
+    sx={{ border: "1px solid lightgrey",  overflow: {xs:"visible", }, bgcolor:"white" }}
     className="no-scrollbar"
    >
     {data?.map((i,e) => (
