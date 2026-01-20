@@ -2,7 +2,7 @@ import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 
 
 function Selector({ selected,setSelected, country, c = false, sort_by, s = false }) {
-
+console.log(selected)
  return (
   <>
    <FormControl fullWidth sx={{ m: 2, maxWidth: 200 }} size="small">
@@ -14,11 +14,11 @@ function Selector({ selected,setSelected, country, c = false, sort_by, s = false
      onChange={(e) => setSelected(e.target.value)}
      sx={{fontSize:".8rem"}}
     >
-     <MenuItem value="">{country ? "Select Country" : ""}</MenuItem>
+     <MenuItem value="select">Select value</MenuItem>
 
      {country &&
       country.map((c) => (
-       <MenuItem key={c.iso_3166_1} value={c.iso_3166_1}>
+       <MenuItem key={c.iso_3166_1} value={c.iso_3166_1} sx={{fontSize:".8rem"}}>
         {c.english_name}
        </MenuItem>
       ))}

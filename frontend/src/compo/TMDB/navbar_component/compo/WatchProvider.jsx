@@ -5,18 +5,17 @@ import { useEffect, useState } from "react";
 import { fetchCountries } from "../../oth/js_files/api";
 import useNavStore from "./NavStore";
 import { FaChevronRight, FaChevronDown } from "react-icons/fa";
-import { sort_byFunc } from "./Nav";
 
 function WatchProvider() {
+ const [expanded, setExpanded] = useState(false);
+
  const setCountry = useNavStore((s) => s.setCountry);
+ const country = useNavStore((s) => s.country);
+ const searchData = useNavStore((s) => s.searchData);
+ const setSearchData = useNavStore((s) => s.setSearchData);
  const setProviders = useNavStore((s) => s.setProviders);
  const selected = useNavStore((s) => s.selected);
  const setSelected = useNavStore((s) => s.setSelected);
- const country = useNavStore((s) => s.country);
- const setDiscover = useNavStore((s) => s.setDiscover);
- const discover = useNavStore((s) => s.discover);
-
- const [expanded, setExpanded] = useState(false);
 
  useEffect(() => {
   const getData = async () => {
@@ -30,9 +29,9 @@ function WatchProvider() {
   setProviders(selected);
  }, [selected]);
 
- useEffect(() => {
-  //   setDiscover({with_watch_providers:"2",with_keywords:"262419",});
- }, []);
+ const handleCountryChange = (val) => {
+  setSearchData({ watch_region: val, with_watch_providers: null });
+ };
 
  return (
   <>
@@ -45,14 +44,18 @@ function WatchProvider() {
      justifyItems: "center",
     }}
    >
-    <Typography variant="overline" fontWeight={600}
+    <Typography
+     variant="overline"
+     fontWeight={600}
      sx={{
       display: "flex",
       alignItems: "center",
       justifyContent: "space-between",
       width: "100%",
-      px: 1,py:0.5,
+      px: 1,
+      py: 0.5,
       borderBottom: "1px solid lightgrey",
+      cursor:"pointer"
      }}
      onClick={() => setExpanded(!expanded)}
     >
@@ -60,14 +63,14 @@ function WatchProvider() {
      {expanded ? <FaChevronDown size={12} /> : <FaChevronRight size={12} />}
     </Typography>
     <Collapse in={expanded} timeout="auto">
-     <Typography sx={{ fontSize: ".8rem", mt: 1, ml:2 }}>
+     <Typography sx={{ fontSize: ".8rem", mt: 1, ml: 1 }}>
       Search by Watch Providers
      </Typography>
      <Selector
       country={country}
       c={true}
-      selected={selected}
-      setSelected={setSelected}
+      selected={searchData.watch_region}
+      setSelected={handleCountryChange}
      />
      <Box
       sx={{

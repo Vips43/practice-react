@@ -7,11 +7,20 @@ const useNavStore = create((set) => ({
 
     country: [],
     providers: [],
-    discover:[],
+    discover: [],
+    searchData: { sort_by: "popularity.desc", watch_region: "IN", with_watch_providers: null, },
 
     loading: false,
 
-    setSelected: (val) => set({ selected: val }),
+    setSearchData: (val) =>
+        set((state) => ({
+            ...state,
+            searchData: {
+                ...state.searchData,
+                ...val,
+            },
+        })),
+
 
     setCountry: (countries) =>
         set(() => ({
@@ -24,17 +33,17 @@ const useNavStore = create((set) => ({
         const res = await fetch(
             `https://api.themoviedb.org/3/watch/providers/movie?api_key=${TMDB_Key}`
         );
-        const data = await res.json();   
-        const logo = data.results.filter(i=> i.display_priorities[val])
+        const data = await res.json();
+        const logo = data.results.filter(i => i.display_priorities[val])
         // console.log("logo:", logo)
         set({ providers: logo });
     },
 
-    setDiscover: async (customParams={}) => {
+    setDiscover: async (customParams = {}) => {
         const BASE_URL = 'https://api.themoviedb.org/3/discover/movie';
-        const defaultParams = {include_adult:"false",language:"en-US",page:"1",sort_by:"popularity.desc"};
+        const defaultParams = { include_adult: "false", language: "en-US", page: "1", sort_by: "popularity.desc" };
 
-        const allParams = {...defaultParams, ...customParams};
+        const allParams = { ...defaultParams, ...customParams };
         const queryString = new URLSearchParams(allParams).toString();
         const url = `${BASE_URL}?${queryString}&api_key=${TMDB_Key}`
         const res = await fetch(url);
