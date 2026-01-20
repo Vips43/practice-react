@@ -91,7 +91,6 @@ export const fetchGlobal = async (type, id, value) => {
 export const fetchCountries = async () => {
     const res = await fetch(`https://api.themoviedb.org/3/configuration/countries?api_key=${TMDB_Key}`)
     const data = await res.json();
-    console.log(data)
     return data;
 }
 export const fetchDummy = async (val) => {

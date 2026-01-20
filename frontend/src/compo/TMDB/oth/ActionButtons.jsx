@@ -2,18 +2,9 @@ import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import { useEffect, useState } from "react";
-import {
- FaRegHeart,
- FaHeart,
- FaListUl,
- FaRegBookmark,
- FaBookmark,
-} from "react-icons/fa";
-import { setFav_Watch, getAccountStates } from "./js_files/Auth";
+import { FaRegHeart, FaHeart, FaListUl, FaRegBookmark, FaBookmark,} from "react-icons/fa";
 
 function ActionButtons({ type, id }) {
- const SESSION_ID = localStorage.getItem("TMDB_SESSION");
- const ACCOUNT_ID = localStorage.getItem("TMDB_AC");
 
  const [status, setStatus] = useState({
   list: false,
@@ -21,28 +12,6 @@ function ActionButtons({ type, id }) {
   watch: false,
  });
 
- useEffect(() => {
-  const getStatus = async () => {
-   const data = await getAccountStates(type, id, SESSION_ID);
-   console.log(data);
-
-   setStatus((prev) => ({
-    ...prev,
-    fav: data.favorite,
-    watch: data.watchlist,
-   }));
-  };
-  getStatus();
- }, [id]);
-
- useEffect(() => {
-  const updateFav = async () => {
-   const data = await setFav_Watch( type, id, status.fav, ACCOUNT_ID, SESSION_ID, );
-   console.log("Fav:", data);
-  };
-
-  updateFav();
- }, [status.fav]);
 
  const handleToggle = (key) => {
   setStatus((prev) => ({ ...prev, [key]: !prev[key] }));

@@ -7,7 +7,7 @@ const useNavStore = create((set) => ({
 
     country: [],
     providers: [],
-    genres:[],
+    discover:[],
 
     loading: false,
 
@@ -24,16 +24,24 @@ const useNavStore = create((set) => ({
         const res = await fetch(
             `https://api.themoviedb.org/3/watch/providers/movie?api_key=${TMDB_Key}`
         );
-        const data = await res.json();  
+        const data = await res.json();   
         const logo = data.results.filter(i=> i.display_priorities[val])
+        // console.log("logo:", logo)
         set({ providers: logo });
     },
-    setGenres: async () => {
-        const res = await fetch(
-            `https://api.themoviedb.org/3/genre/movie/list?language=en?api_key=${TMDB_Key}`
-        );
+
+    setDiscover: async (customParams={}) => {
+        const BASE_URL = 'https://api.themoviedb.org/3/discover/movie';
+        const defaultParams = {include_adult:"false",language:"en-US",page:"1",sort_by:"popularity.desc"};
+
+        const allParams = {...defaultParams, ...customParams};
+        const queryString = new URLSearchParams(allParams).toString();
+        const url = `${BASE_URL}?${queryString}&api_key=${TMDB_Key}`
+        const res = await fetch(url);
         const data = await res.json();
-        set({ genres: data });
+
+        console.log(url, data)
+        set({ discover: data });
     },
 
 }));
